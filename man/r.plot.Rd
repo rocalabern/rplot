@@ -1,0 +1,22 @@
+\name{r.plot}
+\alias{r.plot}
+\title{r.plot}
+\usage{
+  r.plot(y, x = NULL, xlim = c(0, 1), ylim = c(0, 1),
+    main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+    xaxis = T, yaxis = T, box = T, type = "l", lwd = 1,
+    pch = 16, cex = 1, icol = NULL, col = NULL, ...)
+}
+\description{
+  r.plot
+}
+\seealso{
+  \code{\link{r.plot.new}} \code{\link{r.plot}}
+  \code{\link{r.plot.add}} \cr 2nd axis:
+  \code{\link{r.plot.setmargins}}
+  \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+  \cr Colors: \code{\link{r.palette}} \code{\link{r.color}}
+  \cr Tools: \code{\link{r.plot.window}}
+  \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+}
+

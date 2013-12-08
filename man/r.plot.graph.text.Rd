@@ -1,0 +1,17 @@
+\name{r.plot.graph.text}
+\alias{r.plot.graph.text}
+\title{r.plot.graph.text}
+\usage{
+  r.plot.graph.text(inputMatrix, textLabels = NULL,
+    quantileCutOff = 0.6, quantileShowOff = 0.7,
+    edgeWidthMin = 1, edgeWidthMax = 5,
+    edgeColorAlphaMin = 0, edgeColorAlphaMax = 0.4,
+    vertexLabelColorDefault = rgb(0.3, 0.3, 0.3, 0.5),
+    vertexLabelColor = NULL, pal = NULL,
+    vertexLabelFont = 2, vertexLabelCex = 0.4,
+    vertexShape = "none", vertexSize = 0, ...)
+}
+\description{
+  r.plot.graph.text
+}
+

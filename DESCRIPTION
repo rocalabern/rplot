@@ -1,0 +1,19 @@
+Package: rplot
+Type: Package
+Title: Plot functions
+Version: 1.0
+Date: 2013-11-16
+Author: Roc Alabern
+Maintainer: Roc Alabern <roc.alabern@gmail.com>
+Description: Plot functions
+License: GPLv2
+Collate:
+    'rplot.R'
+    'rplot_clusters.R'
+    'rplot_data.R'
+    'rplot_export.R'
+    'rplot_graph.R'
+    'rplot_interactive.R'
+    'rplot_model.R'
+    'rplot_heatmap.R'
+    'rplot_treemap.R'
