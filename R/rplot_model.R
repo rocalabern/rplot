@@ -51,10 +51,10 @@ r.plot.roc <- function (
   r.plot.add(x=x[nsteps/2], y=y[nsteps/2], type="p")
 }
 
-#' r.plot.gain
+#' r.plot.gain.old
 #' @param mode 1 Optimista, -1 Pesimista, 0 Sense Modificar, 2 Area, 3 Random
 #' @export
-r.plot.gain <- function(
+r.plot.gain.old <- function(
   score,
   fuga, 
   npoints=20, 
@@ -131,6 +131,57 @@ r.plot.gain <- function(
     ypol = c(ypol, rev(y))
     polygon(c(x, rev(x)),ypol,col=rcolor,  border = NA)
   }
+}
+
+#' r.plot.gain
+#' @param mode 
+#' \cr "def" = As it is
+#' \cr "rnd" = Random
+#' \cr "pos" = Optimist/Positive (Maximum)
+#' \cr "neg" = Pessimist/Negative (Minimum)
+#' \cr "avg" = Average of Optimist and Pessimist
+#' \cr "area" = Area between Optimist and Pessimist
+#' @export
+r.plot.gain <- function(
+  score,
+  target, 
+  npoints=20, 
+  perc=0.2, 
+  mode = "def", 
+  sub=NULL,
+  icol = 1, col = NULL,
+  ...)
+{
+  require(rmodel)
+  
+  if(missing(col) || is.null(col)) rcolor = r.color(icol)
+  else rcolor = col
+  
+  if (mode=="area") {
+    dataPos = r.gains(score, target, npoints=npoints, mode="pos")
+    dataNeg = r.gains(score, target, npoints=npoints, mode="neg")
+    if (is.null(sub)) {
+      pos = 1+round(0.2*nrow(dataPos))
+      sub = paste0("p_{", dataPos$perc[pos], "}=", formatC(100*(0.5*dataPos$gain[pos]+0.5*dataNeg$gain[pos]), format="f", width=4), "%")
+    }
+    
+    r.plot.new(x=dataPos$perc, y=dataPos$perc, sub=sub, ...)
+    r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8))      
+    r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor)
+    r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor)
+    polygon(c(dataNeg$perc, rev(dataPos$perc)),
+            c(dataNeg$gain, rev(dataPos$gain)),
+            col=rcolor,  border = NA)
+  } else {
+    data = r.gains(score, target, npoints=npoints, mode=mode)
+    if (is.null(sub)) {
+      pos = 1+round(0.2*nrow(data))
+      sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
+    }
+    r.plot.new(x=data$perc, y=data$perc, sub=sub, ...)
+    r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8)) 
+    r.plot.add(x=data$perc, y=data$gain, col=rcolor)
+  }  
 }
 
 #' r.plot.burbujas
