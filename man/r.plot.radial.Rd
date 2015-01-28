@@ -21,9 +21,6 @@ r.plot.radial(plot.data, axis.labels = colnames(plot.data)[-1],
   legend.text.size = grid.label.size)
 }
 \description{
-Original code can be found here: http://pcwww.liv.ac.uk/~william/Geodemographic%20Classifiability/func%20CreateRadialPlot.r
-}
-\details{
 r.plot.radial
 }
 

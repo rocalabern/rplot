@@ -1,7 +1,5 @@
 #' r.plot.radial
 #' @title Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
-#' @description
-#' Original code can be found here: http://pcwww.liv.ac.uk/~william/Geodemographic%20Classifiability/func%20CreateRadialPlot.r
 #' @export
 r.plot.radial <- function(plot.data,
                              axis.labels=colnames(plot.data)[-1],                             
