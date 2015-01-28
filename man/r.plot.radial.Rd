@@ -2,7 +2,7 @@
 % Please edit documentation in R/rplot_radial.R
 \name{r.plot.radial}
 \alias{r.plot.radial}
-\title{r.plot.radial}
+\title{Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)}
 \usage{
 r.plot.radial(plot.data, axis.labels = colnames(plot.data)[-1],
   grid.min = -0.5, grid.mid = 0, grid.max = 0.5, centre.y = grid.min -
@@ -21,6 +21,9 @@ r.plot.radial(plot.data, axis.labels = colnames(plot.data)[-1],
   legend.text.size = grid.label.size)
 }
 \description{
+Original code can be found here: http://pcwww.liv.ac.uk/~william/Geodemographic%20Classifiability/func%20CreateRadialPlot.r
+}
+\details{
 r.plot.radial
 }
 
