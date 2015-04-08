@@ -132,9 +132,14 @@ r.plot.histogram(x, breaks = 20)
 r.plot.distribution(x)
 
 # Heatmap ----
-x = runif(1000)
-y = runif(1000)
-r.plot.heatmap(matrixTimeSeries, type='p')
+x = runif(10000)-0.5
+y = runif(10000)-0.5
+z = (x-0.2)^2+(y-0.2)^2
+r.plot.heatmap(x,y,z,cex=3,main="asdasd",alpha=0.2)
+
+data(volcano)
+image(volcano)
+contour(volcano, add = TRUE)
 
 # Treemap ----
 x = runif(1000)
