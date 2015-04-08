@@ -17,3 +17,4 @@ Collate:
     'rplot_model.R'
     'rplot_heatmap.R'
     'rplot_treemap.R'
+	'rplot_radial.R'
