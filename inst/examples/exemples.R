@@ -118,10 +118,20 @@ r.plot.heatmap
 # Treemap ----
 r.plot.treemap
 
+# Radial ----
+r.plot.radial
+
 # Graph ----
 r.plot.matrix
 r.plot.matrix.communities
 r.plot.graph.text
+
+# Exploratory ----
+df <- airquality
+df$Month = factor(df$Month)
+df$Day = factor(sample(1:28, nrow(df), replace=TRUE))
+r.plot.data(df)
+r.export.dataoverview
 
 # K-Means ----
 r.plot.kmeans.shapes
@@ -135,20 +145,13 @@ r.plot2D.pca
 # Binning ----
 r.plot.burbujas
 
+# Model Performance ----
+r.plot.roc()
+r.plot.gain()
+
 # Interactive ----
 r.int.kmeans
 r.int.plot.smoothkmeans
 r.int.plot2D.pca
 r.int.plot2D.x
 r.int.zoom
-
-# Model Performance ----
-r.plot.roc()
-r.plot.gain()
-
-# Altres ----
-df <- airquality
-df$Month = factor(df$Month)
-df$Day = factor(sample(1:28, nrow(df), replace=TRUE))
-r.plot.data(df)
-r.export.dataoverview
