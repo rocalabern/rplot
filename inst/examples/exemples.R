@@ -14,7 +14,7 @@ r.palette.show(colorRampPalette(c("red", "white", "green"))(12), 0.9)
 
 r.plot(1,1,type='p', cex=20)
 
-r.palette.set(heat.colors(12))
+r.palette.set(rev(rainbow(8)))
 r.plot(1,1,type='p', cex=20)
 
 r.palette.restore()
@@ -101,25 +101,64 @@ r.plot(x, y, col=r.color.gradient(x^2+y^2), alpha=0.4)
 r.plot(x, y, col=r.color.gradient(x^2+y^2, levels=3), cex=2)
 
 # Third axis ----
-r.plot.setmargins
-r.plot.newaxis
-r.plot.addaxis
+x = seq(0,10,0.5)
+y = sin(x)
+z = exp(x)
+
+r.plot.new(x,y,thirdAxis=TRUE, main="Plot with 3rd Axis using new")
+r.plot.add(x,y,type='l')
+r.plot.newaxis(x, z)
+r.plot.addaxis(z)
+r.plot.add(x,z,col=2,type='l')
+
+r.plot(x,y,type='l',thirdAxis=TRUE, main="Plot with 3rd Axis")
+r.plot.add(x,y,type='p')
+r.plot.newaxis(x, z)
+r.plot.addaxis(z)
+r.plot.add(x,z,col=2,type='l')
+r.plot.add(x,z,col=2,type='p')
 
 # Bar plot ----
-r.plot.bar
+var = round(exp(runif(100)))
+t = table(round(runif(100)),round(runif(100)))
+r.plot.bar(var)
+r.plot.bar(table=t)
+r.plot.bar(table=t, beside=TRUE)
 
 # Distribution ----
-r.plot.histogram
-r.plot.distribution
+x = exp(runif(100))
+r.plot.histogram(x)
+r.plot.histogram(x, breaks = 20)
+r.plot.distribution(x)
 
 # Heatmap ----
-r.plot.heatmap
+x = runif(1000)
+y = runif(1000)
+r.plot.heatmap(matrixTimeSeries, type='p')
 
 # Treemap ----
-r.plot.treemap
+x = runif(1000)
+f = cut(x, breaks = 10)
+t = table(f)
+segmentosNames <- names(t)
+segmentosGroup <- names(t)
+segmentosArea <- as.numeric(t)
+segmentosColor <- runif(length(segmentosNames))
+
+r.plot.treemap(
+  segment=segmentosNames, 
+  segmentgroup=segmentosGroup,
+  area=segmentosArea, 
+  color=segmentosColor,
+  colorScaleLeft=rgb(0.8,0.2,0.8), colorScaleCenter="White", colorScaleRight=rgb(0.2,0.2,0.8),
+  main="Tree Map")
 
 # Radial ----
-r.plot.radial
+x1 <- runif(5)
+x2 <- 0.2+0.6*x1+0.2*runif(5)
+df <- data.frame(group = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
+colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
+r.plot.radial(df, grid.max=ceiling(100*max(df[,-1]))/100, plot.extent.x = 1.5)
 
 # Graph ----
 r.plot.matrix

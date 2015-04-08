@@ -10,8 +10,8 @@ r.plot.bar(values = NULL, table = NULL, labelsX = NULL, labelsY = NULL,
   label.adjX = 1.1, label.adjY = 1.1, legend = TRUE,
   legend.pos = "topright", legend.pch = 15, legend.cex = 0.6,
   legend.backgroundCol = rgb(0.98, 0.98, 1, 0.97), background = T,
-  grid = T, backgroundCol = rgb(0.85, 0.85, 0.9),
-  foregroundCol = rgb(0.95, 0.95, 1), ...)
+  grid = T, backgroundCol = rgb(229/255, 229/255, 229/255),
+  foregroundCol = rgb(0.95, 0.95, 0.95), ...)
 }
 \description{
 r.plot.bar

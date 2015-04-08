@@ -6,7 +6,7 @@
 \usage{
 r.plot.distribution(x, bandwidth = 0.25, kernel = "epanech",
   range.x = NULL, truncate = TRUE, icol = 1, col = NULL, fill = TRUE,
-  ...)
+  alphaBorder = 1, alphaFill = 0.5, ...)
 }
 \description{
 r.plot.distribution

@@ -39,9 +39,17 @@ setVar <- function (var, value) {
   lockBinding(var, env = asNamespace('rplot'))
 }
 
+#' r.setAlpha
+#' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
+#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
+#' @export
+r.setAlpha <- function (color, alpha) {
+  adjustcolor(adjustcolor(color, offset=c(0,0,0,-1)), offset=c(0,0,0,alpha))
+}
+
 #' r.palette.show
 #' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -50,7 +58,7 @@ r.palette.show <- function (palette=NULL, alpha=NULL) {
   if (missing(alpha) || is.null(alpha))
     r.colors.toshow = palette
   else
-    r.colors.toshow = adjustcolor(adjustcolor(palette, offset=c(0,0,0,-1)), offset=c(0,0,0,alpha))
+    r.colors.toshow = r.setAlpha(palette, alpha)
   n = ceiling(length(r.colors.toshow)/4)
   mat = matrix(1:length(r.colors.toshow),4,n,byrow=FALSE)
   if (4*n>length(r.colors.toshow)) {
@@ -61,7 +69,7 @@ r.palette.show <- function (palette=NULL, alpha=NULL) {
 
 #' r.palette.restore
 #' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -71,7 +79,7 @@ r.palette.restore <- function () {
 
 #' r.palette.set
 #' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -81,7 +89,7 @@ r.palette.set <- function (palette) {
 
 #' r.palette.get
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -91,7 +99,7 @@ r.palette.get <- function () {
 
 #' r.color
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -101,7 +109,7 @@ r.color <- function (i) {
 
 #' r.color.gradient
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -114,7 +122,7 @@ r.color.gradient <- function (z, levels=10, palette=NULL) {
 
 #' r.plot.setmargins
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -129,7 +137,7 @@ r.plot.setmargins <- function (
 
 #' r.plot.close
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -139,7 +147,7 @@ r.plot.close <- function (...) {
 
 #' r.plot.reset
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -149,7 +157,7 @@ r.plot.reset <- function (...) {
 
 #' r.plot.window
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -162,7 +170,7 @@ r.plot.window <- function (width=900, height=900, use.win.graph=FALSE, ...) {
 #' @param x Array of data for x axis. It will not be plotted, however it is used to calculate limits for x axis according to minimum and maximum values of data x.
 #' @param y Array of data for y axis. It will not be plotted, however it is used to calculate limits for y axis according to minimum and maximum values of data y.
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -175,6 +183,7 @@ r.plot.new <- function (
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T,
   log = "", asp = NA,
+  thirdAxis = FALSE,
   ...)
 {
   require(rmodel)
@@ -190,7 +199,7 @@ r.plot.new <- function (
   par.bottom = 2.9 + ifelse(is.null(sub),0,1) + length(grep("\n", sub)) + 
     ifelse(is.null(xlab),0,1) + length(grep("\n", xlab))
   par.left = 2.9 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
-  par.right = 0.9
+  par.right = 0.9 + ifelse(thirdAxis,2,0)
   par(mar=c(par.bottom, par.left, par.top, par.right))
   setVar("par.last", par()$mar)
   
@@ -220,7 +229,7 @@ r.plot.new <- function (
 
 #' r.plot.add
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -262,7 +271,7 @@ r.plot.add <- function (
   }
   
   if (!missing(alpha)) {
-    col = adjustcolor(adjustcolor(col, offset=c(0,0,0,-1)), offset=c(0,0,0,alpha))
+    col = r.setAlpha(col, alpha)
   }
   
   if (type == 'l') {
@@ -278,7 +287,7 @@ r.plot.add <- function (
 
 #' r.plot.newaxis
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -306,13 +315,13 @@ r.plot.newaxis <- function (
       ylim = range(y)
     }
   }  
-  par(new = TRUE)
+  par(new = TRUE, mar=par.last)
   plot.window(xlim=xlim, ylim = ylim)
 }
 
 #' r.plot.addaxis
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -333,7 +342,7 @@ r.plot.addaxis <- function (
 
 #' r.plot
 #' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 2nd axis: \code{\link{r.plot.setmargins}} \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
+#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
 #' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 #' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 #' @export
@@ -346,6 +355,7 @@ r.plot <- function (
   type = 'p', lwd = 1, pch = 16, cex = 1,
   icol = NULL, col = NULL, alpha = NULL,
   log = "", asp = NA,
+  thirdAxis = FALSE,
   ...)
 {
   require(rmodel)
@@ -375,7 +385,7 @@ r.plot <- function (
     ylim = range(y, na.rm = TRUE)
   }
   
-  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, xlab=xlab, ylab=ylab, log=log, asp=asp)
+  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, xlab=xlab, ylab=ylab, log=log, asp=asp, thirdAxis=thirdAxis)
   par(mar=par.last)
   
   if (m==1) {
@@ -389,7 +399,7 @@ r.plot <- function (
   }
   
   if (!missing(alpha)) {
-    col = adjustcolor(adjustcolor(col, offset=c(0,0,0,-1)), offset=c(0,0,0,alpha))
+    col = r.setAlpha(col, alpha)
   }
   
   if (type == 'l') {

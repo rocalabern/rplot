@@ -5,7 +5,8 @@
 \title{r.plot.histogram}
 \usage{
 r.plot.histogram(values = NULL, h = NULL, breaks = "Sturges",
-  include.lowest = TRUE, right = TRUE, icol = 1, col = NULL, ...)
+  include.lowest = TRUE, right = TRUE, icol = 1, col = NULL,
+  alphaFill = 0.5, ...)
 }
 \description{
 r.plot.histogram

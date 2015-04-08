@@ -23,8 +23,8 @@ r.plot.bar <- function(
   legend.pch = 15, legend.cex = 0.6,
   legend.backgroundCol = rgb(0.98, 0.98, 1.00, 0.97),  
   background = T, grid = T,
-  backgroundCol = rgb(0.85, 0.85, 0.90),
-  foregroundCol = rgb(0.95, 0.95, 1.00),
+  backgroundCol = rgb(229/255, 229/255, 229/255),
+  foregroundCol = rgb(0.95, 0.95, 0.95),  
   ...)
 {
   if (missing(col) || is.null(col)) {
@@ -119,6 +119,7 @@ r.plot.histogram <- function(
   include.lowest = TRUE, 
   right = TRUE,
   icol = 1, col = NULL,
+  alphaFill=0.5,
   ...) 
 {
   if(missing(h) || is.null(h)) {
@@ -137,6 +138,8 @@ r.plot.histogram <- function(
   } else {
     rcolor = col
   }  
+  
+  rcolorFill = r.setAlpha(rcolor, alphaFill)
   
   r.plot.new(
     xlim=c(r.min(h$breaks),r.max(h$breaks)), 
@@ -159,6 +162,8 @@ r.plot.distribution <- function (
   truncate = TRUE,
   icol = 1, col = NULL,
   fill = TRUE,
+  alphaBorder=1.0,
+  alphaFill=0.5,
   ...)
 {
   #Kernel density estimation (Parzen-Rosenblatt window method)
@@ -182,10 +187,13 @@ r.plot.distribution <- function (
     rcolor = col
   }
   
+  rcolorBorder = r.setAlpha(rcolor, alphaBorder)
+  rcolorFill = r.setAlpha(rcolor, alphaFill)
+  
   mdist = bkde(x=x, kernel=kernel, bandwidth=bandwidth, range.x=range.x, truncate=truncate)
-  r.plot(x=mdist[[1]], y=mdist[[2]], col=rcolor, ...)
+  r.plot(x=mdist[[1]], y=mdist[[2]], col=rcolorBorder, type='l', ...)
   if (fill) polygon(c(mdist[[1]], rev(mdist[[1]])),c(mdist[[2]], rep(0, length(mdist[[2]]))), 
-          col=rcolor,
+          col=rcolorFill,
           border = NA)
 }
 
