@@ -47,7 +47,9 @@ r.plot.roc <- function (
     
     k=k+1
   }
-  r.plot(x=x, y=y, main="ROC Curve", xlab="1-specificity    tn/(tn+fp)", ylab="sensitivity    tp/(tp+fn)")
+  r.plot(x=x, y=y, 
+    main="ROC Curve", xlab="1-specificity    tn/(tn+fp)", ylab="sensitivity    tp/(tp+fn)",
+    type='l')
   r.plot.add(x=x[nsteps/2], y=y[nsteps/2], type="p")
 }
 
@@ -76,9 +78,9 @@ r.plot.gain.old <- function(
     x = 0:npoints/npoints
     y = x   
     r.plot.new(x=x,y=y, sub=subLabel, ...)
-    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8))  
+    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8), type="l")  
     for (i in 2:(length(x)-1)) y[i] = r.gain(score, fuga,  perc=x[i], mode=0)
-    r.plot.add(x=x,y=y, col=rcolor)
+    r.plot.add(x=x,y=y, col=rcolor, type="l")
   } else if (mode==-1){
     ind = sort(fuga, decreasing=FALSE, index.return=TRUE)
     fuga = fuga[ind$ix]
@@ -87,17 +89,17 @@ r.plot.gain.old <- function(
     x = 0:npoints/npoints
     y = x   
     r.plot.new(x=x,y=y, sub=subLabel, ...)
-    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8))    
+    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8), type="l")    
     for (i in 2:(length(x)-1)) y[i] = r.gain(score, fuga,  perc=x[i], mode=0)
-    r.plot.add(x=x,y=y, col=rcolor)
+    r.plot.add(x=x,y=y, col=rcolor, type="l")
   }  else if (mode==0) {
     subLabel = paste0(sub, "p20=", formatC(100*r.gain(score, fuga, perc=perc, mode=0), format="f", width=4), "%")
     x = 0:npoints/npoints
     y = x   
     r.plot.new(x=x,y=y, sub=subLabel, ...)
-    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8))
+    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8), type="l")
     for (i in 2:(length(x)-1)) y[i] = r.gain(score, fuga,  perc=x[i], mode=0)
-    r.plot.add(x=x,y=y, col=rcolor)      
+    r.plot.add(x=x,y=y, col=rcolor, type="l")      
   }  else if (mode==3) {
     ind = sample(1:length(fuga))
     fuga = fuga[ind]
@@ -106,9 +108,9 @@ r.plot.gain.old <- function(
     x = 0:npoints/npoints
     y = x   
     r.plot.new(x=x,y=y, sub=subLabel, ...)
-    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8))    
+    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8), type='l')    
     for (i in 2:(length(x)-1)) y[i] = r.gain(score, fuga,  perc=x[i], mode=0)
-    r.plot.add(x=x,y=y, col=rcolor)      
+    r.plot.add(x=x,y=y, col=rcolor, type="l")      
   }  else {
     ind = sort(fuga, decreasing=TRUE, index.return=TRUE)
     fuga = fuga[ind$ix]
@@ -125,9 +127,9 @@ r.plot.gain.old <- function(
     for (i in 2:(length(x)-1)) y[i] = r.gain(score, fuga,  perc=x[i], mode=0)
     subLabel = paste0(sub, "p20=", formatC(100*(0.5*p20_Opt+0.5*p20_Pes), format="f", width=4), "%")
     r.plot.new(x=x,y=ypol, sub=subLabel, ...)
-    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8))      
-    r.plot.add(x=x,y=ypol, col=rcolor)
-    r.plot.add(x=x,y=y, col=rcolor)
+    r.plot.add(x=x,y=x, col=rgb(0,0,0,0.8), type="l")      
+    r.plot.add(x=x,y=ypol, col=rcolor, type="l")
+    r.plot.add(x=x,y=y, col=rcolor, type="l")
     ypol = c(ypol, rev(y))
     polygon(c(x, rev(x)),ypol,col=rcolor,  border = NA)
   }
@@ -166,9 +168,9 @@ r.plot.gain <- function(
     }
     
     r.plot.new(x=dataPos$perc, y=dataPos$perc, sub=sub, ...)
-    r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8))      
-    r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor)
-    r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor)
+    r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8), type="l")      
+    r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor, type="l")
+    r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor, type="l")
     polygon(c(dataNeg$perc, rev(dataPos$perc)),
             c(dataNeg$gain, rev(dataPos$gain)),
             col=rcolor,  border = NA)
@@ -179,8 +181,8 @@ r.plot.gain <- function(
       sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
     }
     r.plot.new(x=data$perc, y=data$perc, sub=sub, ...)
-    r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8)) 
-    r.plot.add(x=data$perc, y=data$gain, col=rcolor)
+    r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8), type="l") 
+    r.plot.add(x=data$perc, y=data$gain, col=rcolor, type="l")
   }  
 }
 
