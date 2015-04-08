@@ -29,7 +29,7 @@ r.plot.bar <- function(
 {
   if (missing(col) || is.null(col)) {
     if (missing(icol) || is.null(icol)) {
-      col = r.palette()
+      col = r.palette.get()
     } else {
       col = r.color(icol)
     }

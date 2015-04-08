@@ -1,0 +1,154 @@
+# Tools ----
+randomTimeSeries <- function(n=20) {
+  return (exp(-0.02*(1:n))*rnorm(n))
+}
+  
+# Palete ----
+r.palette.get()
+r.palette.show()
+r.palette.show(alpha=0.5)
+r.palette.show(alpha=1)
+r.palette.show(heat.colors(12))
+r.palette.show(rainbow(12))
+r.palette.show(colorRampPalette(c("red", "white", "green"))(12), 0.9)
+
+r.plot(1,1,type='p', cex=20)
+
+r.palette.set(heat.colors(12))
+r.plot(1,1,type='p', cex=20)
+
+r.palette.restore()
+r.plot(1,1,type='p', cex=20)
+
+# Time Series ----
+matrixTimeSeries = cbind(unlist(sapply(1:10, function (x) {randomTimeSeries(20)})))
+
+r.plot(matrixTimeSeries)
+
+r.plot(matrixTimeSeries)
+r.plot.add(matrixTimeSeries, type='p')
+
+# Lines ----
+x = seq(0,10,0.1)
+y = sin(seq(0,10,0.1))
+z = cos(seq(0,10,0.1))
+        
+r.plot(x, y, type='l')
+
+r.plot.new(xlim=c(0,10), ylim=c(-1,1))
+r.plot.add(x, y, type='l', icol=1)
+r.plot.add(x, z, type='l', icol=2)
+
+r.plot.new(x=c(x,x), y=c(y,z))
+r.plot.add(x, y, type='l')
+r.plot.add(x, z, type='l', col=2)
+
+# Lines : Colors----
+r.plot.new(xlim=c(0,10), ylim=c(-1,1))
+r.plot.add(x, y, type='l', icol=1)
+r.plot.add(x, z, type='l', icol=2)
+
+r.plot.new(xlim=c(0,10), ylim=c(-1,1))
+r.plot.add(x, y, type='l', col=1)
+r.plot.add(x, z, type='l', col=2)
+
+r.plot.new(xlim=c(0,10), ylim=c(-1,1))
+r.plot.add(x, y, type='l', col=rgb(0.8,0.8,0.0))
+r.plot.add(x, z, type='l', col=rgb(0.0,0.8,0.8))
+
+# Scatterplot ----
+x = runif(500)-0.5
+y = rnorm(500)-0.5
+z = runif(500)-0.5
+
+r.plot(y[1:100], type='p')
+r.plot.add(y[1:100],type='l', col=rgb(0,0,0,0.1))
+
+r.plot(x[1:10], y[1:10])
+r.plot.add(x[1:10], y[1:10],type='l', col=rgb(0,0,0,0.1))
+
+r.plot(x, y)
+
+r.plot.new(x,y)
+r.plot.add(x,y)
+
+r.plot.new(c(x,x), c(x,y))
+r.plot.add(x,y)
+r.plot.add(x, z, icol=2)
+
+# Scatterplot : Colors ----
+r.plot.new(c(x,x), c(y,z))
+r.plot.add(x, y, icol=1, alpha=0.3)
+r.plot.add(x, z, icol=2, alpha=0.3)
+
+r.plot.new(c(x,x), c(y,z))
+r.plot.add(x, y, col=1, alpha=0.3)
+r.plot.add(x, z, col=2, alpha=0.3)
+
+r.plot.new(c(x,x), c(y,z))
+r.plot.add(x, y, col=rgb(1,1,0), alpha=0.3)
+r.plot.add(x, z, col=rgb(1,0,1), alpha=0.3)
+
+r.plot(x, y, col=heat.colors(5))
+
+r.plot(1:4, 1:4, col=terrain.colors(5), cex=20, alpha=0.6)
+
+# Gradient colors ----
+x = runif(10000)-0.5
+y = runif(10000)-0.5
+
+r.plot(x, y, col=r.color.gradient(x^2+y^2), alpha=0.4)
+r.plot(x, y, col=r.color.gradient(x^2+y^2, levels=3), cex=2)
+
+# Third axis ----
+r.plot.setmargins
+r.plot.newaxis
+r.plot.addaxis
+
+# Bar plot ----
+r.plot.bar
+
+# Distribution ----
+r.plot.histogram
+r.plot.distribution
+
+# Heatmap ----
+r.plot.heatmap
+
+# Treemap ----
+r.plot.treemap
+
+# Graph ----
+r.plot.matrix
+r.plot.matrix.communities
+r.plot.graph.text
+
+# K-Means ----
+r.plot.kmeans.shapes
+r.plot.kmeans.smoothshapes
+
+# Dimensionality Reduction ----
+r.plot2D.data
+r.plot2D.nn
+r.plot2D.pca
+
+# Binning ----
+r.plot.burbujas
+
+# Interactive ----
+r.int.kmeans
+r.int.plot.smoothkmeans
+r.int.plot2D.pca
+r.int.plot2D.x
+r.int.zoom
+
+# Model Performance ----
+r.plot.roc()
+r.plot.gain()
+
+# Altres ----
+df <- airquality
+df$Month = factor(df$Month)
+df$Day = factor(sample(1:28, nrow(df), replace=TRUE))
+r.plot.data(df)
+r.export.dataoverview

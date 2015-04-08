@@ -17,7 +17,7 @@ r.export.dataoverview <- function(
   width = 480, height = 480,
   ...)
 {  
-  if (missing(col)) col = r.palette()
+  if (missing(col)) col = r.palette.get()
   for (icol in 1:ncol(dades)) {
     strCol = names(dades)[icol]
     values = dades[,icol]    
