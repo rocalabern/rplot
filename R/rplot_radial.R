@@ -31,6 +31,7 @@ r.plot.radial <- function(plot.data,
                              plot.legend=if (nrow(plot.data)>1) TRUE else FALSE,
                              legend.title="Cluster",
                              legend.text.size=grid.label.size ) {
+  require(ggplot2)
   
   var.names <- colnames(plot.data)[-1]  #'Short version of variable names 
   #axis.labels [if supplied] is designed to hold 'long version' of variable names
