@@ -38,7 +38,7 @@ r.plot.radial <- function(data,
   gridline.min.width=0.1
   gridline.mid.width=0.1
   gridline.max.width=2
-  if (is.null(rounding)) {
+  if (is.null(rounding) && (is.null(grid.min) || is.null(grid.max))) {
     rounding = -ceiling(log10(diff(range(data[,-1]))))
   }
   if (is.null(grid.min)) {
