@@ -163,7 +163,9 @@ x1 <- runif(5)
 x2 <- 0.2+0.6*x1+0.2*runif(5)
 df <- data.frame(group = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
 colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
-r.plot.radial(df, grid.max=ceiling(100*max(df[,-1]))/100, plot.extent.x = 1.5)
+df[,-1] = df[,-1]-0.5
+df[,-1] = df[,-1]+100
+r.plot.radial(df, legend=FALSE)
 
 # Graph ----
 r.plot.matrix

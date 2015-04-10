@@ -6,7 +6,10 @@ Date: 2013-11-16
 Author: Roc Alabern
 Maintainer: Roc Alabern <roc.alabern@gmail.com>
 Description: Plot functions
-License: GPLv2
+License: 
+Imports:
+    ggplot2,
+    reshape2
 Collate:
     'rplot.R'
     'rplot_clusters.R'

@@ -2,25 +2,24 @@
 % Please edit documentation in R/rplot_radial.R
 \name{r.plot.radial}
 \alias{r.plot.radial}
-\title{Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)}
+\title{r.plot.radial}
 \usage{
-r.plot.radial(plot.data, axis.labels = colnames(plot.data)[-1],
-  grid.min = -0.5, grid.mid = 0, grid.max = 0.5, centre.y = grid.min -
-  ((1/9) * (grid.max - grid.min)), plot.extent.x.sf = 1.2,
-  plot.extent.y.sf = 1.2, x.centre.range = 0.02 * (grid.max - centre.y),
-  label.centre.y = FALSE, grid.line.width = 0.5,
-  gridline.min.linetype = "longdash", gridline.mid.linetype = "longdash",
-  gridline.max.linetype = "longdash", gridline.min.colour = "grey",
-  gridline.mid.colour = "blue", gridline.max.colour = "grey",
-  grid.label.size = 4, gridline.label.offset = -0.02 * (grid.max -
-  centre.y), label.gridline.min = TRUE, axis.label.offset = 1.15,
-  axis.label.size = 3, axis.line.colour = "grey", group.line.width = 1,
-  group.point.size = 4, background.circle.colour = "yellow",
-  background.circle.transparency = 0.2, plot.legend = if (nrow(plot.data) >
-  1) TRUE else FALSE, legend.title = "Cluster",
-  legend.text.size = grid.label.size)
+r.plot.radial(data, axis.labels = colnames(data)[-1], grid.min = NULL,
+  grid.mid = NULL, grid.max = NULL, center.y = NULL,
+  plot.extent.x = 1.2, plot.extent.y = 1.2, x.center.range = NULL,
+  label.center.y = FALSE, grid.label.size = 3,
+  gridline.label.offset = NULL, rounding = NULL,
+  label.gridline.min = TRUE, label.gridline.mid = NULL,
+  label.gridline.max = TRUE, label.color = rgb(127/255, 127/255, 127/255),
+  axis.label.offset = 1.15, axis.label.size = 3, group.line.width = 0.1,
+  group.point.size = 1, background.circle.color = rgb(229/255, 229/255,
+  229/255), legend = if (nrow(data) > 1) TRUE else FALSE,
+  legend.title = NULL, legend.text.size = grid.label.size)
 }
 \description{
+Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
+}
+\details{
 r.plot.radial
 }
 
