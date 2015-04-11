@@ -4,7 +4,7 @@
 \alias{r.plot.roc}
 \title{r.plot.roc}
 \usage{
-r.plot.roc(arrayReal, arrayModel, ...)
+r.plot.roc(arrayModel, arrayReal, ...)
 }
 \description{
 r.plot.roc

@@ -14,7 +14,7 @@ r.palette.show(colorRampPalette(c("red", "white", "green"))(12), 0.9)
 
 r.plot(1,1,type='p', cex=20)
 
-r.palette.set(rev(rainbow(8)))
+r.setPalette(rev(rainbow(8)))
 r.plot(1,1,type='p', cex=20)
 
 r.palette.restore()
@@ -107,14 +107,14 @@ z = exp(x)
 
 r.plot.new(x,y,thirdAxis=TRUE, main="Plot with 3rd Axis using new")
 r.plot.add(x,y,type='l')
-r.plot.newaxis(x, z)
-r.plot.addaxis(z)
+r.plot.coord(x, z)
+r.plot.coord.axis(z)
 r.plot.add(x,z,col=2,type='l')
 
 r.plot(x,y,type='l',thirdAxis=TRUE, main="Plot with 3rd Axis")
 r.plot.add(x,y,type='p')
-r.plot.newaxis(x, z)
-r.plot.addaxis(z)
+r.plot.coord(x, z)
+r.plot.coord.axis(z)
 r.plot.add(x,z,col=2,type='l')
 r.plot.add(x,z,col=2,type='p')
 
@@ -122,8 +122,12 @@ r.plot.add(x,z,col=2,type='p')
 var = round(exp(runif(100)))
 t = table(round(runif(100)),round(runif(100)))
 r.plot.bar(var)
+r.plot.bar(var, horizontal=TRUE)
 r.plot.bar(table=t)
 r.plot.bar(table=t, beside=TRUE)
+r.plot.bar(table=t, horizontal=TRUE)
+r.plot.bar(table=t, beside=TRUE, horizontal=TRUE)
+
 
 # Distribution ----
 x = exp(runif(100))
@@ -163,8 +167,6 @@ x1 <- runif(5)
 x2 <- 0.2+0.6*x1+0.2*runif(5)
 df <- data.frame(group = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
 colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
-df[,-1] = df[,-1]-0.5
-df[,-1] = df[,-1]+100
 r.plot.radial(df, legend=FALSE)
 
 # Graph ----
@@ -192,8 +194,10 @@ r.plot2D.pca
 r.plot.burbujas
 
 # Model Performance ----
-r.plot.roc()
-r.plot.gain()
+x=runif(1000)
+y=round(0.8*x+0.2*runif(1000))
+r.plot.roc(x,y)
+r.plot.gain(x,y)
 
 # Interactive ----
 r.int.kmeans
@@ -201,3 +205,4 @@ r.int.plot.smoothkmeans
 r.int.plot2D.pca
 r.int.plot2D.x
 r.int.zoom
+

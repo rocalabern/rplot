@@ -10,13 +10,28 @@ r.plot(x = NULL, y = NULL, xlim = c(0, 1), ylim = c(0, 1),
   icol = NULL, col = NULL, alpha = NULL, log = "", asp = NA,
   thirdAxis = FALSE, ...)
 }
+\arguments{
+\item{x}{Array of data for x axis.}
+
+\item{y}{Array of data for y axis.}
+}
 \description{
-r.plot
+Creates a new plot and plots some data.
+}
+\details{
+﻿
 }
 \seealso{
-\code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-\cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-\cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-\cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
+
+3rd axis: \code{\link{r.plot.coord}} \code{\link{r.plot.coord.axis}}
+
+Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}}
+
+\code{\link{r.color}} \code{\link{r.color.gradient}}
+
+Defaults: \code{\link{r.setAlpha}} \code{\link{r.setPalette}}
+
+Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 }
 

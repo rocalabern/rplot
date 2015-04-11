@@ -18,12 +18,12 @@ r.plot.radial <- function(data,
                           label.gridline.min=TRUE,
                           label.gridline.mid=NULL,
                           label.gridline.max=TRUE,
-                          label.color=rgb(127/255, 127/255, 127/255),
+                          label.color=param.color.labelaxis,
                           axis.label.offset=1.15,
                           axis.label.size=3,
                           group.line.width=0.1,
                           group.point.size=1,
-                          background.circle.color=rgb(229/255, 229/255, 229/255),
+                          background.circle.color=param.color.background,
                           legend=if (nrow(data)>1) TRUE else FALSE,
                           legend.title=NULL,
                           legend.text.size=grid.label.size ) {
@@ -33,7 +33,7 @@ r.plot.radial <- function(data,
   gridline.max.linetype="solid"
   gridline.min.color=rgb(1,1,1)
   gridline.mid.color=rgb(1,1,1)
-  gridline.max.color=rgb(229/255, 229/255, 229/255)
+  gridline.max.color=background.circle.color
   axis.line.color=rgb(1,1,1)
   gridline.min.width=0.1
   gridline.mid.width=0.1

@@ -1,192 +1,107 @@
-r.colors = c(
-  rgb(0.1, 0.1, 0.9, 0.8), rgb(0.9, 0.1, 0.1, 0.8), 
-  rgb(0.1, 0.9, 0.1, 0.8), rgb(0.9, 0.5, 0.0, 0.8), 
-  rgb(0.8, 0.0, 0.8, 0.8), rgb(0.88, 0.86, 0.0, 0.8), 
-  rgb(0.9, 0.0, 0.5, 0.8), rgb(0.5, 0.0, 1.0, 0.8), 
-  rgb(0.5, 0.85, 0.0, 0.8), rgb(0.0, 0.6, 0.9, 0.8),
-  rgb(0.4, 0.4, 0.4, 0.8), rgb(0.1, 0.1, 0.5, 0.8), 
-  rgb(0.5, 0.1, 0.1, 0.8), rgb(0.0, 0.4, 0.2, 0.8), 
-  rgb(0.6, 0.3, 0.1, 0.8), rgb(0.5, 0.1, 0.5, 0.8), 
-  rgb(0.5, 0.5, 0.1, 0.8), rgb(0.1, 0.5, 0.5, 0.8), 
-  rgb(0.0, 0.9, 0.5, 0.8), rgb(0.2, 0.2, 0.2, 0.8)
-)
-
-r.colors.default = r.colors
-par.default = NULL
-par.last = NULL
-
-setVar <- function (var, value) {
-  strValue = paste(capture.output(dump("value", file="")), collapse = "")
-  if (substring(strValue, 1, 9)=="value <- ") {
-    strValue = substring(strValue, 10)
-  } else if (substring(strValue, 1, 8)=="value<- ") {
-    strValue = substring(strValue, 9)
-  } else if (substring(strValue, 1, 8)=="value <-") {
-    strValue = substring(strValue, 9)
-  } else if (substring(strValue, 1, 7)=="value<-") {
-    strValue = substring(strValue, 8)
-  } else if (substring(strValue, 1, 8)=="value = ") {
-    strValue = substring(strValue, 9)
-  } else if (substring(strValue, 1, 7)=="value= ") {
-    strValue = substring(strValue, 8)
-  } else if (substring(strValue, 1, 7)=="value =") {
-    strValue = substring(strValue, 8)
-  } else if (substring(strValue, 1, 6)=="value=") {
-    strValue = substring(strValue, 7)
-  }
-  unlockBinding(var, env = asNamespace('rplot'))
-  eval(parse(text=paste0(var," <- ",strValue)), envir = asNamespace('rplot'))
-  lockBinding(var, env = asNamespace('rplot'))
-}
-
-#' r.setAlpha
-#' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
+#' @title r.plot.close
+#' @template seealso_tools
 #' @export
-r.setAlpha <- function (color, alpha) {
-  adjustcolor(adjustcolor(color, offset=c(0,0,0,-1)), offset=c(0,0,0,alpha))
+r.plot.close <- function () {
+  for (i in 1:10) try(dev.off(), silent=TRUE)
 }
 
-#' r.palette.show
-#' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+#' @title r.plot.reset
+#' @template seealso_tools
 #' @export
-r.palette.show <- function (palette=NULL, alpha=NULL) {
-  if (missing(palette) || is.null(palette)) palette = r.colors
-  if (missing(alpha) || is.null(alpha))
-    r.colors.toshow = palette
-  else
-    r.colors.toshow = r.setAlpha(palette, alpha)
-  n = ceiling(length(r.colors.toshow)/4)
-  mat = matrix(1:length(r.colors.toshow),4,n,byrow=FALSE)
-  if (4*n>length(r.colors.toshow)) {
-    mat[(length(r.colors.toshow)+1):(4*n)] = NA
-  }
-  image(1:4, 1:n, mat, col = r.colors.toshow, xlab="", ylab="")
+r.plot.reset <- function () {
+  for (i in 1:10) try(graphics.off(), silent=TRUE)
 }
 
-#' r.palette.restore
-#' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.palette.restore <- function () {
-  setVar("r.colors", r.colors.default)
-}
-
-#' r.palette.set
-#' @seealso \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.palette.set <- function (palette) {
-  setVar("r.colors", palette)
-}
-
-#' r.palette.get
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.palette.get <- function () {
-  return (r.colors)
-}
-
-#' r.color
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.color <- function (i) {
-  return (r.colors[1 + ((i-1) %% length(r.colors))])
-}
-
-#' r.color.gradient
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.color.gradient <- function (z, levels=10, palette=NULL) {
-  if (is.null(palette)) palette = heat.colors(levels)
-  f <- cut(z, levels, labels=1:levels)
-  l <- as.numeric(levels(f))[f]
-  return (palette[l])
-}
-
-#' r.plot.setmargins
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.plot.setmargins <- function (
-  secondAxis = TRUE, 
-  margin = 0.1
-  ) 
-{
-  if (secondAxis) par(mar = c(5, 4, 4, 4) + margin)
-  else par(mar = c(5, 4, 4, 2) + margin)
-}
-
-#' r.plot.close
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.plot.close <- function (...) {
-  dev.off(...)
-}
-
-#' r.plot.reset
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.plot.reset <- function (...) {
-  graphics.off(...)
-}
-
-#' r.plot.window
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+#' @title r.plot.window
+#' @template seealso_tools
 #' @export
 r.plot.window <- function (width=900, height=900, use.win.graph=FALSE, ...) {
   if (use.win.graph) win.graph(width=900, height=900, ...)
   else x11(width=width, height=height, ...)
 }
 
-#' Creates a new plot with no data at all.
+
+#' @title r.plot.coord
+#' @description Defines a complete new coord system to the current plot.
+#' @param x x axis scale.
+#' @param y y axis scale.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @export
+r.plot.coord <- function (
+  x = NULL, 
+  y = NULL,
+  xlim = NULL,
+  ylim = NULL)
+{
+  if (missing(xlim)) {
+    if (missing(x)) {
+      if (missing(y)) {
+        stop("Some informaton to create xlim is needed")
+      } else {
+        xlim = c(1,length(y))
+      }
+    } else {
+      xlim = range(x)
+    }
+  }
+  if (missing(ylim)) {
+    if (missing(y)) {
+      stop("Some informaton to create ylim is needed")
+    } else {
+      ylim = range(y)
+    }
+  }  
+  par(new = TRUE, mar=par.last)
+  plot.window(xlim=xlim, ylim = ylim)
+}
+
+#' @title r.plot.coord.axis
+#' @description Paints the new axis. Useful to create a 3rd axis.
+#' @param values values for the new axis scale, it is supposed to be normal data like x or y, but it will be used for a new axis z.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @export
+r.plot.coord.axis <- function (
+  values = NULL, 
+  range = NULL,
+  at = NULL,
+  text = NULL,
+  side = 4,
+  line = 3,
+  axisCol = param.color.axis,
+  ...)
+{
+  if (!missing(values)) at = pretty(range(values))
+  if (!missing(range)) at = pretty(range)
+  if (!is.null(at)) axis(side=side, at=at, col=param.color.axis)
+  if (!is.null(text)) mtext(text, side=side, line=line, ...)
+}
+
+#' @title r.plot.new
+#' @description Creates a new plot with no data at all.
 #' @param x Array of data for x axis. It will not be plotted, however it is used to calculate limits for x axis according to minimum and maximum values of data x.
 #' @param y Array of data for y axis. It will not be plotted, however it is used to calculate limits for y axis according to minimum and maximum values of data y.
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @template seealso_colors
+#' @template seealso_default
+#' @template seealso_tools
 #' @export
 r.plot.new <- function (
   x = NULL, y = NULL, 
   xlim = c(0,1), ylim = c(0,1),
   background = T, grid = T,
-  backgroundCol = rgb(229/255, 229/255, 229/255),
-  foregroundCol = rgb(0.95, 0.95, 0.95),  
+  backgroundCol = param.color.background,
+  foregroundCol = param.color.foreground,  
+  axisCol = param.color.axis,
+  boxCol = param.color.box,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T,
   log = "", asp = NA,
   thirdAxis = FALSE,
   ...)
 {
-  require(rmodel)
   if(missing(xlim) && !missing(x)) xlim = range(x, na.rm = TRUE)
   if(missing(ylim) && !missing(y)) {
     y = r.toColumns(y)
@@ -195,43 +110,58 @@ r.plot.new <- function (
   }
   
   setVar("par.default", par()$mar)
-  par.top = 0.9 + ifelse(is.null(main),0,1) + length(grep("\n", main))
-  par.bottom = 2.9 + ifelse(is.null(sub),0,1) + length(grep("\n", sub)) + 
+  par.top = param.margin + ifelse(is.null(main),0,1) + length(grep("\n", main))
+  par.bottom = param.margin + 2 + ifelse(is.null(sub),0,1) + length(grep("\n", sub)) + 
     ifelse(is.null(xlab),0,1) + length(grep("\n", xlab))
-  par.left = 2.9 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
-  par.right = 0.9 + ifelse(thirdAxis,2,0)
+  par.left = param.margin + 2 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
+  par.right = param.margin + ifelse(thirdAxis,2,0)
   par(mar=c(par.bottom, par.left, par.top, par.right))
   setVar("par.last", par()$mar)
   
   plot.new()
   plot.window(xlim=xlim, ylim=ylim, log=log, asp=asp, ...)
+  if (param.boxfigure.show) box("figure", col=param.boxfigure.col)
   
   if (background) {
     rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col=backgroundCol)
   }
   if (grid) {
-    grv.at=axTicks(side=1)
-    grh.at=axTicks(side=2) 
-    abline(v=grv.at,col=foregroundCol)
-    abline(h=grh.at,col=foregroundCol) 
+    xLines = axTicks(side=1)
+    xDoubleLines = 0.5*xLines[-length(xLines)]+0.5*xLines[-1]
+    xDoubleLines = c(xLines[1]-abs(xDoubleLines[1]-xLines[1]),xDoubleLines,tail(xLines, n=1)+abs(tail(xLines, n=1)-tail(xDoubleLines, n=1)))
+    yLines = axTicks(side=2)
+    yDoubleLines = 0.5*yLines[-length(yLines)]+0.5*yLines[-1]
+    yDoubleLines = c(yLines[1]-abs(yDoubleLines[1]-yLines[1]),yDoubleLines,tail(yLines, n=1)+abs(tail(yLines, n=1)-tail(yDoubleLines, n=1)))
+    abline(v=xDoubleLines,col=foregroundCol,lwd=0.7)
+    abline(h=yDoubleLines,col=foregroundCol,lwd=0.7) 
+    abline(v=xLines,col=foregroundCol,lwd=1)
+    abline(h=yLines,col=foregroundCol,lwd=1) 
   }
   
-  if(xaxis) axis(1)
-  if(yaxis) axis(2)
-  if(!missing(main)) title(main=main)
-  if(!missing(sub)) title(sub=sub)
-  if(!missing(xlab)) title(xlab=xlab)
-  if(!missing(ylab)) title(ylab=ylab)
-  if(box) box()
+  if(xaxis) axis(1, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+  if(yaxis) axis(2, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+  if(!is.null(main)) title(main=main)
+  if(!is.null(ylab)) title(ylab=ylab)
+  if(!is.null(xlab)) {
+    title(xlab=xlab)
+    if(!is.null(sub)) title(sub=sub)
+  } else {
+    if(!is.null(sub)) title(xlab=sub)
+  }
+  if(box) box(col=boxCol)
   par(mar=par.default)
   invisible(NULL)
 }
 
-#' r.plot.add
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+#' @title r.plot.add
+#' @description Add data to the current plot.
+#' @param x Array of data for x axis.
+#' @param y Array of data for y axis.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @template seealso_colors
+#' @template seealso_default
+#' @template seealso_tools
 #' @export
 r.plot.add <- function (
   x = NULL, 
@@ -240,7 +170,6 @@ r.plot.add <- function (
   icol = NULL, col = NULL, alpha = NULL,
   ...)
 {
-  require(rmodel)
   if (missing(x) && missing(y)) stop("x and y cannot be both missing")
   if (is.null(x) && is.null(y)) stop("x and y cannot be both null")
   if(missing(y) || is.null(y)) {
@@ -271,7 +200,7 @@ r.plot.add <- function (
   }
   
   if (!missing(alpha)) {
-    col = r.setAlpha(col, alpha)
+    col = r.color.setAlpha(col, alpha)
   }
   
   if (type == 'l') {
@@ -285,72 +214,21 @@ r.plot.add <- function (
   invisible(NULL)
 }
 
-#' r.plot.newaxis
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.plot.newaxis <- function (
-  x = NULL, 
-  y = NULL,
-  xlim = NULL,
-  ylim = NULL)
-{
-  if (missing(xlim)) {
-    if (missing(x)) {
-      if (missing(y)) {
-        stop("Some informaton to create xlim is needed")
-      } else {
-        xlim = c(1,length(y))
-      }
-    } else {
-      xlim = range(x)
-    }
-  }
-  if (missing(ylim)) {
-    if (missing(y)) {
-        stop("Some informaton to create ylim is needed")
-    } else {
-      ylim = range(y)
-    }
-  }  
-  par(new = TRUE, mar=par.last)
-  plot.window(xlim=xlim, ylim = ylim)
-}
-
-#' r.plot.addaxis
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
-#' @export
-r.plot.addaxis <- function (
-  values = NULL, 
-  range = NULL,
-  at = NULL,
-  text = NULL,
-  side = 4,
-  line = 3, 
-  ...)
-{
-  if (!missing(values)) at = pretty(range(values))
-  if (!missing(range)) at = pretty(range)
-  if (!is.null(at)) axis(side=side, at=at)
-  if (!is.null(text)) mtext(text, side=side, line=line, ...)
-}
-
-#' r.plot
-#' @seealso \code{\link{r.plot.new}} \code{\link{r.plot}} \code{\link{r.plot.add}}
-#' \cr 3rd axis: \code{\link{r.plot.newaxis}} \code{\link{r.plot.addaxis}}
-#' \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
-#' \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+#' @title r.plot
+#' @description Creates a new plot and plots some data.
+#' @param x Array of data for x axis.
+#' @param y Array of data for y axis.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @template seealso_colors
+#' @template seealso_default
+#' @template seealso_tools
 #' @export
 r.plot <- function (
   x = NULL, 
   y = NULL,
   xlim = c(0,1), ylim = c(0,1), 
-  main = NULL,sub = NULL, xlab = NULL, ylab = NULL,
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T,
   type = 'p', lwd = 1, pch = 16, cex = 1,
   icol = NULL, col = NULL, alpha = NULL,
@@ -358,7 +236,6 @@ r.plot <- function (
   thirdAxis = FALSE,
   ...)
 {
-  require(rmodel)
   if (missing(x) && missing(y)) stop("x and y cannot be both missing")
   if (is.null(x) && is.null(y)) stop("x and y cannot be both null")
   if(missing(y) || is.null(y)) {
@@ -399,7 +276,7 @@ r.plot <- function (
   }
   
   if (!missing(alpha)) {
-    col = r.setAlpha(col, alpha)
+    col = r.color.setAlpha(col, alpha)
   }
   
   if (type == 'l') {

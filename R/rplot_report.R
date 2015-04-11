@@ -1,3 +1,18 @@
+#' r.plot.data
+#' @export
+r.plot.data <- function(dades, legendBar = FALSE)
+{
+  for (icol in 1:ncol(dades)) {
+    strCol = names(dades)[icol]
+    values = dades[,icol]    
+    if (is.numeric(values)) {
+      r.plot.histogram(values=values, main=strCol)
+    } else {
+      r.plot.bar(values=values, main=strCol, legend=legendBar)      
+    }
+  }  
+}
+
 #' r.export.dataoverview
 #' @export
 r.export.dataoverview <- function(

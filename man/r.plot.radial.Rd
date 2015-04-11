@@ -10,11 +10,11 @@ r.plot.radial(data, axis.labels = colnames(data)[-1], grid.min = NULL,
   label.center.y = FALSE, grid.label.size = 3,
   gridline.label.offset = NULL, rounding = NULL,
   label.gridline.min = TRUE, label.gridline.mid = NULL,
-  label.gridline.max = TRUE, label.color = rgb(127/255, 127/255, 127/255),
+  label.gridline.max = TRUE, label.color = param.color.labelaxis,
   axis.label.offset = 1.15, axis.label.size = 3, group.line.width = 0.1,
-  group.point.size = 1, background.circle.color = rgb(229/255, 229/255,
-  229/255), legend = if (nrow(data) > 1) TRUE else FALSE,
-  legend.title = NULL, legend.text.size = grid.label.size)
+  group.point.size = 1, background.circle.color = param.color.background,
+  legend = if (nrow(data) > 1) TRUE else FALSE, legend.title = NULL,
+  legend.text.size = grid.label.size)
 }
 \description{
 Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
