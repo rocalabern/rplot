@@ -12,6 +12,13 @@ r.plot.reset <- function () {
   for (i in 1:10) try(graphics.off(), silent=TRUE)
 }
 
+#' @title r.plot.restorepar
+#' @template seealso_tools
+#' @export
+r.plot.restorepar <- function () {
+  par(mar=par.default)
+}
+
 #' @title r.plot.window
 #' @template seealso_tools
 #' @export
@@ -74,7 +81,7 @@ r.plot.coord.axis <- function (
 {
   if (!missing(values)) at = pretty(range(values))
   if (!missing(range)) at = pretty(range)
-  if (!is.null(at)) axis(side=side, at=at, col=param.color.axis)
+  if (!is.null(at)) axis(side=side, at=at, col=axisCol, cex.axis=0.7, col.axis=axisCol)
   if (!is.null(text)) mtext(text, side=side, line=line, ...)
 }
 
@@ -100,6 +107,7 @@ r.plot.new <- function (
   xaxis = T, yaxis = T, box = T,
   log = "", asp = NA,
   thirdAxis = FALSE,
+  restore.par=TRUE,
   ...)
 {
   if(missing(xlim) && !missing(x)) xlim = range(x, na.rm = TRUE)
@@ -149,7 +157,7 @@ r.plot.new <- function (
     if(!is.null(sub)) title(xlab=sub)
   }
   if(box) box(col=boxCol)
-  par(mar=par.default)
+  if(restore.par) par(mar=par.default)
   invisible(NULL)
 }
 

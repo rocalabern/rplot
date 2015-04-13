@@ -35,14 +35,6 @@ z = cos(seq(0,10,0.1))
         
 r.plot(x, y, type='l')
 
-r.plot.new(xlim=c(0,10), ylim=c(-1,1))
-r.plot.add(x, y, type='l', icol=1)
-r.plot.add(x, z, type='l', icol=2)
-
-r.plot.new(x=c(x,x), y=c(y,z))
-r.plot.add(x, y, type='l')
-r.plot.add(x, z, type='l', col=2)
-
 # Lines : Colors----
 r.plot.new(xlim=c(0,10), ylim=c(-1,1))
 r.plot.add(x, y, type='l', icol=1)
@@ -121,29 +113,47 @@ r.plot.add(x,z,col=2,type='p')
 # Bar plot ----
 var = round(exp(runif(100)))
 t = table(round(runif(100)),round(runif(100)))
+rownames(t) = c("Tipo A", "Tipo B")
+colnames(t) = c("Tipo A", "Tipo B")
 r.plot.bar(var)
 r.plot.bar(var, horizontal=TRUE)
 r.plot.bar(table=t)
 r.plot.bar(table=t, beside=TRUE)
 r.plot.bar(table=t, horizontal=TRUE)
 r.plot.bar(table=t, beside=TRUE, horizontal=TRUE)
+r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=FALSE, box=FALSE)
+r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=TRUE, box=FALSE)
 
 
 # Distribution ----
-x = exp(runif(100))
+x = rnorm(2000)
 r.plot.histogram(x)
+r.plot.histogram(x, main="Density", freq=FALSE)
 r.plot.histogram(x, breaks = 20)
 r.plot.distribution(x)
 
 # Heatmap ----
-x = runif(10000)-0.5
-y = runif(10000)-0.5
-z = (x-0.2)^2+(y-0.2)^2
-r.plot.heatmap(x,y,z,cex=3,main="asdasd",alpha=0.2)
+x = runif(5000)
+y = runif(5000)
+z = (x-0.7)^2+(y-0.6)^2
+r.plot.heatmap(x,y,z)
+r.plot.heatmap(x,y,z,mean)
 
 data(volcano)
-image(volcano)
-contour(volcano, add = TRUE)
+r.plot.heatmap(matrixData=volcano)
+r.plot.heatmap(matrixData=volcano, palette=terrain.colors(12))
+r.plot.heatmap(matrixData=volcano, contour=FALSE, palette=terrain.colors(12))
+
+r.plot.heatmap(rnorm(10000), rnorm(10000), 
+               xbreaks=30, ybreaks=30, 
+               contour=FALSE, 
+               palette=r.color.gradient.palette(c("white", r.color(1))))
+
+r.plot.heatmap(rnorm(10000), rnorm(10000), 
+               xbreaks=30, ybreaks=30, 
+               contour=FALSE, 
+               smooth=0.8,
+               palette=r.color.gradient.palette(c("white", r.color(1))))
 
 # Treemap ----
 x = runif(1000)

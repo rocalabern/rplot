@@ -25,7 +25,7 @@ Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 
 Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}}
 
-\code{\link{r.color}} \code{\link{r.color.gradient}}
+\code{\link{r.color}} \code{\link{r.color.gradient}} \code{\link{r.color.gradient.palette}}
 
 Defaults: \code{\link{r.setAlpha}} \code{\link{r.setPalette}}
 

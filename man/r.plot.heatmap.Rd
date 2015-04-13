@@ -4,9 +4,12 @@
 \alias{r.plot.heatmap}
 \title{r.plot.heatmap}
 \usage{
-r.plot.heatmap(x, y, z, levels = 10, palette = NULL, alpha = 0.4,
-  main = NULL, sub = NULL, xlab = NULL, ylab = NULL, xaxis = TRUE,
-  yaxis = TRUE, box = TRUE, ...)
+r.plot.heatmap(x = NULL, y = NULL, z = NULL, agregateFunc = NULL,
+  matrixData = NULL, xbreaks = 20, ybreaks = 20, levels = 12,
+  smooth = 0, palette = heat.colors(levels), main = NULL, sub = NULL,
+  xlab = NULL, ylab = NULL, xaxis = TRUE, yaxis = TRUE, box = TRUE,
+  contour = TRUE, contourLevels = 10, contourColor = rgb(0, 0, 0, 0.4),
+  ...)
 }
 \description{
 r.plot.heatmap

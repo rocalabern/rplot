@@ -14,6 +14,9 @@ r.plot.bar <- function(
   colBar = param.color.bar,
   horizontal = FALSE, 
   beside = FALSE,
+  thirdAxis = FALSE,
+  main = NULL, sub = NULL, 
+  xlab = NULL, ylab = NULL,
   label.cex = 0.7,
   label.rotation = 45,
   label.adjX = 1.1,
@@ -26,19 +29,19 @@ r.plot.bar <- function(
   backgroundCol = param.color.background,
   foregroundCol = param.color.foreground,  
   axisCol = param.color.axis,
-  xaxis = T, yaxis = T, box = T,
+  axis = T, box = T,
   boxCol = param.color.box,
   ...)
 {
-  if (missing(col) || is.null(col)) {
-    if (missing(icol) || is.null(icol)) {
+  if (is.null(col)) {
+    if (is.null(icol)) {
       col = r.palette.get()
     } else {
       col = r.color(icol)
     }
   }
   
-  if (missing(values) && missing(table)) stop("No poden faltar les dades i la taula a la vegada.")
+  if (missing(values) && missing(table)) stop("You must provide some data, values or table minimum.")
   if (missing(table)) {
     table = table(values)
     col = colBar
@@ -61,6 +64,15 @@ r.plot.bar <- function(
   }
   if (length(labelsY)<length(col)) col = col[1:length(labelsY)]
   
+  setVar("par.default", par()$mar)
+  par.top = param.margin + ifelse(is.null(main),0,1) + length(grep("\n", main))
+  par.bottom = param.margin + 2 + ifelse(is.null(sub),0,1) + length(grep("\n", sub)) + 
+    ifelse(is.null(xlab),0,1) + length(grep("\n", xlab))
+  par.left = param.margin + 2 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
+  par.right = param.margin + ifelse(thirdAxis,2,0)
+  par(mar=c(par.bottom, par.left, par.top, par.right))
+  setVar("par.last", par()$mar)
+  
   if (background) {
     mp = barplot(table, 
                  horiz=horizontal, 
@@ -68,14 +80,23 @@ r.plot.bar <- function(
                  axisnames=FALSE,
                  col=rgb(0,0,0,0), 
                  add=FALSE,
+                 axes=FALSE,
                  ...)
     rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col=backgroundCol, border=NA)
     if (grid) {
-      yLines = axTicks(side=2)
-      yDoubleLines = 0.5*yLines[-length(yLines)]+0.5*yLines[-1]
-      yDoubleLines = c(yLines[1]-abs(yDoubleLines[1]-yLines[1]),yDoubleLines,tail(yLines, n=1)+abs(tail(yLines, n=1)-tail(yDoubleLines, n=1)))
-      abline(h=yDoubleLines,col=foregroundCol,lwd=0.7) 
-      abline(h=yLines,col=foregroundCol,lwd=1) 
+      if (horizontal) {
+        xLines = axTicks(side=1)
+        xDoubleLines = 0.5*xLines[-length(xLines)]+0.5*xLines[-1]
+        xDoubleLines = c(xLines[1]-abs(xDoubleLines[1]-xLines[1]),xDoubleLines,tail(xLines, n=1)+abs(tail(xLines, n=1)-tail(xDoubleLines, n=1)))
+        abline(v=xDoubleLines,col=foregroundCol,lwd=0.7) 
+        abline(v=xLines,col=foregroundCol,lwd=1)
+      } else {
+        yLines = axTicks(side=2)
+        yDoubleLines = 0.5*yLines[-length(yLines)]+0.5*yLines[-1]
+        yDoubleLines = c(yLines[1]-abs(yDoubleLines[1]-yLines[1]),yDoubleLines,tail(yLines, n=1)+abs(tail(yLines, n=1)-tail(yDoubleLines, n=1)))
+        abline(h=yDoubleLines,col=foregroundCol,lwd=0.7) 
+        abline(h=yLines,col=foregroundCol,lwd=1) 
+      }
     }    
     mp = barplot(table,
                  horiz=horizontal, 
@@ -83,6 +104,8 @@ r.plot.bar <- function(
                  axisnames=labelsXDefault,
                  col=col,
                  add=TRUE,
+                 axes=FALSE,
+                 main=main, sub=sub, xlab=xlab, ylab=ylab,
                  ...)  
   } else {
     mp = barplot(table,
@@ -91,12 +114,17 @@ r.plot.bar <- function(
                  axisnames=labelsXDefault,
                  col=col, 
                  add=FALSE,
+                 axes=FALSE,
+                 main=main, sub=sub, xlab=xlab, ylab=ylab,
                  ...)
   }
-  # if(xaxis) axis(1, col=axisCol, cex.axis=0.7, col.axis=axisCol)
-  # if(yaxis) axis(2, col=axisCol, cex.axis=0.7, col.axis=axisCol)
   
-  if (legend) { 
+  if(axis) {
+    if (horizontal) axis(1, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+    else axis(2, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+  }
+  
+  if (legend) {
     legend(legend.pos, legend=rev(labelsY), col=rev(col), 
            pch=legend.pch, 
            cex=legend.cex,
@@ -109,12 +137,14 @@ r.plot.bar <- function(
       if (missing(label.adjY)) label.adjY = 1-label.adjY
       text(par("usr")[1], t(mp), labels = labelsX, 
            srt = label.rotation, adj = c(label.adjX,label.adjY), xpd = TRUE, 
-           cex=label.cex)  
+           cex=label.cex, col=axisCol)  
     } else {
       text(t(mp), par("usr")[3], labels = labelsX, 
            srt = label.rotation, adj = c(label.adjX,label.adjY), xpd = TRUE, 
-           cex=label.cex)
+           cex=label.cex, col=axisCol)
     }
   }
   if(box) box(col=boxCol)
+  par(mar=par.default)
+  invisible(NULL)
 }

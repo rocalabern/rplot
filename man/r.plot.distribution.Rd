@@ -5,15 +5,14 @@
 \title{r.plot.distribution}
 \usage{
 r.plot.distribution(x, bandwidth = 0.25, kernel = "epanech",
-  range.x = NULL, truncate = TRUE, icol = 1, col = NULL,
-  colBorder = rgb(0, 0, 0), fill = TRUE, alphaBorder = 1,
-  alphaFill = 0.5, ...)
+  range.x = NULL, truncate = TRUE, icol = 1, col = NULL, alpha = 0.5,
+  colBorder = rgb(0, 0, 0), alphaBorder = 1, fill = TRUE, ...)
 }
 \description{
 r.plot.distribution
 }
 \seealso{
-\code{\link{bkde}} \code{\link{hist}}
+\code{\link{bkde}} \code{\link{density}} \code{\link{hist}}
 
 Wrappers: \code{\link{r.plot.bar}} \code{\link{r.plot.histogram}} \code{\link{r.plot.distribution}}
 

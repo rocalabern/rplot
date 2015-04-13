@@ -1,5 +1,5 @@
 #' r.plot.distribution
-#' @seealso \code{\link{bkde}} \code{\link{hist}}
+#' @seealso \code{\link{bkde}} \code{\link{density}} \code{\link{hist}}
 #' @template seealso_wrappers
 #' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}
 #' @export
@@ -9,10 +9,9 @@ r.plot.distribution <- function (
   kernel = "epanech", 
   range.x = NULL, 
   truncate = TRUE,
-  icol = 1, col = NULL, colBorder = rgb(0,0,0),
+  icol = 1, col = NULL, alpha=0.5,
+  colBorder = rgb(0,0,0), alphaBorder=1.0,
   fill = TRUE,
-  alphaBorder=1.0,
-  alphaFill=0.5,
   ...)
 {
   #Kernel density estimation (Parzen-Rosenblatt window method)
@@ -30,18 +29,18 @@ r.plot.distribution <- function (
     range.x=c(minX,maxX)
   }
   
-  if(missing(col) || is.null(col)) {
-    rcolor = r.color(icol)
+  if(is.null(col)) {
+    col = r.color(icol)
+    col = r.color.setAlpha(col, alpha)
   } else {
-    rcolor = col
+    if (nchar(col)<9) col = r.color.setAlpha(col, alpha)
   }
   
-  rcolorBorder = r.color.setAlpha(colBorder, alphaBorder)
-  rcolorFill = r.color.setAlpha(rcolor, alphaFill)
+  if (nchar(colBorder)<9) colBorder = r.color.setAlpha(colBorder, alphaBorder)
   
   mdist = bkde(x=x, kernel=kernel, bandwidth=bandwidth, range.x=range.x, truncate=truncate)
-  r.plot(x=mdist[[1]], y=mdist[[2]], col=rcolorBorder, type='l', ...)
+  r.plot(x=mdist[[1]], y=mdist[[2]], col=colBorder, type='l', ...)
   if (fill) polygon(c(mdist[[1]], rev(mdist[[1]])),c(mdist[[2]], rep(0, length(mdist[[2]]))), 
-          col=rcolorFill,
+          col=col,
           border = NA)
 }

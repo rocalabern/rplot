@@ -7,13 +7,14 @@
 r.plot.bar(values = NULL, table = NULL, labelsX = NULL, labelsY = NULL,
   labelsXDefault = FALSE, icol = NULL, col = NULL,
   colBar = param.color.bar, horizontal = FALSE, beside = FALSE,
-  label.cex = 0.7, label.rotation = 45, label.adjX = 1.1,
+  thirdAxis = FALSE, main = NULL, sub = NULL, xlab = NULL,
+  ylab = NULL, label.cex = 0.7, label.rotation = 45, label.adjX = 1.1,
   label.adjY = 1.1, legend = TRUE, legend.pos = "topright",
   legend.pch = 15, legend.cex = 0.6,
   legend.backgroundCol = param.color.legend.background, background = T,
   grid = T, backgroundCol = param.color.background,
   foregroundCol = param.color.foreground, axisCol = param.color.axis,
-  xaxis = T, yaxis = T, box = T, boxCol = param.color.box, ...)
+  axis = T, box = T, boxCol = param.color.box, ...)
 }
 \description{
 r.plot.bar

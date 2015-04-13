@@ -4,9 +4,10 @@
 \alias{r.plot.histogram}
 \title{r.plot.histogram}
 \usage{
-r.plot.histogram(values = NULL, h = NULL, breaks = "Sturges",
+r.plot.histogram(values, freq = TRUE, breaks = "Sturges",
   include.lowest = TRUE, right = TRUE, icol = 1, col = NULL,
-  alphaFill = 0.5, ...)
+  alpha = 0.5, colBorder = rgb(0, 0, 0), alphaBorder = 1, main = NULL,
+  sub = NULL, xlab = NULL, ylab = NULL, labels = FALSE, ...)
 }
 \description{
 r.plot.histogram

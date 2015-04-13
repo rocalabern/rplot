@@ -23,6 +23,13 @@ r.color.gradient <- function (z, levels=10, palette=NULL) {
   return (palette[l])
 }
 
+#' r.color.gradient.palette
+#' @template seealso_colors
+#' @export
+r.color.gradient.palette <- function (colors, levels=10, palette=NULL) {
+  return (colorRampPalette(colors)(levels))
+}
+
 #' r.palette.show
 #' @template seealso_colors
 #' @template seealso_default
