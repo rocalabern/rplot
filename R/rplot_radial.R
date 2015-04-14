@@ -216,6 +216,8 @@ r.plot.radial <- function(data,
     center.y.label <- data.frame(x=0, y=0, text=as.character(center.y))
     base <- base + geom_text(aes(x=x,y=y,label=text),data=center.y.label,face="bold",size=grid.label.size, hjust=0.5, color=label.color) }
   
+  base + scale_size(guide = 'none')
+  
   return(base) 
 }
 
