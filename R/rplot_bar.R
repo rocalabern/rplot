@@ -1,4 +1,4 @@
-#' r.plot.bar 
+#' @title r.plot.bar 
 #' @seealso \code{\link{barplot}}
 #' @template seealso_wrappers
 #' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}

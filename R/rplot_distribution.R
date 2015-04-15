@@ -1,4 +1,4 @@
-#' r.plot.distribution
+#' @title r.plot.distribution
 #' @seealso \code{\link{bkde}} \code{\link{density}} \code{\link{hist}}
 #' @template seealso_wrappers
 #' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}

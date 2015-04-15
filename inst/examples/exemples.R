@@ -6,15 +6,14 @@ randomTimeSeries <- function(n=20) {
 # Palete ----
 r.palette.get()
 r.palette.show()
-r.palette.show(alpha=0.5)
-r.palette.show(alpha=1)
 r.palette.show(heat.colors(12))
 r.palette.show(rainbow(12))
-r.palette.show(colorRampPalette(c("red", "white", "green"))(12), 0.9)
+r.palette.show(r.color.gradient.palette(c("red", "blue", "green"), levels=20))
 
 r.plot(1,1,type='p', cex=20)
 
 r.setPalette(rev(rainbow(8)))
+r.setColorAlpha(0.4)
 r.plot(1,1,type='p', cex=20)
 
 r.palette.restore()
@@ -124,7 +123,6 @@ r.plot.bar(table=t, beside=TRUE, horizontal=TRUE)
 r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=FALSE, box=FALSE)
 r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=TRUE, box=FALSE)
 
-
 # Distribution ----
 x = rnorm(2000)
 r.plot.histogram(x)
@@ -178,11 +176,22 @@ x2 <- 0.2+0.6*x1+0.2*runif(5)
 df <- data.frame(group = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
 colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
 r.plot.radial(df, legend=FALSE)
+r.plot.radial(df)
 
 # Graph ----
-r.plot.matrix
-r.plot.matrix.communities
-r.plot.graph.text
+library(igraphdata)
+data(UKfaculty)
+mat = matrix(runif(400), 20)
+x = as.matrix(get.adjacency(UKfaculty))
+r.plot.heatmap(matrixData=mat, contour=FALSE)
+r.plot.matrix(mat)
+r.plot.matrix(-mat)
+r.plot.matrix(mat-0.5)
+r.plot.matrix(x)
+r.plot.matrix.communities(x)
+r.plot.matrix(r.plot.matrix.communities(x))
+r.plot.heatmap(matrixData=r.plot.matrix.communities(x), contour=FALSE)
+r.plot.graph.text(x, vertexLabelCex=0.5, edgeWidthMax=1.5)
 
 # Exploratory ----
 df <- airquality

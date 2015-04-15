@@ -1,4 +1,4 @@
-#' r.toColumns
+#' @title r.toColumns
 #' @export
 r.toColumns <- function (
   y,
@@ -17,7 +17,7 @@ r.toColumns <- function (
   return(y)
 }
 
-#' r.toFormula
+#' @title r.toFormula
 #' @export
 r.toFormula <- function (x, txtMatrix, txtY = NULL)
 { 
@@ -32,7 +32,7 @@ r.toFormula <- function (x, txtMatrix, txtY = NULL)
   return(fmla)
 }
 
-#' r.addYear
+#' @title r.addYear
 #' @export
 r.addYear <- function(d, i=1) {
   tmp <- as.POSIXlt(d)
@@ -40,7 +40,7 @@ r.addYear <- function(d, i=1) {
   return (as.Date(tmp))
 }
 
-#' r.min
+#' @title r.min
 #' @export
 r.min <- function (var) {
   ind = intersect(which(!is.na(var)), which(!is.infinite(var)))
@@ -48,7 +48,7 @@ r.min <- function (var) {
   else return(min(var[ind]))
 }
 
-#' r.max
+#' @title r.max
 #' @export
 r.max <- function (var) {
   ind = intersect(which(!is.na(var)), which(!is.infinite(var)))
@@ -56,7 +56,7 @@ r.max <- function (var) {
   else return(max(var[ind]))
 }
 
-#' r.mean
+#' @title r.mean
 #' @export
 r.mean <- function (var) {
   ind = intersect(which(!is.na(var)), which(!is.infinite(var)))
@@ -64,13 +64,13 @@ r.mean <- function (var) {
   else return(mean(var[ind]))
 }
 
-#' r.missings
+#' @title r.missings
 #' @export
 r.missings <- function (var) {
   return(length(which(is.na(var))))
 }
 
-#' r.normalize
+#' @title r.normalize
 #' @export
 r.normalize <- function (x, ind=NULL, imin=0, imax=0)
 {
@@ -87,7 +87,7 @@ r.normalize <- function (x, ind=NULL, imin=0, imax=0)
   }
 }
 
-#' r.rescale.col
+#' @title r.rescale.col
 #' @export
 r.rescale.col <- function (x)
 {
@@ -116,14 +116,14 @@ r.rescale.col <- function (x)
   return(xres)
 }
 
-#' r.zeros
+#' @title r.zeros
 #' @export
 r.zeros <- function (nrow = 1, ncol = 1)
 { 
   return (matrix(data=0, nrow=nrow, ncol=ncol))
 }
 
-#' r.arrayzeros
+#' @title r.arrayzeros
 #' @export
 r.arrayzeros <- function (nrow = 1)
 { 
@@ -131,7 +131,7 @@ r.arrayzeros <- function (nrow = 1)
   return(m[,1])
 }
 
-#' r.randomData
+#' @title r.randomData
 #' @export
 r.randomData <- function () {
   x = rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),             
@@ -139,7 +139,7 @@ r.randomData <- function () {
   return (x)
 }
 
-#' r.toClusterGroups
+#' @title r.toClusterGroups
 #' @export
 r.toClusterGroups <- function (cl)
 { 
@@ -147,7 +147,7 @@ r.toClusterGroups <- function (cl)
   return(cl)
 }
 
-#' r.tree.toClusters
+#' @title r.tree.toClusters
 #' @export
 r.tree.toClusters <- function (arbre, clustReal)
 {

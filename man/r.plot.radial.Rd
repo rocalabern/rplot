@@ -4,9 +4,8 @@
 \alias{r.plot.radial}
 \title{r.plot.radial}
 \usage{
-r.plot.radial(data, axis.labels = colnames(data)[-1], grid.min = NULL,
-  grid.mid = NULL, grid.max = NULL, center.y = NULL,
-  plot.extent.x = 1.2, plot.extent.y = 1.2, x.center.range = NULL,
+r.plot.radial(data, grid.min = NULL, grid.mid = NULL, grid.max = NULL,
+  main = NULL, sub = NULL, xlab = colnames(data)[-1], ylab = NULL,
   label.center.y = FALSE, grid.label.size = 3,
   gridline.label.offset = NULL, rounding = NULL,
   label.gridline.min = TRUE, label.gridline.mid = NULL,
@@ -18,8 +17,5 @@ r.plot.radial(data, axis.labels = colnames(data)[-1], grid.min = NULL,
 }
 \description{
 Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
-}
-\details{
-r.plot.radial
 }
 

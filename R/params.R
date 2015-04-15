@@ -10,7 +10,11 @@ r.colors = c(
   rgb(0.5, 0.5, 0.1), rgb(0.1, 0.5, 0.5), 
   rgb(0.0, 0.9, 0.5), rgb(0.2, 0.2, 0.2)
 )
+param.color.alpha = 0.65
 param.colors.default = r.colors
+param.color.alpha.default = param.color.alpha
+r.colors = adjustcolor(adjustcolor(r.colors, offset=c(0,0,0,-1)), offset=c(0,0,0,param.color.alpha))
+
 param.color.bar = rgb(0.85,0.72,0.2,0.5)
 param.margin = 1.0
 param.boxfigure.show = FALSE
@@ -21,8 +25,7 @@ param.color.box = rgb(127/255, 127/255, 127/255)
 param.color.background = rgb(229/255, 229/255, 229/255)
 param.color.foreground = rgb(0.95, 0.95, 0.95)
 param.color.legend.background = rgb(0.98, 0.98, 1.00, 0.97)
-param.color.alpha = 0.65
-r.colors = adjustcolor(adjustcolor(r.colors, offset=c(0,0,0,-1)), offset=c(0,0,0,param.color.alpha))
+
 par.default = NULL
 par.last = NULL
 
@@ -83,10 +86,22 @@ r.setBoxFigureColor <- function (col) {
   setVar("param.boxfigure.col", col)
 }
 
+#' @title r.setColorAxis
+#' @export
+r.setColorAxis <- function (col) {
+  setVar("param.color.axis", col)
+}
+
 #' @title r.setColorLabelAxis
 #' @export
 r.setColorLabelAxis <- function (col) {
   setVar("param.color.labelaxis", col)
+}
+
+#' @title r.setColorBox
+#' @export
+r.setColorBox <- function (col) {
+  setVar("param.color.box", col)
 }
 
 #' @title r.setColorBackground

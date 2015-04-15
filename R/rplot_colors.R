@@ -40,14 +40,20 @@ r.palette.show <- function (palette=NULL, alpha=NULL) {
     r.colors.toshow = palette
   else
     r.colors.toshow = r.color.setAlpha(palette, alpha)
-  n = ceiling(length(r.colors.toshow)/4)
-  mat = matrix(1:length(r.colors.toshow),4,n,byrow=FALSE)
-  if (4*n>length(r.colors.toshow)) {
-    mat[(length(r.colors.toshow)+1):(4*n)] = NA
-  }
+  
   setVar("par.default", par()$mar)
   par(mar=c(1.1, 1.1, 1.1, 1.1))
-  image(1:4, 1:n, mat, col = r.colors.toshow, xlab="", ylab="",xaxt="n",yaxt="n")
+  if (length(palette)>1) {
+    n = ceiling(length(r.colors.toshow)/4)
+    mat = matrix(1:length(r.colors.toshow),4,n,byrow=FALSE)
+    if (4*n>length(r.colors.toshow)) {
+      mat[(length(r.colors.toshow)+1):(4*n)] = NA
+    }
+    image(1:4, 1:n, mat, col = r.colors.toshow, xlab="", ylab="",xaxt="n",yaxt="n")
+  } else {
+    mat = matrix(1,1,1,byrow=FALSE)
+    image(1, 1, mat, col = r.colors.toshow, xlab="", ylab="",xaxt="n",yaxt="n")
+  }
   box(col=param.color.axis)
   par(mar=par.default)
   invisible(NULL)
@@ -59,6 +65,7 @@ r.palette.show <- function (palette=NULL, alpha=NULL) {
 #' @export
 r.palette.restore <- function () {
   setVar("r.colors", adjustcolor(adjustcolor(param.colors.default, offset=c(0,0,0,-1)), offset=c(0,0,0,param.color.alpha)))
+  r.setColorAlpha(param.color.alpha.default)
 }
 
 #' r.palette.set

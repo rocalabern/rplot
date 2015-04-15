@@ -4,8 +4,10 @@
 \alias{r.plot.matrix.communities}
 \title{r.plot.matrix.communities}
 \usage{
-r.plot.matrix.communities(inputMatrix, quantileCutOff = 0.6, zlim = NULL,
-  pal = NULL, main = "Matrix", xlab = NULL, ylab = "", ...)
+r.plot.matrix.communities(mat, quantileCutOff = 0.6, zlim = c(min(mat),
+  max(mat)), levels = 20, palette = r.color.gradient.palette(c("white",
+  rgb(0.4, 0.45, 0.8)), levels = levels), main = NULL, xlab = NULL,
+  ylab = NULL, sub = NULL, ...)
 }
 \description{
 r.plot.matrix.communities

@@ -1,16 +1,14 @@
-#' r.plot.radial
 #' @title r.plot.radial
 #' @description Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
 #' @export
 r.plot.radial <- function(data,
-                          axis.labels=colnames(data)[-1],                             
                           grid.min=NULL,
                           grid.mid=NULL,
                           grid.max=NULL,
-                          center.y=NULL,
-                          plot.extent.x=1.2,
-                          plot.extent.y=1.2,
-                          x.center.range=NULL,
+                          main = NULL,
+                          sub = NULL,
+                          xlab = colnames(data)[-1],
+                          ylab = NULL,
                           label.center.y=FALSE,
                           grid.label.size=3,
                           gridline.label.offset=NULL,
@@ -55,13 +53,9 @@ r.plot.radial <- function(data,
       grid.mid = 0.5*grid.max+0.5*grid.min
     }
   }
-  if (is.null(center.y)) {
-    if (grid.min>((1/15)*(grid.max-grid.min))) center.y = 0
-    else center.y = grid.min - ((1/15)*(grid.max-grid.min))
-  }
-  if (is.null(x.center.range)) {
-    x.center.range=0.02*(grid.max-center.y)
-  }
+  if (grid.min>((1/15)*(grid.max-grid.min))) center.y = 0
+  else center.y = grid.min - ((1/15)*(grid.max-grid.min))
+  x.center.range=0.02*(grid.max-center.y)
   if (is.null(gridline.label.offset)) {
     gridline.label.offset=-0.02*(grid.max-center.y)
   }
@@ -71,16 +65,16 @@ r.plot.radial <- function(data,
   }
   
   var.names <- colnames(data)[-1]  #'Short version of variable names 
-  #axis.labels [if supplied] is designed to hold 'long version' of variable names
+  #xlab [if supplied] is designed to hold 'long version' of variable names
   #with line-breaks indicated using \n
   
   #caclulate total plot extent as radius of outer circle x a user-specifiable scaling factor
-  plot.extent.x=(grid.max+abs(center.y))*plot.extent.x
-  plot.extent.y=(grid.max+abs(center.y))*plot.extent.y
+  plot.extent.x=(grid.max+abs(center.y))*1.2
+  plot.extent.y=(grid.max+abs(center.y))*1.2
   
   #Check supplied data makes sense
-  if (length(axis.labels) != ncol(data)-1) 
-    return("Error: 'axis.labels' contains the wrong number of axis labels") 
+  if (length(xlab) != ncol(data)-1) 
+    return("Error: 'xlab' contains the wrong number of axis labels") 
   if(min(data[,-1])<center.y)
     return("Error: data' contains value(s) < center.y")
   if(max(data[,-1])>grid.max)
@@ -108,7 +102,7 @@ r.plot.radial <- function(data,
   
   #Labels
   axis$label <- data.frame(
-    text=axis.labels,
+    text=xlab,
     x=NA,
     y=NA )
   
@@ -217,9 +211,11 @@ r.plot.radial <- function(data,
     base <- base + geom_text(aes(x=x,y=y,label=text),data=center.y.label,face="bold",size=grid.label.size, hjust=0.5, color=label.color) }
   
   base <- base + scale_size(guide = 'none')
+  base <- base + ggtitle(main) + xlab(sub) + ylab(ylab)
   
   return(base) 
 }
+
 
 CalculateGroupPath <- function(df) {
   #Converts variable values into a set of radial x-y coordinates

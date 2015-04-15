@@ -4,8 +4,9 @@
 \alias{r.plot.matrix}
 \title{r.plot.matrix}
 \usage{
-r.plot.matrix(inputMatrix, zlim = NULL, pal = NULL, main = "Matrix",
-  xlab = NULL, ylab = "", ...)
+r.plot.matrix(mat, zlim = c(min(mat), max(mat)), palette = NULL,
+  centerZero = TRUE, main = NULL, xlab = NULL, ylab = NULL,
+  sub = NULL, ...)
 }
 \description{
 r.plot.matrix

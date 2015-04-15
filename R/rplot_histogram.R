@@ -1,4 +1,4 @@
-#' r.plot.histogram
+#' @title r.plot.histogram
 #' @seealso \code{\link{hist}} \code{\link{bkde}}
 #' @template seealso_wrappers
 #' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}

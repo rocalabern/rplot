@@ -4,12 +4,14 @@
 \alias{r.plot.graph.text}
 \title{r.plot.graph.text}
 \usage{
-r.plot.graph.text(inputMatrix, textLabels = NULL, quantileCutOff = 0.6,
-  quantileShowOff = 0.7, edgeWidthMin = 1, edgeWidthMax = 5,
-  edgeColorAlphaMin = 0, edgeColorAlphaMax = 0.4,
+r.plot.graph.text(mat, textLabels = NULL, quantileCutOff = 0.6,
+  quantileShowOff = 0.7, edgeWidth = 1, edgeWidthMin = edgeWidth,
+  edgeWidthMax = edgeWidth, edgeColorAlpha = 0.5,
+  edgeColorAlphaMin = edgeColorAlpha, edgeColorAlphaMax = edgeColorAlpha,
   vertexLabelColorDefault = rgb(0.3, 0.3, 0.3, 0.5),
-  vertexLabelColor = NULL, pal = NULL, vertexLabelFont = 2,
-  vertexLabelCex = 0.4, vertexShape = "none", vertexSize = 0, ...)
+  vertexLabelColor = NULL, palette = RColorBrewer::brewer.pal(name =
+  "Dark2", n = 8), vertexLabelFont = 2, vertexLabelCex = 0.4,
+  vertexShape = "none", vertexSize = 0, ...)
 }
 \description{
 r.plot.graph.text
