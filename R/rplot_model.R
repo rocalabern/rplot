@@ -1,55 +1,231 @@
+#' formatNumber
+#' @export
+formatNumber <- function (
+  x, 
+  round=4, 
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE
+) {
+  x = as.matrix(x)
+  return (as.data.frame(ifelse(abs(x-as.integer(x))>0,
+                 format(round(x,round), big.mark=big.mark, decimal.mark=decimal.mark, scientific=scientific),
+                 format(as.integer(x), big.mark=big.mark, decimal.mark=decimal.mark, scientific=scientific)
+                 )))
+}
+
+#' r.auc
+#' @export
+r.auc <- function(x,y) {
+  id <- order(x)
+  return (sum(diff(x[id])*zoo::rollmean(y[id],2)))
+}
+
+#' r.performance.metrics
+#' @export
+r.performance.metrics <- function(
+  score,
+  target,
+  threshold = 0.5,
+  round = 5,
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE,
+  printConfMat = TRUE,
+  printF1 = TRUE
+) {
+  predict = ifelse(score>threshold, 1, 0)
+  t = table(predict, target)
+  
+  dfConfMat = data.frame(ACTUAL_0=numeric(4), ACTUAL_1=numeric(4), PREDICTED=numeric(4), PRECISION=numeric(4))
+  rownames(dfConfMat) = c("PREDICTED_0", "PREDICTED_1", "ACTUAL", "RECALL")
+  dfConfMat[1:2,1:2] = t
+  dfConfMat[1,3] = dfConfMat[1,1] + dfConfMat[1,2]
+  dfConfMat[2,3] = dfConfMat[2,1] + dfConfMat[2,2]
+  dfConfMat[3,1] = dfConfMat[1,1] + dfConfMat[2,1]
+  dfConfMat[3,2] = dfConfMat[1,2] + dfConfMat[2,2]
+  dfConfMat[3,3] = sum(t)
+  dfConfMat[1,4] = (dfConfMat[1,1] / dfConfMat[1,3])
+  dfConfMat[2,4] = (dfConfMat[2,2] / dfConfMat[2,3])
+  dfConfMat[4,1] = (dfConfMat[1,1] / dfConfMat[3,1])
+  dfConfMat[4,2] = (dfConfMat[2,2] / dfConfMat[3,2])
+  dfConfMat[3,4] = (dfConfMat[1,4] + dfConfMat[2,4]) / 2
+  dfConfMat[4,3] = (dfConfMat[4,1] + dfConfMat[4,2]) / 2
+  dfConfMat[4,4] = ((dfConfMat[1,1] + dfConfMat[2,2]) / dfConfMat[3,3])
+  
+  dfF1 = data.frame(F=numeric(3), phi=numeric(3))
+  dfF1[1,1] = 2*dfConfMat[1,4]*dfConfMat[4,1]/(dfConfMat[1,4]+dfConfMat[4,1])
+  dfF1[2,1] = 2*dfConfMat[2,4]*dfConfMat[4,2]/(dfConfMat[2,4]+dfConfMat[4,2])
+  dfF1[3,1] = (dfF1[1,1] + dfF1[2,1])/2
+  dfF1[1,2] = ((dfConfMat[1,1]*dfConfMat[2,2])-(dfConfMat[1,2]*dfConfMat[2,1]))/sqrt((dfConfMat[1,1]+dfConfMat[1,2])*(dfConfMat[1,1]+dfConfMat[2,1])*(dfConfMat[2,2]+dfConfMat[1,2])*(dfConfMat[2,2]+dfConfMat[2,1]))
+  dfF1[2,2] = dfF1[1,2]
+  dfF1[3,2] = (dfF1[1,2] + dfF1[2,2])/2
+  
+  if(printConfMat) {
+    strDFConfMat = formatNumber(dfConfMat,round=round,big.mark=big.mark,decimal.mark=decimal.mark,scientific=scientific)
+    print(strDFConfMat)
+  }
+  if(printF1) {
+    strDFF1 = formatNumber(dfF1,round=round,big.mark=big.mark,decimal.mark=decimal.mark,scientific=scientific)
+    if(printConfMat && printF1) cat("\n")
+    print(strDFF1)
+  }
+  invisible(list(dfConfMat=dfConfMat, dfF1=dfF1))
+}
+
+#' r.plot.DT
+#' @export
+r.plot.DT <- function(
+  df,
+  paging = FALSE, 
+  searching = FALSE, 
+  bInfo = FALSE,
+  bSortable = FALSE
+) {
+  if ("DT" %in% rownames(installed.packages())) {
+    return(
+      DT::datatable(df, 
+                    options = list(
+                      paging = paging, 
+                      searching = searching, 
+                      bInfo = bInfo,
+                      bSortable = bSortable
+                      )
+                    )
+      )
+  } else {
+    invisible(NULL)
+  }
+}
+
+#' r.plot.table
+#' @export
+r.plot.table <- function(
+  t,
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE,
+  paging = FALSE, 
+  searching = FALSE, 
+  bInfo = FALSE,
+  bSortable = FALSE
+) {
+  try({t = formatNumber(t,big.mark=big.mark,decimal.mark=decimal.mark,scientific=scientific)}, silent=TRUE)
+  print(t)
+  if ("DT" %in% rownames(installed.packages())) {
+    return(
+      DT::datatable(t, 
+                    options=list(
+                      paging = paging, 
+                      searching = searching, 
+                      bInfo = bInfo, 
+                      bSortable = bSortable)
+                    )
+      )
+  } else {
+    invisible(NULL)
+  }
+}
+
+#' r.plot.confusionmatrix
+#' @export
+r.plot.confusionmatrix <- function(
+  score,
+  target,
+  threshold = 0.5,
+  round = 5,
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE
+) {
+  result = r.performance.metrics(
+    score,
+    target,
+    threshold = threshold,
+    round = round,
+    big.mark=big.mark, 
+    decimal.mark = decimal.mark,
+    printConfMat = TRUE,
+    printF1 = FALSE) 
+  strDFConfMat = formatNumber(
+    result$dfConfMat,
+    round = round,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    scientific = scientific)
+  if ("DT" %in% rownames(installed.packages())) {
+    return(DT::datatable(strDFConfMat, options=list(paging=FALSE, searching=FALSE, bInfo=FALSE, bSortable=FALSE)))
+  } else {
+    invisible(NULL)
+  }
+}
+
+#' r.plot.F1
+#' @export
+r.plot.F1 <- function(
+  score,
+  target,
+  threshold = 0.5,
+  round = 5,
+  big.mark=".", 
+  decimal.mark = "," 
+) {
+  result = r.performance.metrics(
+    score,
+    target,
+    threshold = threshold,
+    round = round,
+    big.mark=big.mark, 
+    decimal.mark = decimal.mark,
+    printConfMat = FALSE,
+    printF1 = TRUE) 
+  strDFF1 = formatNumber(
+    result$dfF1,
+    round = round,
+    big.mark = big.mark,
+    decimal.mark = decimal.mark,
+    scientific = scientific)
+  if ("DT" %in% rownames(installed.packages())) {
+    return(DT::datatable(strDFF1, options=list(paging=FALSE, searching=FALSE, bInfo=FALSE, bSortable=FALSE)))
+  } else {
+    invisible(NULL)
+  }  
+}
+
 #' r.plot.roc
 #' @export
 r.plot.roc <- function (
-  arrayModel, arrayReal,
+  score,
+  target, 
+  main = "ROC Curve", 
+  xlab = "1-specificity    tn/(tn+fp)", 
+  ylab = "sensitivity    tp/(tp+fn)",
+  sub = NULL,
+  fill = TRUE,
+  colorFill = r.color(1),
+  colorArea = r.color(1),
   ...)
 {
-  arrayReal = as.vector(arrayReal)
-  arrayModel = as.vector(arrayModel)
+  target = as.vector(target)
+  score = as.vector(score)
+  if(length(target)!=length(score)) stop("[Error] Different length for score and target.")
   
-  if (length(arrayReal)!=length(arrayModel)) print("Error: Model i valors reals no tenen mateixa llargada.")
-  
-  minRV = min(arrayReal)
-  maxRV = max(arrayReal) 
-  if (maxRV>minRV) {
-    arrayReal = (arrayReal-minRV)/(maxRV-minRV)
-  } else {
-    arrayReal = (arrayReal-minRV)
-  }
-  selectedCluster = max(arrayReal)
-  
-  minMV = min(arrayModel)
-  maxMV = max(arrayModel)   
-  if (maxMV>minMV) {
-    arrayModel = (arrayModel-minMV)/(maxMV-minMV)
-  } else {
-    arrayModel = (arrayModel-minMV)
-  }
-  
-  clustReal = r.arrayzeros(length(arrayReal))+1
-  clustReal[which(arrayReal==selectedCluster)] = 2
-  
-  nsteps = 100
-  x = r.arrayzeros((nsteps+1))
-  y = r.arrayzeros((nsteps+1))
-  
-  k=1
-  discTheta = (1/nsteps)*(0:nsteps)
-  for (theta in discTheta) {
-    clustModel = r.arrayzeros(length(arrayModel))+1
-    clustModel[which(arrayModel>theta)] = 2
-    
-    rCM = rmodel::r.classifierMetrics(clustReal = clustReal, clustModel = clustModel)
-    
-    x[k] = 1-rCM$specificity
-    y[k] = rCM$sensitivity
-    
-    k=k+1
-  }
-  r.plot(x=x, y=y, 
-    main="ROC Curve", xlab="1-specificity    tn/(tn+fp)", ylab="sensitivity    tp/(tp+fn)",
-    type='l')
-  r.plot.add(x=x[nsteps/2], y=y[nsteps/2], type="p")
+  pred <- ROCR::prediction(score, target)
+  perf <- ROCR::performance(pred, measure = "tpr", x.measure = "fpr") 
+  x=as.numeric(unlist(perf@x.values))
+  y=as.numeric(unlist(perf@y.values))
+  AUC = ROCR::performance(pred,"auc")@y.values[[1]]
+  strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+  message(strAUC)
+  if (missing(sub)) sub = strAUC
+  r.plot(x,y, 
+         main=main,
+         xlab=xlab,
+         ylab=ylab,
+         sub=strAUC, 
+         col=colorFill,
+         type='l')
+  if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
 }
 
 #' r.plot.gain
@@ -67,6 +243,7 @@ r.plot.gain <- function(
   npoints=20, 
   perc=0.2, 
   mode = "def", 
+  main = "Gain Curve", 
   sub=NULL,
   icol = 1, col = NULL,
   ...)
@@ -78,12 +255,16 @@ r.plot.gain <- function(
   if (mode=="area") {
     dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos")
     dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
-    if (is.null(sub)) {
-      pos = 1+round(0.2*nrow(dataPos))
-      sub = paste0("p_{", dataPos$perc[pos], "}=", formatC(100*(0.5*dataPos$gain[pos]+0.5*dataNeg$gain[pos]), format="f", width=4), "%")
+    AUC = r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
+    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+    message(strAUC)
+    if (missing(sub)) {
+      sub = strAUC
+#       pos = 1+round(0.2*nrow(dataPos))
+#       sub = paste0("p_{", dataPos$perc[pos], "}=", formatC(100*(0.5*dataPos$gain[pos]+0.5*dataNeg$gain[pos]), format="f", width=4), "%")
     }
     
-    r.plot.new(x=dataPos$perc, y=dataPos$perc, sub=sub, ...)
+    r.plot.new(x=dataPos$perc, y=dataPos$perc, main=main, sub=sub, ...)
     r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8), type="l")      
     r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor, type="l")
     r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor, type="l")
@@ -92,14 +273,50 @@ r.plot.gain <- function(
             col=rcolor,  border = NA)
   } else {
     data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
-    if (is.null(sub)) {
-      pos = 1+round(0.2*nrow(data))
-      sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
+    AUC = r.auc(data$perc, data$gain)
+    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+    message(strAUC)
+    if (missing(sub)) {
+      sub = strAUC
+#       pos = 1+round(0.2*nrow(data))
+#       sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
     }
-    r.plot.new(x=data$perc, y=data$perc, sub=sub, ...)
+    r.plot.new(x=data$perc, y=data$perc, main=main, sub=sub, ...)
     r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8), type="l") 
     r.plot.add(x=data$perc, y=data$gain, col=rcolor, type="l")
   }  
+}
+
+#' r.plot.lift
+#' @export
+r.plot.lift <- function(
+  score,
+  target, 
+  npoints=20, 
+  perc=0.2, 
+  icol = 1, col = NULL,
+  main = "Lift Curve", 
+  sub=NULL,
+  ...)
+{
+  if(missing(col) || is.null(col)) rcolor = r.color(icol)
+  else rcolor = col
+
+  data = rmodel::r.gains(score, target, npoints=npoints, mode="rnd")
+  ind = data$perc>0
+  x = data$perc[ind]
+  y = data$gain[ind]/data$perc[ind]
+  
+  AUC = r.auc(x,y)
+  strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+  message(strAUC)
+  if (missing(sub)) {
+    sub = strAUC
+  }
+  
+  r.plot.new(xlim=c(0,1), ylim=c(0,max(2,y)), main=main, sub=sub, ...)
+  r.plot.add(x=data$perc, y=1+numeric(length(data$perc)), col=rgb(0,0,0,0.8), type="l")
+  r.plot.add(x, y, col=rcolor, type="l")
 }
 
 #' r.plot.burbujas
