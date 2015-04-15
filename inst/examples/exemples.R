@@ -214,9 +214,13 @@ r.plot.burbujas
 
 # Model Performance ----
 x=runif(1000)
-y=round(0.8*x+0.2*runif(1000))
+y=c(round(0.8*x[1:200]+0.2*runif(200)),round(0.6*x[201:700]+0.4*runif(500)),round(runif(300)))
+r.plot.confusionmatrix
+r.plot.F1
 r.plot.roc(x,y)
 r.plot.gain(x,y)
+r.plot.lift(x,y)
+
 
 # Interactive ----
 r.int.kmeans

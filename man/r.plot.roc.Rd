@@ -4,7 +4,10 @@
 \alias{r.plot.roc}
 \title{r.plot.roc}
 \usage{
-r.plot.roc(arrayModel, arrayReal, ...)
+r.plot.roc(score, target, main = "ROC Curve",
+  xlab = "1-specificity    tn/(tn+fp)", ylab = "sensitivity    tp/(tp+fn)",
+  sub = NULL, fill = TRUE, colorFill = r.color(1),
+  colorArea = r.color(1), ...)
 }
 \description{
 r.plot.roc

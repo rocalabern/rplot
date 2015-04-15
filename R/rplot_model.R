@@ -1,4 +1,4 @@
-#' formatNumber
+#' @title formatNumber
 #' @export
 formatNumber <- function (
   x, 
@@ -14,14 +14,14 @@ formatNumber <- function (
                  )))
 }
 
-#' r.auc
+#' @title r.auc
 #' @export
 r.auc <- function(x,y) {
   id <- order(x)
   return (sum(diff(x[id])*zoo::rollmean(y[id],2)))
 }
 
-#' r.optimize.threshold
+#' @title r.optimize.threshold
 #' @export
 r.optimize.threshold <- function (
   score,
@@ -64,7 +64,7 @@ r.optimize.threshold <- function (
   return (opt)
 }
 
-#' r.performance.metrics
+#' @title r.performance.metrics
 #' @export
 r.performance.metrics <- function(
   score,
@@ -116,7 +116,7 @@ r.performance.metrics <- function(
   invisible(list(dfConfMat=dfConfMat, dfF1=dfF1))
 }
 
-#' r.plot.DT
+#' @title r.plot.DT
 #' @export
 r.plot.DT <- function(
   df,
@@ -141,7 +141,7 @@ r.plot.DT <- function(
   }
 }
 
-#' r.plot.table
+#' @title r.plot.table
 #' @export
 r.plot.table <- function(
   t,
@@ -170,7 +170,7 @@ r.plot.table <- function(
   }
 }
 
-#' r.plot.confusionmatrix
+#' @title r.plot.confusionmatrix
 #' @export
 r.plot.confusionmatrix <- function(
   score,
@@ -203,7 +203,7 @@ r.plot.confusionmatrix <- function(
   }
 }
 
-#' r.plot.F1
+#' @title r.plot.F1
 #' @export
 r.plot.F1 <- function(
   score,
@@ -236,7 +236,7 @@ r.plot.F1 <- function(
   }  
 }
 
-#' r.plot.roc
+#' @title r.plot.roc
 #' @export
 r.plot.roc <- function (
   score,
@@ -272,7 +272,7 @@ r.plot.roc <- function (
   if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
 }
 
-#' r.plot.gain
+#' @title r.plot.gain
 #' @param mode 
 #' \cr "def" = As it is
 #' \cr "rnd" = Random
@@ -331,7 +331,7 @@ r.plot.gain <- function(
   }  
 }
 
-#' r.plot.lift
+#' @title r.plot.lift
 #' @export
 r.plot.lift <- function(
   score,
@@ -363,7 +363,7 @@ r.plot.lift <- function(
   r.plot.add(x, y, col=rcolor, type="l")
 }
 
-#' r.plot.burbujas
+#' @title r.plot.burbujas
 #' @export
 r.plot.burbujas <- function(datos, segmentacion, target, 
                             relativeToMean = FALSE,
