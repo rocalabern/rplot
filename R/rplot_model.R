@@ -168,7 +168,8 @@ r.plot.F1 <- function(
   threshold = 0.5,
   round = 5,
   big.mark=".", 
-  decimal.mark = "," 
+  decimal.mark = ",",
+  scientific = FALSE
 ) {
   result = r.performance.metrics(
     score,
