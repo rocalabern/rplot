@@ -21,6 +21,49 @@ r.auc <- function(x,y) {
   return (sum(diff(x[id])*zoo::rollmean(y[id],2)))
 }
 
+#' r.optimize.threshold
+#' @export
+r.optimize.threshold <- function (
+  score,
+  target,
+  f_obj = function(threshold) {
+    predict = numeric(length(score))
+    predict[score>threshold] = 1
+    t <- table(predict, df$target)
+    if (nrow(t)==1)
+      f1 = 0
+    else
+      f1 = 0.5*(2*t[1,1]/(2*t[1,1]+t[1,2]+t[2,1]))+0.5*(2*t[2,2]/(2*t[2,2]+t[1,2]+t[2,1]))
+    return (-f1)
+  },
+  x0 = quantile(score, probs=0.5),
+  xtol_rel = 1e-8,
+  maxtime = 60,
+  algorithm = "NLOPT_LN_COBYLA"
+) {
+  if (length(score)!=length(target)) stop("Arrays score and target with different length.")
+  opt <- nloptr::nloptr(
+    x0,
+    f_obj,
+    lb = 0,
+    ub = 1,
+    opts = list(
+      "algorithm"=algorithm,
+      "xtol_rel"=xtol_rel,
+      "maxtime"=maxtime)
+  )
+  message(paste0("seed threshold = ", opt$x0))
+  message(paste0("threshold = ", opt$solution))
+  if (missing(f_obj)) {
+    message(paste0("init F1 = ", -f_obj(x0)))
+    message(paste0("opt  F1 = ", -f_obj(opt$solution)))
+  } else {
+    message(paste0("init metric = ", f_obj(x0)))
+    message(paste0("opt  metric = ", f_obj(opt$solution)))
+  }
+  return (opt)
+}
+
 #' r.performance.metrics
 #' @export
 r.performance.metrics <- function(
