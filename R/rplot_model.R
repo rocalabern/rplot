@@ -14,108 +14,6 @@ formatNumber <- function (
                  )))
 }
 
-#' @title r.auc
-#' @export
-r.auc <- function(x,y) {
-  id <- order(x)
-  return (sum(diff(x[id])*zoo::rollmean(y[id],2)))
-}
-
-#' @title r.optimize.threshold
-#' @export
-r.optimize.threshold <- function (
-  score,
-  target,
-  f_obj = function(threshold) {
-    predict = numeric(length(score))
-    predict[score>threshold] = 1
-    t <- table(predict, df$target)
-    if (nrow(t)==1)
-      f1 = 0
-    else
-      f1 = 0.5*(2*t[1,1]/(2*t[1,1]+t[1,2]+t[2,1]))+0.5*(2*t[2,2]/(2*t[2,2]+t[1,2]+t[2,1]))
-    return (-f1)
-  },
-  x0 = quantile(score, probs=0.5),
-  xtol_rel = 1e-8,
-  maxtime = 60,
-  algorithm = "NLOPT_LN_COBYLA"
-) {
-  if (length(score)!=length(target)) stop("Arrays score and target with different length.")
-  opt <- nloptr::nloptr(
-    x0,
-    f_obj,
-    lb = 0,
-    ub = 1,
-    opts = list(
-      "algorithm"=algorithm,
-      "xtol_rel"=xtol_rel,
-      "maxtime"=maxtime)
-  )
-  message(paste0("seed threshold = ", opt$x0))
-  message(paste0("threshold = ", opt$solution))
-  if (missing(f_obj)) {
-    message(paste0("init F1 = ", -f_obj(x0)))
-    message(paste0("opt  F1 = ", -f_obj(opt$solution)))
-  } else {
-    message(paste0("init metric = ", f_obj(x0)))
-    message(paste0("opt  metric = ", f_obj(opt$solution)))
-  }
-  return (opt)
-}
-
-#' @title r.performance.metrics
-#' @export
-r.performance.metrics <- function(
-  score,
-  target,
-  threshold = 0.5,
-  round = 5,
-  big.mark=".", 
-  decimal.mark = ",",
-  scientific = FALSE,
-  printConfMat = TRUE,
-  printF1 = TRUE
-) {
-  predict = ifelse(score>threshold, 1, 0)
-  t = table(predict, target)
-  
-  dfConfMat = data.frame(ACTUAL_0=numeric(4), ACTUAL_1=numeric(4), PREDICTED=numeric(4), PRECISION=numeric(4))
-  rownames(dfConfMat) = c("PREDICTED_0", "PREDICTED_1", "ACTUAL", "RECALL")
-  dfConfMat[1:2,1:2] = t
-  dfConfMat[1,3] = dfConfMat[1,1] + dfConfMat[1,2]
-  dfConfMat[2,3] = dfConfMat[2,1] + dfConfMat[2,2]
-  dfConfMat[3,1] = dfConfMat[1,1] + dfConfMat[2,1]
-  dfConfMat[3,2] = dfConfMat[1,2] + dfConfMat[2,2]
-  dfConfMat[3,3] = sum(t)
-  dfConfMat[1,4] = (dfConfMat[1,1] / dfConfMat[1,3])
-  dfConfMat[2,4] = (dfConfMat[2,2] / dfConfMat[2,3])
-  dfConfMat[4,1] = (dfConfMat[1,1] / dfConfMat[3,1])
-  dfConfMat[4,2] = (dfConfMat[2,2] / dfConfMat[3,2])
-  dfConfMat[3,4] = (dfConfMat[1,4] + dfConfMat[2,4]) / 2
-  dfConfMat[4,3] = (dfConfMat[4,1] + dfConfMat[4,2]) / 2
-  dfConfMat[4,4] = ((dfConfMat[1,1] + dfConfMat[2,2]) / dfConfMat[3,3])
-  
-  dfF1 = data.frame(F=numeric(3), phi=numeric(3))
-  dfF1[1,1] = 2*dfConfMat[1,4]*dfConfMat[4,1]/(dfConfMat[1,4]+dfConfMat[4,1])
-  dfF1[2,1] = 2*dfConfMat[2,4]*dfConfMat[4,2]/(dfConfMat[2,4]+dfConfMat[4,2])
-  dfF1[3,1] = (dfF1[1,1] + dfF1[2,1])/2
-  dfF1[1,2] = ((dfConfMat[1,1]*dfConfMat[2,2])-(dfConfMat[1,2]*dfConfMat[2,1]))/sqrt((dfConfMat[1,1]+dfConfMat[1,2])*(dfConfMat[1,1]+dfConfMat[2,1])*(dfConfMat[2,2]+dfConfMat[1,2])*(dfConfMat[2,2]+dfConfMat[2,1]))
-  dfF1[2,2] = dfF1[1,2]
-  dfF1[3,2] = (dfF1[1,2] + dfF1[2,2])/2
-  
-  if(printConfMat) {
-    strDFConfMat = formatNumber(dfConfMat,round=round,big.mark=big.mark,decimal.mark=decimal.mark,scientific=scientific)
-    print(strDFConfMat)
-  }
-  if(printF1) {
-    strDFF1 = formatNumber(dfF1,round=round,big.mark=big.mark,decimal.mark=decimal.mark,scientific=scientific)
-    if(printConfMat && printF1) cat("\n")
-    print(strDFF1)
-  }
-  invisible(list(dfConfMat=dfConfMat, dfF1=dfF1))
-}
-
 #' @title r.plot.DT
 #' @export
 r.plot.DT <- function(
@@ -181,7 +79,7 @@ r.plot.confusionmatrix <- function(
   decimal.mark = ",",
   scientific = FALSE
 ) {
-  result = r.performance.metrics(
+  result = rmodel::r.performance.metrics(
     score,
     target,
     threshold = threshold,
@@ -214,7 +112,7 @@ r.plot.F1 <- function(
   decimal.mark = ",",
   scientific = FALSE
 ) {
-  result = r.performance.metrics(
+  result = rmodel::r.performance.metrics(
     score,
     target,
     threshold = threshold,
@@ -299,7 +197,7 @@ r.plot.gain <- function(
   if (mode=="area") {
     dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos")
     dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
-    AUC = r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
+    AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
     message(strAUC)
     if (missing(sub)) {
@@ -317,7 +215,7 @@ r.plot.gain <- function(
             col=rcolor,  border = NA)
   } else {
     data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
-    AUC = r.auc(data$perc, data$gain)
+    AUC = rmodel::r.auc(data$perc, data$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
     message(strAUC)
     if (missing(sub)) {
@@ -351,7 +249,7 @@ r.plot.lift <- function(
   x = data$perc[ind]
   y = data$gain[ind]/data$perc[ind]
   
-  AUC = r.auc(x,y)
+  AUC = rmodel::r.auc(x,y)
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
   message(strAUC)
   if (missing(sub)) {
@@ -457,7 +355,7 @@ r.plot.burbujas <- function(datos, segmentacion, target,
     if (logScaleX) burbujaV = log10(burbujaV)    
   }
   r.plot(x=burbujaV, y=burbujaS, 
-         cex=r.normalize(x=elementsV[ind], imin=sizeMin, imax=sizeMax), 
+         cex=rmodel::r.normalize(x=elementsV[ind], imin=sizeMin, imax=sizeMax), 
          type='p',
          xlab=xlab, ylab=ylab,
          ...)
@@ -469,7 +367,7 @@ r.plot.burbujas <- function(datos, segmentacion, target,
     if (showMeanY) r.plot.add(y=c(meanS, meanS), x=c(-2*(100+max(abs(burbujaV))),2*(100+max(abs(burbujaV)))), type="l", col=rgb(0,0,0, 0.4))
   }
   if (showTargetAbsMean) {    
-    meanTarget = r.mean(datos[, target])
+    meanTarget = rmodel::r.mean(datos[, target])
     r.plot.add(y=c(meanTarget, meanTarget), x=c(-2*(100+max(abs(burbujaV))),2*(100+max(abs(burbujaV)))), type="l", col=rgb(1,0,0, 0.3))
   }
 }

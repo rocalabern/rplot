@@ -8,7 +8,7 @@ r.plot.kmeans.shapes <- function (
   main = '', sub = '', xlab = '', ylab = '',
   type = 'l', lwd = 1, pch = 16, cex = 1)
 {
-  x = r.toColumns(x)
+  x = rmodel::r.toColumns(x)
   
   n <- length(x[,1])
   m <- length(x[1,])   
@@ -79,7 +79,7 @@ r.plot.kmeans.smoothshapes <- function (
   main = '', sub = '', xlab = '',  ylab = '')
 {  
   
-  x = r.toColumns(x)
+  x = rmodel::r.toColumns(x)
   
   if(missing(km) || is.null(km)) {
     km <- kmeans(x, nclusters)
@@ -120,12 +120,12 @@ r.plot2D.pca <- function (
   xaxis = T, yaxis = T, box = T)
 {
   
-  clustReal = r.toClusterGroups(clustReal)
-  clustModel = r.toClusterGroups(clustModel)
+  clustReal = rmodel::r.toClusterGroups(clustReal)
+  clustModel = rmodel::r.toClusterGroups(clustModel)
   
   if(missing(pca)) {
     if (!missing(x) && !is.null(x)) {
-      x = r.toColumns(x)
+      x = rmodel::r.toColumns(x)
       pca = prcomp(x)
     } else {
       stop("No poden ser x i pca parametres absents al mateix temps.")
@@ -160,10 +160,10 @@ r.plot2D.data <- function (
   xaxis = T, yaxis = T, box = T)
 {
   require(rmodel)
-  clustReal = r.toClusterGroups(clustReal)
-  clustModel = r.toClusterGroups(clustModel)
+  clustReal = rmodel::r.toClusterGroups(clustReal)
+  clustModel = rmodel::r.toClusterGroups(clustModel)
   
-  x = r.toColumns(x)
+  x = rmodel::r.toColumns(x)
   
   if(missing(xlim)) xlim = c(min(x[,comp1]), max(x[,comp1]))
   if(missing(ylim)) ylim = c(min(x[,comp2]), max(x[,comp2]))
@@ -193,10 +193,10 @@ r.plot2D.nn <- function (
 {
   require('neuralnet')
   
-  clustReal = r.toClusterGroups(clustReal)
-  clustModel = r.toClusterGroups(clustModel)
+  clustReal = rmodel::r.toClusterGroups(clustReal)
+  clustModel = rmodel::r.toClusterGroups(clustModel)
   
-  x = r.toColumns(x)
+  x = rmodel::r.toColumns(x)
   
   n <- length(x[,1])
   m <- length(x[1,])

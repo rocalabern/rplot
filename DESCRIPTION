@@ -9,14 +9,14 @@ Description: A wrapper package for basic plots ang ggplot for easier and prettie
 License: GPL (>= 3)
 Imports:
     ggplot2,
+    igraph,
+    RColorBrewer,
     reshape2,
     data.table,
     ROCR,
     zoo
 Collate:
     'params.R'
-    'functions.R'
-    'rmodel_tools.R'
     'rplot_colors.R'
     'rplot.R'
     'rplot_bar.R'
@@ -30,4 +30,4 @@ Collate:
     'rplot_model.R'
     'rplot_report.R'
     'rplot_interactive.R'
-    'rplot_deprecated.R'
+    'deprecated.R'

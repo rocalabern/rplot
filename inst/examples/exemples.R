@@ -35,7 +35,7 @@ z = cos(seq(0,10,0.1))
 r.plot(x, y, type='l')
 
 # Lines : Colors----
-r.plot.new(xlim=c(0,10), ylim=c(-1,1))
+r.plot.new(xlim=c(0,10), ylim=c(-1,1),xlab="x",ylab="y")
 r.plot.add(x, y, type='l', icol=1)
 r.plot.add(x, z, type='l', icol=2)
 
@@ -179,10 +179,9 @@ r.plot.radial(df, legend=FALSE)
 r.plot.radial(df)
 
 # Graph ----
-library(igraphdata)
-data(UKfaculty)
+data(UKfaculty, package = "igraphdata")
+x = as.matrix(igraph::get.adjacency(UKfaculty))
 mat = matrix(runif(400), 20)
-x = as.matrix(get.adjacency(UKfaculty))
 r.plot.heatmap(matrixData=mat, contour=FALSE)
 r.plot.matrix(mat)
 r.plot.matrix(-mat)
@@ -215,8 +214,9 @@ r.plot.burbujas
 # Model Performance ----
 x=runif(1000)
 y=c(round(0.8*x[1:200]+0.2*runif(200)),round(0.6*x[201:700]+0.4*runif(500)),round(runif(300)))
-r.plot.confusionmatrix
-r.plot.F1
+rmodel::r.performance.metrics(x, y)
+r.plot.confusionmatrix(x, y)
+r.plot.F1(x, y)
 r.plot.roc(x,y)
 r.plot.gain(x,y)
 r.plot.lift(x,y)

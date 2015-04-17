@@ -126,8 +126,8 @@ r.plot.graph.text <- function(mat,
   
   lay = layout.fruchterman.reingold(g)
   
-  edegewidth =  r.normalize(E(g)$weight, imin=edgeWidthMin, imax=edgeWidthMax)
-  edegecolor = rgb(0.1,0.1,0.2, r.normalize(E(g)$weight, imin=edgeColorAlphaMin, imax=edgeColorAlphaMax))
+  edegewidth =  rmodel::r.normalize(E(g)$weight, imin=edgeWidthMin, imax=edgeWidthMax)
+  edegecolor = rgb(0.1,0.1,0.2, rmodel::r.normalize(E(g)$weight, imin=edgeColorAlphaMin, imax=edgeColorAlphaMax))
   edegecolor[E(g)$weight<quantile(E(g)$weight, quantileShowOff)] = rgb(0,0,0,0)
   
   if(missing(vertexLabelColor)) {

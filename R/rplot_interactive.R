@@ -7,7 +7,7 @@ r.int.zoom <- function (
   ...)
 {
   require(manipulate)
-  y = r.toColumns(y)
+  y = rmodel::r.toColumns(y)
   
   n <- length(y[,1])
   m <- length(y[1,])
@@ -69,7 +69,7 @@ r.int.plot2D.pca <- function (
   
   if(missing(pca)) {
     if (!missing(x) && !is.null(x)) {     
-      x = r.toColumns(x)
+      x = rmodel::r.toColumns(x)
       m = length(x[1,])
       pca = prcomp(x)
     } else {

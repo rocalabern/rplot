@@ -32,14 +32,14 @@ r.plot.histogram <- function(
   
   if (freq) {
     r.plot.new(
-      xlim=c(r.min(h$breaks),r.max(h$breaks)), 
+      xlim=c(rmodel::r.min(h$breaks),rmodel::r.max(h$breaks)), 
       ylim=c(0, max(h$counts)),
       main=main, sub=sub, xlab=xlab, ylab=ylab,
       restore.par=FALSE,
       ...)
   } else {
     r.plot.new(
-      xlim=c(r.min(h$breaks),r.max(h$breaks)), 
+      xlim=c(rmodel::r.min(h$breaks),rmodel::r.max(h$breaks)), 
       ylim=c(0, max(h$density)),
       main=main, sub=sub, xlab=xlab, ylab=ylab,
       restore.par=FALSE,

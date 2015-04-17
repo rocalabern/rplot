@@ -112,7 +112,7 @@ r.plot.new <- function (
 {
   if(missing(xlim) && !missing(x)) xlim = range(x, na.rm = TRUE)
   if(missing(ylim) && !missing(y)) {
-    y = r.toColumns(y)
+    y = rmodel::r.toColumns(y)
     ylim = range(y, na.rm = TRUE)
     if(missing(xlim) && missing(x)) xlim = c(1, dim(y)[1])
   }
@@ -181,7 +181,7 @@ r.plot.add <- function (
   if (missing(x) && missing(y)) stop("x and y cannot be both missing")
   if (is.null(x) && is.null(y)) stop("x and y cannot be both null")
   if(missing(y) || is.null(y)) {
-    y = r.toColumns(x)
+    y = rmodel::r.toColumns(x)
     n <- length(y[,1])
     m <- length(y[1,])
     x = 1:n
@@ -189,7 +189,7 @@ r.plot.add <- function (
       type = 'l'
     }
   } else {
-    y = r.toColumns(y)
+    y = rmodel::r.toColumns(y)
     n <- length(y[,1])
     m <- length(y[1,])
   }
@@ -247,7 +247,7 @@ r.plot <- function (
   if (missing(x) && missing(y)) stop("x and y cannot be both missing")
   if (is.null(x) && is.null(y)) stop("x and y cannot be both null")
   if(missing(y) || is.null(y)) {
-    y = r.toColumns(x)
+    y = rmodel::r.toColumns(x)
     n <- length(y[,1])
     m <- length(y[1,])
     x = 1:n
@@ -255,7 +255,7 @@ r.plot <- function (
       type = 'l'
     }
   } else {
-    y = r.toColumns(y)
+    y = rmodel::r.toColumns(y)
     n <- length(y[,1])
     m <- length(y[1,])
   }
