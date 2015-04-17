@@ -4,8 +4,8 @@
 \alias{r.plot.kmeans.smoothshapes}
 \title{r.plot.kmeans.smoothshapes}
 \usage{
-r.plot.kmeans.smoothshapes(x, km = NULL, nclusters = 2, main = "",
-  sub = "", xlab = "", ylab = "")
+r.plot.kmeans.smoothshapes(x, km = NULL, nclusters = 2, main = NULL,
+  sub = NULL, xlab = NULL, ylab = NULL)
 }
 \description{
 r.plot.kmeans.smoothshapes

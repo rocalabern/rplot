@@ -5,7 +5,7 @@ r.plot.kmeans.shapes <- function (
   km = NULL, nclusters = 2,
   paintCentroids = F,
   filtrat = 1.0, nMax = NULL,
-  main = '', sub = '', xlab = '', ylab = '',
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   type = 'l', lwd = 1, pch = 16, cex = 1)
 {
   x = rmodel::r.toColumns(x)
@@ -23,7 +23,9 @@ r.plot.kmeans.shapes <- function (
     nclusters = max(km$cluster)
   }
   
-  r.plot.new(ylim=c(ymin,ymax), xlim=c(xmin,xmax), main=main, sub=sub, xlab=xlab, ylab=ylab)
+  r.plot.new(ylim=c(ymin,ymax), xlim=c(xmin,xmax), 
+             main=main, sub=sub, xlab=xlab, ylab=ylab,
+             restore=FALSE)
   if (filtrat==1) {
     if (type == 'l') {
       for (i in 1:n) {
@@ -58,7 +60,6 @@ r.plot.kmeans.shapes <- function (
       }
     }
   }
-  
   if (paintCentroids) {
     for (c in 1:nclusters) {   
       for (h in 1:m) {   
@@ -67,7 +68,7 @@ r.plot.kmeans.shapes <- function (
       } 
     }   
   }
-  
+  r.plot.restorepar()
   return(km)
 }
 
@@ -76,7 +77,7 @@ r.plot.kmeans.shapes <- function (
 r.plot.kmeans.smoothshapes <- function (
   x,
   km = NULL, nclusters = 2, 
-  main = '', sub = '', xlab = '',  ylab = '')
+  main = NULL, sub = NULL, xlab = NULL,  ylab = NULL)
 {  
   
   x = rmodel::r.toColumns(x)
@@ -102,11 +103,50 @@ r.plot.kmeans.smoothshapes <- function (
     }
   }
   
-  r.plot.new(ylim=c(ymin,ymax), xlim=c(xmin,xmax), main=main, sub=sub, xlab=xlab, ylab=ylab)
+  r.plot.new(ylim=c(ymin,ymax), xlim=c(xmin,xmax), 
+             main=main, sub=sub, xlab=xlab, ylab=ylab,
+             restore=FALSE)
   for (c in 1:nclusters) { 
     sp =spline(t(1:m), t(xdata[c,]))
-    lines(sp, col=r.colors[14+c])
+    lines(sp, col=r.colors[c])
   }
+  r.plot.restorepar()
+}
+
+#' r.plot2D.data
+#' @export
+r.plot2D.data <- function (
+  x,
+  clustReal = NULL, clustModel = NULL,
+  comp1 = 1, comp2 = 2,
+  xlim = c(0,1), ylim = c(0,1),
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+  xaxis = T, yaxis = T, box = T)
+{
+  require(rmodel)
+  clustReal = rmodel::r.toClusterGroups(clustReal)
+  clustModel = rmodel::r.toClusterGroups(clustModel)
+  
+  x = rmodel::r.toColumns(x)
+  
+  if(missing(xlim)) xlim = c(min(x[,comp1]), max(x[,comp1]))
+  if(missing(ylim)) ylim = c(min(x[,comp2]), max(x[,comp2]))
+  
+  r.plot.new(xlim=xlim, ylim=ylim, 
+             main=main, sub=sub, xlab=xlab, ylab=ylab, 
+             xaxis=xaxis, yaxis=yaxis, box=box,
+             restore=FALSE)
+  if((missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
+    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[1])
+  } else if (!(missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
+    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustReal])
+  } else if ((missing(clustReal) || is.null(clustReal)) && !(missing(clustModel) || is.null(clustModel))) {
+    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustModel])
+  } else {
+    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustReal])
+    points(x[,comp1], x[,comp2], col=r.colors[clustModel])
+  }
+  r.plot.restorepar()
 }
 
 #' r.plot2D.pca
@@ -116,7 +156,7 @@ r.plot2D.pca <- function (
   clustReal = NULL, clustModel = NULL,
   comp1 = 1, comp2 = 2,
   xlim = c(0,1), ylim = c(0,1),
-  main = '', sub = '', xlab = '', ylab = '',
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T)
 {
   
@@ -135,8 +175,10 @@ r.plot2D.pca <- function (
   if(missing(xlim)) xlim = c(min(pca$x[,comp1]), max(pca$x[,comp1])) 
   if(missing(ylim)) ylim = c(min(pca$x[,comp2]), max(pca$x[,comp2]))
   
-  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, xlab=xlab, ylab=ylab, xaxis=xaxis, yaxis=yaxis, box=box)
-  
+  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, 
+             xlab=xlab, ylab=ylab, 
+             xaxis=xaxis, yaxis=yaxis, box=box,
+             restore=FALSE)
   if((missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
     points(pca$x[,comp1], pca$x[,comp2], pch=16, cex=1, col=r.colors[1])
   } else if (!(missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
@@ -145,41 +187,9 @@ r.plot2D.pca <- function (
     points(pca$x[,comp1], pca$x[,comp2], pch=16, cex=1, col=r.colors[clustModel])
   } else {
     points(pca$x[,comp1], pca$x[,comp2], pch=16, cex=1, col=r.colors[clustReal])
-    points(pca$x[,comp1], pca$x[,comp2], col=r.colors[r.ncolors+clustModel])
+    points(pca$x[,comp1], pca$x[,comp2], col=r.colors[clustModel])
   }
-}
-
-#' r.plot2D.data
-#' @export
-r.plot2D.data <- function (
-  x,
-  clustReal = NULL, clustModel = NULL,
-  comp1 = 1, comp2 = 2,
-  xlim = c(0,1), ylim = c(0,1),
-  main = '', sub = '', xlab = '', ylab = '',
-  xaxis = T, yaxis = T, box = T)
-{
-  require(rmodel)
-  clustReal = rmodel::r.toClusterGroups(clustReal)
-  clustModel = rmodel::r.toClusterGroups(clustModel)
-  
-  x = rmodel::r.toColumns(x)
-  
-  if(missing(xlim)) xlim = c(min(x[,comp1]), max(x[,comp1]))
-  if(missing(ylim)) ylim = c(min(x[,comp2]), max(x[,comp2]))
-  
-  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, xlab=xlab, ylab=ylab, xaxis=xaxis, yaxis=yaxis, box=box)
-  
-  if((missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
-    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[1])
-  } else if (!(missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
-    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustReal])
-  } else if ((missing(clustReal) || is.null(clustReal)) && !(missing(clustModel) || is.null(clustModel))) {
-    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustModel])
-  } else {
-    points(x[,comp1], x[,comp2], pch=16, cex=1, col=r.colors[clustReal])
-    points(x[,comp1], x[,comp2], col=r.colors[r.ncolors+clustModel])
-  }
+  r.plot.restorepar()
 }
 
 #' r.plot2D.nn
@@ -188,7 +198,7 @@ r.plot2D.nn <- function (
   x,
   clustReal = NULL, clustModel = NULL,
   xlim = c(0,1), ylim = c(0,1),
-  main = '', sub = '', xlab = '', ylab = '',
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T)
 {
   require('neuralnet')
@@ -237,8 +247,10 @@ r.plot2D.nn <- function (
   if(missing(xlim)) xlim = c(min(coord[,1]), max(coord[,1]))
   if(missing(ylim)) ylim = c(min(coord[,2]), max(coord[,2]))
   
-  r.plot.new(xlim=xlim, ylim=ylim, main=main, sub=sub, xlab=xlab, ylab=ylab, xaxis=xaxis, yaxis=yaxis, box=box)
-  
+  r.plot.new(xlim=xlim, ylim=ylim, 
+             main=main, sub=sub, xlab=xlab, ylab=ylab, 
+             xaxis=xaxis, yaxis=yaxis, box=box,
+             restore=FALSE)
   if((missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
     points(coord[,1], coord[,2], pch=16, cex=1, col=r.colors[1])
   } else if (!(missing(clustReal) || is.null(clustReal)) && (missing(clustModel) || is.null(clustModel))) {
@@ -247,7 +259,8 @@ r.plot2D.nn <- function (
     points(coord[,1], coord[,2], pch=16, cex=1, col=r.colors[clustModel])
   } else {
     points(coord[,1], coord[,2], pch=16, cex=1, col=r.colors[clustReal])
-    points(coord[,1], coord[,2], col=r.colors[r.ncolors+clustModel])
+    points(coord[,1], coord[,2], col=r.colors[clustModel])
   }
+  r.plot.restorepar()
   return (cbind(coord[,1], coord[,2]))
 }

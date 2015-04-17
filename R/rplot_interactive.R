@@ -1,6 +1,6 @@
-#' r.int.zoom
+#' @title r.iplot
 #' @export
-r.int.zoom <- function (
+r.iplot <- function (
   y,
   x = NULL,
   xlim = c(0,1), ylim = c(0,1),
@@ -30,41 +30,68 @@ r.int.zoom <- function (
   )
 }
 
-#' r.int.kmeans
+#' @title r.iplot.kmeans.shapes
 #' @export
-r.int.kmeans <- function (
+r.iplot.kmeans.shapes <- function (
   x,
   fmin = 0.05, fmax=1.0, fstep = 0.05,
-  main = '',sub = '', xlab = '', ylab = '')
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL)
 {
   require(manipulate) 
-  manipulate(r.plot.kmeans(x=x, nclusters=k, filtrat=f, paintCentroids=c, main=main, sub=sub, xlab=xlab, ylab=ylab),
+  manipulate(r.plot.kmeans.shapes(x=x, nclusters=k, filtrat=f, paintCentroids=c, main=main, sub=sub, xlab=xlab, ylab=ylab),
              k = slider(1, 10, initial = 2, label="nclusters"),
              f = slider(fmin, fmax, label="Filtre", step=fstep),
              c = checkbox(TRUE, "Pintar Centroides")
   )
 }
 
-#' r.int.plot.smoothkmeans
+#' @title r.iplot.smoothkmeans
 #' @export
-r.int.plot.smoothkmeans <- function (
+r.iplot.smoothkmeans <- function (
   x,
-  main = '',sub = '', xlab = '',ylab = '')
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL)
 {
   require(manipulate) 
-  manipulate(r.plot.smoothkmeans(x=x, nclusters=k, main=main, sub=sub, xlab=xlab, ylab=ylab),
+  manipulate(r.plot.kmeans.smoothshapes(x=x, nclusters=k, main=main, sub=sub, xlab=xlab, ylab=ylab),
              k = slider(1, 10, initial=2, label="nclusters")            
   )
 }
 
-#' r.int.plot2D.pca
+#' @title r.iplot2D.data
 #' @export
-r.int.plot2D.pca <- function (
+r.iplot2D.data <- function (
+  x,
+  clustReal = NULL, clustModel = NULL,
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+  xaxis = T, yaxis = T, box = T, ...)
+{
+  m <- length(x[1,])
+  
+  require(manipulate)     
+  manipulate(r.plot2D.data(x=x,  
+                           comp1 = c1,
+                           comp2 = c2,
+                           clustReal = clustReal,
+                           clustModel = clustModel,
+                           main = main,
+                           sub = sub,
+                           xlab = xlab,
+                           ylab = ylab,
+                           xaxis = xaxis,
+                           yaxis = yaxis,
+                           box = box, ...),
+             c1 = slider(1, m, initial = 1, label="coord 1", step=1),
+             c2 = slider(1, m, initial = 2, label="coord 2", step=1)                         
+  )
+}
+
+#' @title r.iplot2D.pca
+#' @export
+r.iplot2D.pca <- function (
   x = NULL, pca = NULL,
   clustReal = NULL, clustModel = NULL, 
-  main = '', sub = '', xlab = '', ylab = '',
-  xaxis = T, yaxis = T, box = T,
-  step = 1, ...)
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+  xaxis = T, yaxis = T, box = T, ...)
 {
   
   if(missing(pca)) {
@@ -92,36 +119,7 @@ r.int.plot2D.pca <- function (
                           xaxis = xaxis,
                           yaxis = yaxis,
                           box = box, ...),
-             c1 = slider(1, m, initial = 1, label="coord 1", step=step),
-             c2 = slider(1, m, initial = 2, label="coord 2", step=step)         
-  )
-}
-
-#' r.int.plot2D.x
-#' @export
-r.int.plot2D.x <- function (
-  x,
-  clustReal = NULL, clustModel = NULL,
-  main = '', sub = '', xlab = '', ylab = '',
-  xaxis = T, yaxis = T, box = T,
-  step = 1)
-{
-  m <- length(x[1,])
-  
-  require(manipulate)     
-  manipulate(r.plot2D.pca.classification(x=x,  
-                        comp1 = c1,
-                        comp2 = c2,
-                        clustReal = clustReal,
-                        clustModel = clustModel,
-                        main = main,
-                        sub = sub,
-                        xlab = xlab,
-                        ylab = ylab,
-                        xaxis = xaxis,
-                        yaxis = yaxis,
-                        box = box),
-             c1 = slider(1, m, initial = 1, label="coord 1", step=step),
-             c2 = slider(1, m, initial = 2, label="coord 2", step=step)                         
+             c1 = slider(1, m, initial = 1, label="coord 1", step=1),
+             c2 = slider(1, m, initial = 2, label="coord 2", step=1)         
   )
 }

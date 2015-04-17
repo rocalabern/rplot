@@ -28,6 +28,7 @@ r.plot.radial <- function(data,
   library(ggplot2)
   if (length(intersect("group", colnames(data)[-1]))>0) stop("[Error] In this implementation you cannot use group as a name for a feature")
   colnames(data)[1] = c("group")
+  print(colnames(data))
   gridline.min.linetype="solid"
   gridline.mid.linetype="solid"
   gridline.max.linetype="solid"

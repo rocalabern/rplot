@@ -5,7 +5,7 @@
 \title{r.plot2D.nn}
 \usage{
 r.plot2D.nn(x, clustReal = NULL, clustModel = NULL, xlim = c(0, 1),
-  ylim = c(0, 1), main = "", sub = "", xlab = "", ylab = "",
+  ylim = c(0, 1), main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T)
 }
 \description{

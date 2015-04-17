@@ -10,8 +10,8 @@ r.color.gradient.palette(colors, levels = 10, palette = NULL)
 r.color.gradient.palette
 }
 \seealso{
-Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}}
+Palette: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}}
 
-\code{\link{r.color}} \code{\link{r.color.gradient}} \code{\link{r.color.gradient.palette}}
+Colors: \code{\link{r.color}} \code{\link{r.color.gradient}} \code{\link{r.color.gradient.palette}}
 }
 

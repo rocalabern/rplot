@@ -199,12 +199,16 @@ r.plot.add <- function (
   
   if (m==1) {
     if (!missing(col)) col=col[1 + ((1:n-1) %% length(col))]
-    else if (!missing(icol)) col=r.colors[icol[1 + ((1:n-1) %% min(length(icol), length(r.colors)))]]
-    else col=r.color(1)
+    else if (!missing(icol)) {
+      if (is.factor(icol)) icol = as.numeric(icol)
+      col=r.colors[1 + ((icol[1:n]-1) %% min(length(icol), length(r.colors)))]
+    } else col=r.color(1)
   } else {
     if (!missing(col)) col=col[1 + ((1:m-1) %% length(col))]
-    else if (!missing(icol)) col=r.colors[icol[1 + ((1:m-1) %% min(length(icol), length(r.colors)))]]
-    else col=r.color(1:m)
+    else if (!missing(icol)) {
+      if (is.factor(icol)) icol = as.numeric(icol)
+      col=r.colors[1 + ((icol[1:m]-1) %% min(length(icol), length(r.colors)))]
+    } else col=r.color(1:m)
   }
   
   if (!missing(alpha)) {
@@ -275,12 +279,16 @@ r.plot <- function (
   
   if (m==1) {
     if (!missing(col)) col=col[1 + ((1:n-1) %% length(col))]
-    else if (!missing(icol)) col=r.colors[icol[1 + ((1:n-1) %% min(length(icol), length(r.colors)))]]
-    else col=r.color(1)
+    else if (!missing(icol)) {
+      if (is.factor(icol)) icol = as.numeric(icol)
+      col=r.colors[1 + ((icol[1:n]-1) %% min(length(icol), length(r.colors)))]
+    } else col=r.color(1)
   } else {
     if (!missing(col)) col=col[1 + ((1:m-1) %% length(col))]
-    else if (!missing(icol)) col=r.colors[icol[1 + ((1:m-1) %% min(length(icol), length(r.colors)))]]
-    else col=r.color(1:m)
+    else if (!missing(icol)) {
+      if (is.factor(icol)) icol = as.numeric(icol)
+      col=r.colors[1 + ((icol[1:m]-1) %% min(length(icol), length(r.colors)))]
+    } else col=r.color(1:m)
   }
   
   if (!missing(alpha)) {

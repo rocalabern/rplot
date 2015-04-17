@@ -192,25 +192,29 @@ r.plot.matrix(r.plot.matrix.communities(x))
 r.plot.heatmap(matrixData=r.plot.matrix.communities(x), contour=FALSE)
 r.plot.graph.text(x, vertexLabelCex=0.5, edgeWidthMax=1.5)
 
-# Exploratory ----
-df <- airquality
-df$Month = factor(df$Month)
-df$Day = factor(sample(1:28, nrow(df), replace=TRUE))
-r.plot.data(df)
-r.export.dataoverview
-
 # K-Means ----
-r.plot.kmeans.shapes
-r.plot.kmeans.smoothshapes
+km = kmeans(iris[,-5],3)
+r.plot.kmeans.shapes(iris[,-5], km)
+r.plot.kmeans.shapes(iris[,-5], km, paintCentroids=TRUE)
+r.plot.kmeans.smoothshapes(iris[,-5], km)
 
 # Dimensionality Reduction ----
-r.plot2D.data
-r.plot2D.nn
-r.plot2D.pca
+r.plot2D.data(iris[,-5])
+r.plot2D.pca(iris[,-5])
+r.plot2D.nn(iris[,-5])
+km = kmeans(iris[,-5],3)
+r.plot2D.data(iris[,-5], clustModel=km$cluster)
+r.plot2D.pca(iris[,-5], clustModel=km$cluster)
+r.plot2D.nn(iris[,-5], clustModel=km$cluster)
+r.plot2D.data(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
+r.plot2D.pca(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
+r.plot2D.nn(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
 
 # Binning ----
-r.plot.burbujas
-
+r.plot(iris$Petal.Width, iris$Petal.Length)
+r.plot.burbujas(iris, as.character(cut(iris$Petal.Width,10)), iris$Petal.Length)
+rmodel::r.segment(round(iris[,-5]), colnames(iris)[-5])
+  
 # Model Performance ----
 x=runif(1000)
 y=c(round(0.8*x[1:200]+0.2*runif(200)),round(0.6*x[201:700]+0.4*runif(500)),round(runif(300)))
@@ -221,11 +225,19 @@ r.plot.roc(x,y)
 r.plot.gain(x,y)
 r.plot.lift(x,y)
 
+# Exploratory ----
+df <- airquality
+df$Month = factor(df$Month)
+df$Day = factor(sample(1:28, nrow(df), replace=TRUE))
+r.plot.data(df)
+r.export.dataoverview
 
 # Interactive ----
-r.int.kmeans
-r.int.plot.smoothkmeans
-r.int.plot2D.pca
-r.int.plot2D.x
-r.int.zoom
+r.plot(iris$Sepal.Length, iris$Sepal.Width, icol=iris[,5])
+r.iplot(iris$Sepal.Length, iris$Sepal.Width, icol=iris[,5])
+r.iplot.kmeans.shapes(iris[,-5])
+r.iplot.smoothkmeans(iris[,-5])
+r.iplot2D.data(iris[,-5], clustReal = iris[,5])
+r.iplot2D.pca(iris[,-5], clustReal = iris[,5])
+
 
