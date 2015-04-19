@@ -1,0 +1,30 @@
+---
+title: "rplot"
+author: "Roc Alabern"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+```{r, eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+# library(printr)
+```
+
+# Basico
+
+## Packages principales
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(igraph)
+library(RColorBrewer)
+library(reshape2)
+library(data.table)
+library(ROCR)
+library(rplot)
+```
+
+## Conexion ODBC
+```{r, eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+```

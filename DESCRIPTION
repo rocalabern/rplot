@@ -13,8 +13,7 @@ Imports:
     RColorBrewer,
     reshape2,
     data.table,
-    ROCR,
-    zoo
+    ROCR
 Collate:
     'params.R'
     'rplot_colors.R'

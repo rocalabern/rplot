@@ -1,3 +1,30 @@
+#' @title formatInt
+#' @export
+formatInt <- function (
+  x, 
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE
+) {
+  return (
+    format(as.integer(round(x)), big.mark=big.mark, decimal.mark=decimal.mark, scientific=scientific)
+    )
+}
+
+#' @title formatDec
+#' @export
+formatDec <- function (
+  x, 
+  round=4, 
+  big.mark=".", 
+  decimal.mark = ",",
+  scientific = FALSE
+) {
+  return (
+    format(round(x,round), big.mark=big.mark, decimal.mark=decimal.mark, scientific=scientific)
+  )
+}
+
 #' @title formatNumber
 #' @export
 formatNumber <- function (
