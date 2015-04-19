@@ -1,3 +1,6 @@
+# library ----
+library(rplot)
+
 # Tools ----
 randomTimeSeries <- function(n=20) {
   return (exp(-0.02*(1:n))*rnorm(n))
@@ -173,7 +176,7 @@ r.plot.treemap(
 # Radial ----
 x1 <- runif(5)
 x2 <- 0.2+0.6*x1+0.2*runif(5)
-df <- data.frame(group = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
+df <- data.frame(groupASD = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
 colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
 r.plot.radial(df, legend=FALSE)
 r.plot.radial(df)
