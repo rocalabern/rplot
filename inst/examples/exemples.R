@@ -215,7 +215,7 @@ r.plot2D.nn(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
 
 # Binning ----
 r.plot(iris$Petal.Width, iris$Petal.Length)
-r.plot.burbujas(iris, as.character(cut(iris$Petal.Width,10)), iris$Petal.Length)
+r.plot.burbujas
 rmodel::r.segment(round(iris[,-5]), colnames(iris)[-5])
   
 # Model Performance ----

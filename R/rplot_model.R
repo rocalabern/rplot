@@ -114,7 +114,8 @@ r.plot.confusionmatrix <- function(
     big.mark=big.mark, 
     decimal.mark = decimal.mark,
     printConfMat = TRUE,
-    printF1 = FALSE) 
+    printF1 = FALSE,
+    printMetrics = FALSE) 
   strDFConfMat = formatNumber(
     result$dfConfMat,
     round = round,
@@ -147,7 +148,8 @@ r.plot.F1 <- function(
     big.mark=big.mark, 
     decimal.mark = decimal.mark,
     printConfMat = FALSE,
-    printF1 = TRUE) 
+    printF1 = TRUE,
+    printMetrics = FALSE) 
   strDFF1 = formatNumber(
     result$dfF1,
     round = round,
