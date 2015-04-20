@@ -262,5 +262,5 @@ r.plot2D.nn <- function (
     points(coord[,1], coord[,2], col=r.colors[clustModel])
   }
   r.plot.restorepar()
-  return (cbind(coord[,1], coord[,2]))
+  invisible (cbind(coord[,1], coord[,2]))
 }

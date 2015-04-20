@@ -2,8 +2,8 @@
 library(rplot)
 
 # Tools ----
-randomTimeSeries <- function(n=20) {
-  return (exp(-0.02*(1:n))*rnorm(n))
+randomTimeSeries <- function(n=20, amplitud=1, phase=2*pi*runif(1), velocity=rexp(1), noise=0.05) {
+  return(amplitud*sin(phase+velocity*seq(0,2*pi,length.out=n))+noise*amplitud*rnorm(n))
 }
   
 # Palete ----
@@ -23,10 +23,13 @@ r.palette.restore()
 r.plot(1,1,type='p', cex=20)
 
 # Time Series ----
-matrixTimeSeries = cbind(unlist(sapply(1:10, function (x) {randomTimeSeries(20)})))
+matrixTimeSeries = cbind(unlist(sapply(1:100, function (x) {randomTimeSeries(200,velocity=1,noise=0)})))
 
-r.plot(matrixTimeSeries)
+rplot::r.plot(matrixTimeSeries)
 
+rplot::r.plot(x=seq(0,1,1/199), y=matrixTimeSeries)
+
+matrixTimeSeries = cbind(unlist(sapply(1:5, function (x) {randomTimeSeries(50,velocity=1,noise=0)})))
 r.plot(matrixTimeSeries)
 r.plot.add(matrixTimeSeries, type='p')
 
@@ -126,11 +129,13 @@ r.plot.bar(table=t, beside=TRUE, horizontal=TRUE)
 r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=FALSE, box=FALSE)
 r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=TRUE, box=FALSE)
 
-# Distribution ----
+# Histogram ----
 x = rnorm(2000)
 r.plot.histogram(x)
 r.plot.histogram(x, main="Density", freq=FALSE)
 r.plot.histogram(x, breaks = 20)
+
+# Distribution ----
 r.plot.distribution(x)
 
 # Heatmap ----
@@ -173,7 +178,7 @@ r.plot.treemap(
   colorScaleLeft=rgb(0.8,0.2,0.8), colorScaleCenter="White", colorScaleRight=rgb(0.2,0.2,0.8),
   main="Tree Map")
 
-# Radial ----
+# Radial plot ----
 x1 <- runif(5)
 x2 <- 0.2+0.6*x1+0.2*runif(5)
 df <- data.frame(groupASD = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
@@ -195,12 +200,6 @@ r.plot.matrix(r.plot.matrix.communities(x))
 r.plot.heatmap(matrixData=r.plot.matrix.communities(x), contour=FALSE)
 r.plot.graph.text(x, vertexLabelCex=0.5, edgeWidthMax=1.5)
 
-# K-Means ----
-km = kmeans(iris[,-5],3)
-r.plot.kmeans.shapes(iris[,-5], km)
-r.plot.kmeans.shapes(iris[,-5], km, paintCentroids=TRUE)
-r.plot.kmeans.smoothshapes(iris[,-5], km)
-
 # Dimensionality Reduction ----
 r.plot2D.data(iris[,-5])
 r.plot2D.pca(iris[,-5])
@@ -218,6 +217,12 @@ r.plot(iris$Petal.Width, iris$Petal.Length)
 r.plot.burbujas
 rmodel::r.segment(round(iris[,-5]), colnames(iris)[-5])
   
+# K-Means ----
+km = kmeans(iris[,-5],3)
+r.plot.kmeans.shapes(iris[,-5], km)
+r.plot.kmeans.shapes(iris[,-5], km, paintCentroids=TRUE)
+r.plot.kmeans.smoothshapes(iris[,-5], km)
+
 # Model Performance ----
 x=runif(1000)
 y=c(round(0.8*x[1:200]+0.2*runif(200)),round(0.6*x[201:700]+0.4*runif(500)),round(runif(300)))
