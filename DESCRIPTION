@@ -14,19 +14,3 @@ Imports:
     reshape2,
     data.table,
     ROCR
-Collate:
-    'params.R'
-    'rplot_colors.R'
-    'rplot.R'
-    'rplot_bar.R'
-    'rplot_histogram.R'
-    'rplot_distribution.R'    
-    'rplot_heatmap.R'
-    'rplot_graph.R'
-    'rplot_treemap.R'
-    'rplot_radial.R'
-    'rplot_clusters.R'
-    'rplot_model.R'
-    'rplot_report.R'
-    'rplot_interactive.R'
-    'deprecated.R'

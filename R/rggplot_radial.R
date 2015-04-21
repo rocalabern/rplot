@@ -1,7 +1,7 @@
-#' @title r.plot.radial
+#' @title r.ggplot.radial
 #' @description Radial plot done by Paul Williamson (http://pcwww.liv.ac.uk/~william/)
 #' @export
-r.plot.radial <- function(data,
+r.ggplot.radial <- function(data,
                           grid.min=NULL,
                           grid.mid=NULL,
                           grid.max=NULL,
@@ -216,4 +216,84 @@ r.plot.radial <- function(data,
   base <- base + ggtitle(main) + xlab(sub) + ylab(ylab)
   
   return(base) 
+}
+
+
+CalculateGroupPath <- function(df) {
+  #Converts variable values into a set of radial x-y coordinates
+  #Code adapted from a solution posted by Tony M to
+  #http://stackoverflow.com/questions/9614433/creating-radar-chart-a-k-a-star-plot-spider-plot-using-ggplot2-in-r
+  
+  #Args:
+  #  df: Col 1 -  group ('unique' cluster / group ID of entity)
+  #      Col 2-n:  v1.value to vn.value - values (e.g. group/cluser mean or median) of variables v1 to v.n
+  
+  path <- as.factor(as.character(df[,1]))
+  
+  ##find increment
+  angles = seq(from=0, to=2*pi, by=(2*pi)/(ncol(df)-1))
+  
+  ##create graph data frame
+  graphData= data.frame(group=character(0), x=numeric(0), y=numeric(0))
+  for(i in levels(path)){
+    pathData = subset(df, df[,1]==i)
+    for(j in c(2:ncol(df))){
+      graphData=rbind(graphData, data.frame(group=i, 
+                                            x=pathData[,j]*sin(angles[j-1]),
+                                            y=pathData[,j]*cos(angles[j-1])))
+    }
+    ##complete the path by repeating first pair of coords in the path
+    graphData=rbind(graphData, data.frame(group=i, 
+                                          x=pathData[,2]*sin(angles[1]),
+                                          y=pathData[,2]*cos(angles[1])))
+  }
+  
+  #Make sure that name of first column matches that of input data (in case !="group")
+  colnames(graphData)[1] <- colnames(df)[1]
+  
+  graphData #data frame returned by function
+  
+}
+
+CaclulateAxisPath = function(var.names,min,max) {
+  #Caculates x-y coordinates for a set of radial axes (one per variable being plotted in radar plot)
+  
+  #Args:
+  #var.names - list of variables to be plotted on radar plot
+  #min - MININUM value required for the plotted axes (same value will be applied to all axes)
+  #max - MAXIMUM value required for the plotted axes (same value will be applied to all axes)
+  
+  #var.names <- c("v1","v2","v3","v4","v5")
+  n.vars <- length(var.names) # number of vars (axes) required
+  
+  #Cacluate required number of angles (in radians)
+  angles <- seq(from=0, to=2*pi, by=(2*pi)/n.vars)
+  
+  #calculate vectors of min and max x+y coords
+  min.x <- min*sin(angles)
+  min.y <- min*cos(angles)
+  max.x <- max*sin(angles)
+  max.y <- max*cos(angles)
+  
+  #Combine into a set of uniquely numbered paths (one per variable)
+  axisData <- matrix(0, 2*n.vars+2, 3)
+  for (i in 0:n.vars) {
+    axisData[1+2*i,] <- c(i,min.x[i],min.y[i])
+    axisData[2+2*i,] <- c(i,max.x[i],max.y[i])
+  }
+  
+  #Add column names + set row names = row no. to allow conversion into a data frame
+  colnames(axisData) <- c("axis.no","x","y")
+  rownames(axisData) <- seq(1:nrow(axisData))
+  
+  #Return calculated axis paths
+  as.data.frame(axisData)
+}
+
+funcCircleCoords <- function(center = c(0,0), r = 1, npoints = 100){
+  #Adapted from Joran's response to http://stackoverflow.com/questions/6862742/draw-a-circle-with-ggplot2
+  tt <- seq(0,2*pi,length.out = npoints)
+  xx <- center[1] + r * cos(tt)
+  yy <- center[2] + r * sin(tt)
+  return(data.frame(x = xx, y = yy))
 }

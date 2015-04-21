@@ -75,7 +75,7 @@ r.plot.add(x, z, icol=2)
 
 # Scatterplot : Colors ----
 r.plot.new(c(x,x), c(y,z))
-r.plot.add(x, y, icol=1, alpha=0.3)
+r.plot.add(x, y, icol=4, alpha=0.3)
 r.plot.add(x, z, icol=2, alpha=0.3)
 
 r.plot.new(c(x,x), c(y,z))
@@ -181,10 +181,11 @@ r.plot.treemap(
 # Radial plot ----
 x1 <- runif(5)
 x2 <- 0.2+0.6*x1+0.2*runif(5)
-df <- data.frame(groupASD = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
+df <- data.frame(names = c("Blue Collar Communities", "Prospering Suburbs"), matrix(c(x1,x2), nrow = 2, byrow = TRUE))
 colnames(df)[2:ncol(df)] <- c("A", "B", "C", "D", "E")
 r.plot.radial(df, legend=FALSE)
 r.plot.radial(df)
+r.ggplot.radial(df)
 
 # Graph ----
 data(UKfaculty, package = "igraphdata")
