@@ -32,6 +32,6 @@ Colors: \code{\link{r.color}} \code{\link{r.color.gradient}} \code{\link{r.color
 
 Defaults: \code{\link{r.setAlpha}} \code{\link{r.setPalette}}
 
-Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
+Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}} \code{\link{r.divideplot}}
 }
 

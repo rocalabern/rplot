@@ -27,6 +27,12 @@ r.plot.window <- function (width=900, height=900, use.win.graph=FALSE, ...) {
   else x11(width=width, height=height, ...)
 }
 
+#' @title r.divideplot
+#' @template seealso_tools
+#' @export
+r.divideplot <- function (nrow=1, ncol=1) {
+  par(mfrow = c(nrow, ncol))
+}
 
 #' @title r.plot.coord
 #' @description Defines a complete new coord system to the current plot.
