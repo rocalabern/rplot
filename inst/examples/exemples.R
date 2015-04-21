@@ -187,7 +187,17 @@ r.plot.radial(df, legend=FALSE)
 r.plot.radial(df)
 r.ggplot.radial(df)
 
-# Graph ----
+# Correlations ----
+Mcorr = cor(iris[,-5])
+r.ggplot.corr(Mcorr)
+
+Mcorr = cor(iris[,rep(1:4,10)])
+r.ggplot.corr(Mcorr)
+
+Mcorr = r.plot.matrix.communities(Mcorr)
+r.ggplot.corr(Mcorr)
+
+# Matrix & Graph ----
 data(UKfaculty, package = "igraphdata")
 x = as.matrix(igraph::get.adjacency(UKfaculty))
 mat = matrix(runif(400), 20)
