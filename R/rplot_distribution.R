@@ -44,3 +44,10 @@ r.plot.distribution <- function (
           col=col,
           border = NA)
 }
+
+#' @title r.plot.density
+#' @seealso \code{\link{bkde}} \code{\link{density}} \code{\link{hist}}
+#' @template seealso_wrappers
+#' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}
+#' @export
+r.plot.density <- r.plot.distribution

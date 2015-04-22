@@ -6,9 +6,9 @@ r.plot.data <- function(dades, legendBar = FALSE)
     strCol = names(dades)[icol]
     values = dades[,icol]    
     if (is.numeric(values)) {
-      r.plot.histogram(values=values, main=strCol)
+      r.plot.histogram(values, main=strCol)
     } else {
-      r.plot.bar(values=values, main=strCol, legend=legendBar)      
+      r.plot.bar(values, main=strCol, legend=legendBar)      
     }
   }  
 }

@@ -116,18 +116,24 @@ r.plot.add(x,z,col=2,type='l')
 r.plot.add(x,z,col=2,type='p')
 
 # Bar plot ----
-var = round(exp(runif(100)))
-t = table(round(runif(100)),round(runif(100)))
-rownames(t) = c("Tipo A", "Tipo B")
-colnames(t) = c("Tipo A", "Tipo B")
-r.plot.bar(var)
-r.plot.bar(var, horizontal=TRUE)
-r.plot.bar(table=t)
-r.plot.bar(table=t, beside=TRUE)
-r.plot.bar(table=t, horizontal=TRUE)
-r.plot.bar(table=t, beside=TRUE, horizontal=TRUE)
-r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=FALSE, box=FALSE)
-r.plot.bar(table=t, beside=TRUE, horizontal=TRUE, background=TRUE, box=FALSE)
+vecNum = round(1+5*runif(80)^3)
+vecChar = letters[sample(1:26, 100, replace = TRUE)]
+table_2 = table(round(runif(100)^2), round(1-runif(100)^3))
+table_3 = table(round(2*runif(120)^2), round(2-2*runif(120)^3))
+rownames(table_2) = c("Tipo A", "Tipo B")
+colnames(table_2) = c("Tipo A", "Tipo B")
+rownames(table_3) = c("Tipo A", "Tipo B", "Tipo C")
+colnames(table_3) = c("Tipo A", "Tipo B", "Tipo C")
+r.plot.bar(vecNum, main="numeric vector")
+r.plot.bar(vecChar, main="character vector")
+r.plot.bar(iris[c(1,51,101),c(5,1)], main="data.frame", sub="two columns (label, value)")
+r.plot.bar(table_2, main="table")
+r.plot.bar(table_3, main="table")
+r.plot.bar(table_3, beside=TRUE)
+r.plot.bar(table_3, horizontal=TRUE)
+r.plot.bar(table_3, beside=TRUE, horizontal=TRUE)
+r.plot.bar(table_3, beside=TRUE, horizontal=TRUE, background=TRUE, box=FALSE)
+r.plot.bar(table_3, beside=TRUE, horizontal=TRUE, background=FALSE, box=FALSE)
 
 # Histogram ----
 x = rnorm(2000)
@@ -135,8 +141,9 @@ r.plot.histogram(x)
 r.plot.histogram(x, main="Density", freq=FALSE)
 r.plot.histogram(x, breaks = 20)
 
-# Distribution ----
+# Distribution / Density ----
 r.plot.distribution(x)
+r.plot.density(x)
 
 # Heatmap ----
 x = runif(5000)

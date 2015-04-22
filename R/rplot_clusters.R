@@ -196,6 +196,9 @@ r.plot2D.pca <- function (
 #' @export
 r.plot2D.nn <- function (
   x,
+  plotNN = TRUE,
+  stepmax = 10^8,
+  threshold = 0.1,
   clustReal = NULL, clustModel = NULL,
   xlim = c(0,1), ylim = c(0,1),
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
@@ -230,20 +233,14 @@ r.plot2D.nn <- function (
   ynam2 = paste(ynam2, collapse= "+")
   fmla <- as.formula(paste(ynam1, " ~ ", ynam2))
   
-  nn.data <- neuralnet(fmla, data=t(y), hidden=c(2,2), rep=1)
-  plot.nn(nn.data, rep="best")
+  nn.data <- neuralnet(fmla, data=t(y), hidden=c(5,2,5), rep=1, stepmax=stepmax, threshold = threshold)
+  if (plotNN) plot.nn(nn.data, rep="best")
   
-  coef <- nn.data$weights[1]
-  coord <- cbind(rep(0, n), rep(0, n))
-  for (i in 1:n) {
-    coord[i,1] <- coef[[1]][[1]][1,1]
-    coord[i,2] <- coef[[1]][[1]][1,2]
-    for (h in 1:m) {
-      coord[i,1] <- coord[i,1] + coef[[1]][[1]][1+h,1] * x[i,h]
-      coord[i,2] <- coord[i,2] + coef[[1]][[1]][1+h,2] * x[i,h]
-    }
-  }
-  
+  X = cbind(1,x)
+  A1 = nn.data$weights[1][[1]][[1]]
+  A2 = nn.data$weights[1][[1]][[2]]
+  coord <- cbind(1, X %*% A1) %*% A2
+
   if(missing(xlim)) xlim = c(min(coord[,1]), max(coord[,1]))
   if(missing(ylim)) ylim = c(min(coord[,2]), max(coord[,2]))
   

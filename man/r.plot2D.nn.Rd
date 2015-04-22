@@ -4,9 +4,10 @@
 \alias{r.plot2D.nn}
 \title{r.plot2D.nn}
 \usage{
-r.plot2D.nn(x, clustReal = NULL, clustModel = NULL, xlim = c(0, 1),
-  ylim = c(0, 1), main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
-  xaxis = T, yaxis = T, box = T)
+r.plot2D.nn(x, plotNN = TRUE, stepmax = 10^8, threshold = 0.1,
+  clustReal = NULL, clustModel = NULL, xlim = c(0, 1), ylim = c(0, 1),
+  main = NULL, sub = NULL, xlab = NULL, ylab = NULL, xaxis = T,
+  yaxis = T, box = T)
 }
 \description{
 r.plot2D.nn

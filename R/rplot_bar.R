@@ -4,8 +4,7 @@
 #' @seealso \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}
 #' @export
 r.plot.bar <- function(
-  values = NULL,
-  table = NULL,
+  data,
   labelsX = NULL,
   labelsY = NULL,
   labelsXDefault = FALSE,
@@ -21,7 +20,7 @@ r.plot.bar <- function(
   label.rotation = 45,
   label.adjX = 1.1,
   label.adjY = 1.1,
-  legend = TRUE,
+  legend = NULL,
   legend.pos = "topright",
   legend.pch = 15, legend.cex = 0.6,
   legend.backgroundCol = param.color.legend.background,  
@@ -41,11 +40,29 @@ r.plot.bar <- function(
     }
   }
   
-  if (missing(values) && missing(table)) stop("You must provide some data, values or table minimum.")
-  if (missing(table)) {
-    table = table(values)
+  if (!missing(legend) && is.null(legend)) legend = FALSE
+  if (is.factor(data)) {
+    data = as.character(data)
+    try({data <- as.numeric(data)}, silent = TRUE)
+  }
+  if (is.vector(data) && !is.table(data)) {
+    table = table(data)
     col = colBar
-    legend = FALSE
+    if (missing(legend)) legend = FALSE
+  } else if (is.data.frame(data)) {
+    table = table(data[,1])
+    table = data[match(data[,1], names(table)),2]
+    col = colBar
+    if (missing(legend)) legend = FALSE
+  } else if (is.table(data)) {
+    table = data
+    if (length(dim(table))==1) col = colBar
+    if (missing(legend)) {
+      if (length(dim(table))==1) legend = FALSE
+      else legend = TRUE
+    }
+  } else {
+    stop("Only numeric, data.frame and table are valid")
   }
   
   if (missing(labelsX)) {
