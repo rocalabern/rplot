@@ -4,9 +4,11 @@
 \alias{r.ggplot.corr}
 \title{r.ggplot.corr}
 \usage{
-r.ggplot.corr(Mcorr, listVar = colnames(Mcorr), color = rgb(0.3, 0.3, 0.6,
-  0.8), stroke = rgb(0, 0, 0, 0.2), title = NULL, xlab = NULL,
-  ylab = NULL, showText = NULL, angle = 60)
+r.ggplot.corr(Mcorr, listVar = colnames(Mcorr), colorPos = rgb(70/255,
+  130/255, 180/255), colorNeg = rgb(165/255, 42/255, 42/255),
+  stroke = rgb(0, 0, 0, 0.2), title = NULL, xlab = NULL, ylab = NULL,
+  showText = NULL, rowNames = NULL, colNames = NULL, angle = 60,
+  expand = TRUE)
 }
 \arguments{
 \item{Mcorr}{Matrix of correlations (cor).}
