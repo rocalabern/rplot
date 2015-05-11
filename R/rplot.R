@@ -104,13 +104,14 @@ r.plot.coord.axis <- function (
 r.plot.new <- function (
   x = NULL, y = NULL, 
   xlim = c(0,1), ylim = c(0,1),
-  background = T, grid = T,
+  background = T, grid = T, xgrid = grid, ygrid = grid,
   backgroundCol = param.color.background,
   foregroundCol = param.color.foreground,  
   axisCol = param.color.axis,
   boxCol = param.color.box,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T,
+  xaxisAT = NULL, yaxisAT = NULL,
   log = "", asp = NA,
   thirdAxis = FALSE,
   restore.par=TRUE,
@@ -139,21 +140,23 @@ r.plot.new <- function (
   if (background) {
     rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col=backgroundCol)
   }
-  if (grid) {
+  if (xgrid) {
     xLines = axTicks(side=1)
     xDoubleLines = 0.5*xLines[-length(xLines)]+0.5*xLines[-1]
     xDoubleLines = c(xLines[1]-abs(xDoubleLines[1]-xLines[1]),xDoubleLines,tail(xLines, n=1)+abs(tail(xLines, n=1)-tail(xDoubleLines, n=1)))
+    abline(v=xDoubleLines,col=foregroundCol,lwd=0.7)
+    abline(v=xLines,col=foregroundCol,lwd=1)
+  }
+  if (ygrid) {
     yLines = axTicks(side=2)
     yDoubleLines = 0.5*yLines[-length(yLines)]+0.5*yLines[-1]
     yDoubleLines = c(yLines[1]-abs(yDoubleLines[1]-yLines[1]),yDoubleLines,tail(yLines, n=1)+abs(tail(yLines, n=1)-tail(yDoubleLines, n=1)))
-    abline(v=xDoubleLines,col=foregroundCol,lwd=0.7)
     abline(h=yDoubleLines,col=foregroundCol,lwd=0.7) 
-    abline(v=xLines,col=foregroundCol,lwd=1)
     abline(h=yLines,col=foregroundCol,lwd=1) 
   }
   
-  if(xaxis) axis(1, col=axisCol, cex.axis=0.7, col.axis=axisCol)
-  if(yaxis) axis(2, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+  if(xaxis) axis(1, at=xaxisAT, col=axisCol, cex.axis=0.7, col.axis=axisCol)
+  if(yaxis) axis(2, at=yaxisAT, col=axisCol, cex.axis=0.7, col.axis=axisCol)
   if(!is.null(main)) title(main=main)
   if(!is.null(ylab)) title(ylab=ylab)
   if(!is.null(xlab)) {

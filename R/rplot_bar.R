@@ -30,6 +30,7 @@ r.plot.bar <- function(
   axisCol = param.color.axis,
   axis = T, box = T,
   boxCol = param.color.box,
+  useVector = FALSE,
   ...)
 {
   if (is.null(col)) {
@@ -46,12 +47,26 @@ r.plot.bar <- function(
     try({data <- as.numeric(data)}, silent = TRUE)
   }
   if (is.vector(data) && !is.table(data)) {
-    table = table(data)
+    if (missing(useVector)) {
+      if (length(unique(data))!=length(data)) {
+        table = table(data)
+      } else {
+        table = as.table(data)
+      }
+    } else {
+      if (!useVector) {
+        table = table(data)
+      } else {
+        table = as.table(data)
+      }
+    }
     col = colBar
     if (missing(legend)) legend = FALSE
   } else if (is.data.frame(data)) {
-    table = table(data[,1])
-    table = data[match(data[,1], names(table)),2]
+    data = as.data.frame(data)
+    table = data[,2]
+    names(table) = data[,1]
+    table = as.table(table)
     col = colBar
     if (missing(legend)) legend = FALSE
   } else if (is.table(data)) {
@@ -90,15 +105,33 @@ r.plot.bar <- function(
   par(mar=c(par.bottom, par.left, par.top, par.right))
   setVar("par.last", par()$mar)
   
+  if (beside || length(dim(table))<=1) {
+    vallim = 1.02*max(table)
+  } else {
+    vallim = 1.02*max(colSums(table))
+  }
   if (background) {
-    mp = barplot(table, 
-                 horiz=horizontal, 
-                 beside=beside,
-                 axisnames=FALSE,
-                 col=rgb(0,0,0,0), 
-                 add=FALSE,
-                 axes=FALSE,
-                 ...)
+    if (horizontal) {
+      mp = barplot(table, 
+                   horiz=horizontal, 
+                   beside=beside,
+                   axisnames=FALSE,
+                   col=rgb(0,0,0,0), 
+                   add=FALSE,
+                   axes=FALSE,
+                   xlim=c(0,vallim),
+                   ...)
+    } else {
+      mp = barplot(table, 
+                   horiz=horizontal, 
+                   beside=beside,
+                   axisnames=FALSE,
+                   col=rgb(0,0,0,0), 
+                   add=FALSE,
+                   axes=FALSE,
+                   ylim=c(0,vallim),
+                   ...)      
+    }
     rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col=backgroundCol, border=NA)
     if (grid) {
       if (horizontal) {
@@ -114,7 +147,7 @@ r.plot.bar <- function(
         abline(h=yDoubleLines,col=foregroundCol,lwd=0.7) 
         abline(h=yLines,col=foregroundCol,lwd=1) 
       }
-    }    
+    }  
     mp = barplot(table,
                  horiz=horizontal, 
                  beside=beside,
@@ -125,15 +158,29 @@ r.plot.bar <- function(
                  main=main, sub=sub, xlab=xlab, ylab=ylab,
                  ...)  
   } else {
-    mp = barplot(table,
-                 horiz=horizontal,
-                 beside=beside,
-                 axisnames=labelsXDefault,
-                 col=col, 
-                 add=FALSE,
-                 axes=FALSE,
-                 main=main, sub=sub, xlab=xlab, ylab=ylab,
-                 ...)
+    if (horizontal) {
+      mp = barplot(table,
+                   horiz=horizontal,
+                   beside=beside,
+                   axisnames=labelsXDefault,
+                   col=col, 
+                   add=FALSE,
+                   axes=FALSE,
+                   main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   xlim=c(0,vallim),
+                   ...)
+    } else {
+      mp = barplot(table,
+                   horiz=horizontal,
+                   beside=beside,
+                   axisnames=labelsXDefault,
+                   col=col, 
+                   add=FALSE,
+                   axes=FALSE,
+                   main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   ylim=c(0,vallim),
+                   ...)      
+    }
   }
   
   if(axis) {

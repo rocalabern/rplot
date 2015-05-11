@@ -7,7 +7,9 @@
 r.plot.matrix(mat, zlim = c(min(mat), max(mat)), palette = NULL,
   centerZero = TRUE, colorPos = rgb(70/255, 130/255, 180/255),
   colorNeg = rgb(165/255, 42/255, 42/255), main = NULL, xlab = NULL,
-  ylab = NULL, sub = NULL, ...)
+  ylab = NULL, sub = NULL, margin = 0.5, marginX = margin,
+  marginY = margin, ticksX = NULL, ticksY = NULL, numTicks = 12,
+  numTicksX = numTicks, numTicksY = numTicks, ...)
 }
 \description{
 r.plot.matrix

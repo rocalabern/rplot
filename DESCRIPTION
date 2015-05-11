@@ -1,7 +1,7 @@
 Package: rplot
 Type: Package
 Title: Plot functions
-Version: 1.0.1
+Version: 1.0.3
 Date: 2013-11-16
 Author: Roc Alabern
 Maintainer: Roc Alabern <roc.alabern@gmail.com>

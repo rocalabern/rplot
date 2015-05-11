@@ -5,11 +5,13 @@
 \title{r.plot.new}
 \usage{
 r.plot.new(x = NULL, y = NULL, xlim = c(0, 1), ylim = c(0, 1),
-  background = T, grid = T, backgroundCol = param.color.background,
+  background = T, grid = T, xgrid = grid, ygrid = grid,
+  backgroundCol = param.color.background,
   foregroundCol = param.color.foreground, axisCol = param.color.axis,
   boxCol = param.color.box, main = NULL, sub = NULL, xlab = NULL,
-  ylab = NULL, xaxis = T, yaxis = T, box = T, log = "", asp = NA,
-  thirdAxis = FALSE, restore.par = TRUE, ...)
+  ylab = NULL, xaxis = T, yaxis = T, box = T, xaxisAT = NULL,
+  yaxisAT = NULL, log = "", asp = NA, thirdAxis = FALSE,
+  restore.par = TRUE, ...)
 }
 \arguments{
 \item{x}{Array of data for x axis. It will not be plotted, however it is used to calculate limits for x axis according to minimum and maximum values of data x.}

@@ -7,7 +7,9 @@
 r.plot.matrix.communities(mat, quantileCutOff = 0.6, zlim = c(min(mat),
   max(mat)), levels = 20, palette = r.color.gradient.palette(c("white",
   rgb(0.4, 0.45, 0.8)), levels = levels), main = NULL, xlab = NULL,
-  ylab = NULL, sub = NULL, ...)
+  ylab = NULL, sub = NULL, margin = 0.5, marginX = margin,
+  marginY = margin, ticksX = NULL, ticksY = NULL, numTicks = 12,
+  numTicksX = numTicks, numTicksY = numTicks, ...)
 }
 \description{
 r.plot.matrix.communities

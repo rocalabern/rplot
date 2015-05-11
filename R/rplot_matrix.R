@@ -1,3 +1,17 @@
+calcMatrixAxis <- function (n, numTicks = 12) {
+  if (n<=numTicks) {
+    return (1:n)
+  } else {
+    step = max(2, round(n/numTicks))
+    if (n>step) {
+      if ((n-1) %% step == 0) return (seq(1,n,by=step))
+      else return (c(seq(1,n-step,by=step),n))
+    } else {
+      return (c(1,n))
+    }
+  }
+}
+
 #' @title r.plot.matrix
 #' @export
 r.plot.matrix <- function(mat,
@@ -10,8 +24,17 @@ r.plot.matrix <- function(mat,
                           xlab = NULL,
                           ylab = NULL,
                           sub = NULL,
+                          margin = 0.5,
+                          marginX = margin,
+                          marginY = margin,
+                          ticksX = NULL,
+                          ticksY = NULL,
+                          numTicks = 12, 
+                          numTicksX = numTicks,
+                          numTicksY = numTicks,
                           ...)
 {
+  mat = t(mat)
   if (is.null(palette)) {
     if (centerZero) {
       if (0<=min(mat, na.rm=TRUE)) {
@@ -25,8 +48,15 @@ r.plot.matrix <- function(mat,
       }
     }
   }
-  r.plot.new(xlim=c(1,nrow(mat)),ylim=c(ncol(mat),1), 
-             background=FALSE, restore=FALSE, main=main, sub=sub, xlab=xlab, ylab=ylab, ...)
+  
+  if (is.null(ticksX)) ticksX = calcMatrixAxis(nrow(mat), numTicks=numTicksX)
+  if (is.null(ticksY)) ticksY = calcMatrixAxis(ncol(mat), numTicks=numTicksY)
+  r.plot.new(xlim=c(0+marginX,nrow(mat)+marginX),ylim=c(ncol(mat)+marginY,0+marginY), 
+             background=FALSE, restore=FALSE, 
+             main=main, sub=sub, xlab=xlab, ylab=ylab, 
+             xaxisAT=ticksX, yaxisAT=ticksY,
+             grid=FALSE,
+             ...)
   image(x=1:nrow(mat), y=1:ncol(mat), z=mat, 
         zlim=zlim,
         col=palette, 
@@ -46,11 +76,19 @@ r.plot.matrix.communities <- function(mat,
                                       xlab = NULL,
                                       ylab = NULL,
                                       sub = NULL,
+                                      margin = 0.5,
+                                      marginX = margin,
+                                      marginY = margin,
+                                      ticksX = NULL,
+                                      ticksY = NULL,
+                                      numTicks = 12, 
+                                      numTicksX = numTicks,
+                                      numTicksY = numTicks,                                      
                                       ...)
 {
   require(igraph)
   require(rmodel)
-  
+  mat = t(mat)
   adj = r.getAdj(abs(mat), quantileCutOff=quantileCutOff,
                  absolute = TRUE,
                  normalize = TRUE,
@@ -63,8 +101,14 @@ r.plot.matrix.communities <- function(mat,
   ord = order(membership(fc))
   mat = mat[ord, ord]
   
-  r.plot.new(xlim=c(1,nrow(mat)),ylim=c(ncol(mat),1), 
-             background=FALSE, restore=FALSE, main=main, sub=sub, xlab=xlab, ylab=ylab, ...)
+  if (is.null(ticksX)) ticksX = calcMatrixAxis(nrow(mat), numTicks=numTicksX)
+  if (is.null(ticksY)) ticksY = calcMatrixAxis(ncol(mat), numTicks=numTicksY)
+  r.plot.new(xlim=c(0+marginX,nrow(mat)+marginX),ylim=c(ncol(mat)+marginY,0+marginY), 
+             background=FALSE, restore=FALSE, 
+             main=main, sub=sub, xlab=xlab, ylab=ylab, 
+             xaxisAT=ticksX, yaxisAT=ticksY,
+             grid=FALSE,
+             ...)
   image(x=1:nrow(mat), y=1:ncol(mat), z=mat, 
         zlim=zlim,
         col=palette, 
@@ -80,5 +124,6 @@ r.plot.matrix.communities <- function(mat,
     lines(x=c(posMin,posMax), y=c(posMin,posMin))
   }  
   box(col=param.color.axis)
+  mat = t(mat)
   invisible(mat)
 }
