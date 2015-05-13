@@ -225,14 +225,23 @@ r.plot.graph.text(x, vertexLabelCex=0.5, edgeWidthMax=1.5)
 # Dimensionality Reduction ----
 r.plot2D.data(iris[,-5])
 r.plot2D.pca(iris[,-5])
-r.plot2D.nn(iris[,-5])
+# r.plot2D.nn(iris[,-5])
 km = kmeans(iris[,-5],3)
 r.plot2D.data(iris[,-5], clustModel=km$cluster)
 r.plot2D.pca(iris[,-5], clustModel=km$cluster)
-r.plot2D.nn(iris[,-5], clustModel=km$cluster)
+# r.plot2D.nn(iris[,-5], clustModel=km$cluster)
 r.plot2D.data(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
 r.plot2D.pca(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
-r.plot2D.nn(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
+# r.plot2D.nn(iris[,-5], clustModel=km$cluster, clustReal=iris[,5])
+
+km = kmeans(iris[,3:4],3)
+r.plot2D.data(iris[,3:4], clustModel=km$cluster, clustReal=iris$Species)
+abs(km$cluster-as.integer(iris$Species))
+abs(rmodel::r.clusters.rearrage(as.integer(iris$Species),km$cluster)-as.integer(iris$Species))
+
+ind = abs(rmodel::r.clusters.rearrage(as.integer(iris$Species),km$cluster)-as.integer(iris$Species))>0
+r.plot(iris[,3],iris[,4],icol=km$cluster)
+r.plot.add(iris[ind,3],iris[ind,4],col=rgb(0,0,0))
 
 # Binning ----
 r.plot(iris$Petal.Width, iris$Petal.Length)

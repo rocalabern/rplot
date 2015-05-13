@@ -8,9 +8,9 @@ r.plot2D.data <- function (
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T)
 {
-  require(rmodel)
-  clustReal = rmodel::r.toClusterGroups(clustReal)
-  clustModel = rmodel::r.toClusterGroups(clustModel)
+  if(!is.null(clustReal)) clustReal = as.integer(rmodel::r.toClusterGroups(clustReal))
+  if(!is.null(clustModel)) clustModel = as.integer(rmodel::r.toClusterGroups(clustModel))
+  if(!is.null(clustReal) && !is.null(clustModel)) clustModel = rmodel::r.clusters.rearrage(clustReal, clustModel)
   
   x = rmodel::r.toColumns(x)
   
@@ -44,9 +44,9 @@ r.plot2D.pca <- function (
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = T, yaxis = T, box = T)
 {
-  
-  clustReal = rmodel::r.toClusterGroups(clustReal)
-  clustModel = rmodel::r.toClusterGroups(clustModel)
+  if(!is.null(clustReal)) clustReal = as.integer(rmodel::r.toClusterGroups(clustReal))
+  if(!is.null(clustModel)) clustModel = as.integer(rmodel::r.toClusterGroups(clustModel))
+  if(!is.null(clustReal) && !is.null(clustModel)) clustModel = rmodel::r.clusters.rearrage(clustReal, clustModel)
   
   if(missing(pca)) {
     if (!missing(x) && !is.null(x)) {
@@ -91,8 +91,9 @@ r.plot2D.nn <- function (
 {
   require('neuralnet')
   
-  clustReal = rmodel::r.toClusterGroups(clustReal)
-  clustModel = rmodel::r.toClusterGroups(clustModel)
+  if(!is.null(clustReal)) clustReal = as.integer(rmodel::r.toClusterGroups(clustReal))
+  if(!is.null(clustModel)) clustModel = as.integer(rmodel::r.toClusterGroups(clustModel))
+  if(!is.null(clustReal) && !is.null(clustModel)) clustModel = rmodel::r.clusters.rearrage(clustReal, clustModel)
   
   x = rmodel::r.toColumns(x)
   

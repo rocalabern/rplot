@@ -1,3 +1,9 @@
+#' r.arraycompose
+#' @export
+r.arraycompose <- function(outer, inner, n=lenth(inner)) {
+  return (outer[1 + (inner[1+(1:n-1)%%length(inner)]-1)%%length(outer)])
+}
+
 #' r.color.setAlpha
 #' @template seealso_colors
 #' @template seealso_default
