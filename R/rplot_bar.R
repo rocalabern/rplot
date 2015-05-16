@@ -16,6 +16,8 @@ r.plot.bar <- function(
   thirdAxis = FALSE,
   main = NULL, sub = NULL, 
   xlab = NULL, ylab = NULL,
+  ylim = NULL,
+  extraMarge = 0.02,
   label.cex = 0.7,
   label.rotation = 45,
   label.adjX = 1.1,
@@ -123,10 +125,16 @@ r.plot.bar <- function(
   par(mar=c(par.bottom, par.left, par.top, par.right))
   setVar("par.last", par()$mar)
   
-  if (beside || length(dim(table))<=1) {
-    vallim = 1.02*max(table)
+  if (!is.null(ylim)) {
+    vallim = (1.0+extraMarge)*ylim
   } else {
-    vallim = 1.02*max(colSums(table))
+    if (beside || length(dim(table))<=1) {
+      if (min(table)>=0) vallim = c(0, (1.0+extraMarge)*max(table))
+      else vallim = c((1.0+extraMarge)*min(table), (1.0+extraMarge)*max(table))
+    } else {
+      if (min(colSums(table))>=0) vallim = c(0, (1.0+extraMarge)*max(colSums(table)))
+      else vallim = c((1.0+extraMarge)*min(colSums(table)), (1.0+extraMarge)*max(colSums(table)))
+    }
   }
   if (background) {
     if (horizontal) {
@@ -137,7 +145,7 @@ r.plot.bar <- function(
                    col=rgb(0,0,0,0), 
                    add=FALSE,
                    axes=FALSE,
-                   xlim=c(0,vallim),
+                   xlim=vallim,
                    ...)
     } else {
       mp = barplot(table, 
@@ -147,7 +155,7 @@ r.plot.bar <- function(
                    col=rgb(0,0,0,0), 
                    add=FALSE,
                    axes=FALSE,
-                   ylim=c(0,vallim),
+                   ylim=vallim,
                    ...)      
     }
     rect(par("usr")[1],par("usr")[3],par("usr")[2],par("usr")[4],col=backgroundCol, border=NA)
@@ -185,7 +193,7 @@ r.plot.bar <- function(
                    add=FALSE,
                    axes=FALSE,
                    main=main, sub=sub, xlab=xlab, ylab=ylab,
-                   xlim=c(0,vallim),
+                   xlim=vallim,
                    ...)
     } else {
       mp = barplot(table,
@@ -196,7 +204,7 @@ r.plot.bar <- function(
                    add=FALSE,
                    axes=FALSE,
                    main=main, sub=sub, xlab=xlab, ylab=ylab,
-                   ylim=c(0,vallim),
+                   ylim=vallim,
                    ...)      
     }
   }
