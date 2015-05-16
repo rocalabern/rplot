@@ -31,6 +31,7 @@ r.plot.bar <- function(
   axis = T, box = T,
   boxCol = param.color.box,
   useVector = FALSE,
+  autoTranspose = TRUE,
   ...)
 {
   if (is.null(col)) {
@@ -71,13 +72,30 @@ r.plot.bar <- function(
     if (missing(legend)) legend = FALSE
   } else if (is.table(data)) {
     table = data
-    if (length(dim(table))==1) col = colBar
+    if (autoTranspose && length(dim(table))==2 && dim(table)[2]==1) {
+      table = t(table)
+    }
+    if (length(dim(table))==1 || 
+        (length(dim(table))==2 && (dim(table)[1]==1))) col = colBar
     if (missing(legend)) {
-      if (length(dim(table))==1) legend = FALSE
+      if (length(dim(table))==1 || 
+          (length(dim(table))==2 && (dim(table)[1]==1))) legend = FALSE
+      else legend = TRUE
+    }
+  } else if (is.matrix(data)) {
+    table = as.table(data)
+    if (autoTranspose && length(dim(table))==2 && dim(table)[2]==1) {
+      table = t(table)
+    }
+    if (length(dim(table))==1 || 
+        (length(dim(table))==2 && (dim(table)[1]==1))) col = colBar
+    if (missing(legend)) {
+      if (length(dim(table))==1 || 
+          (length(dim(table))==2 && (dim(table)[1]==1))) legend = FALSE
       else legend = TRUE
     }
   } else {
-    stop("Only numeric, data.frame and table are valid")
+    stop("Only table, matrix, data.frame or numeric vector are valid")
   }
   
   if (missing(labelsX)) {
