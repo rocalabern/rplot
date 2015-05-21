@@ -175,6 +175,7 @@ r.plot.roc <- function (
   fill = TRUE,
   colorFill = r.color(1),
   colorArea = r.color(1),
+  showMessage = TRUE, 
   ...)
 {
   target = as.vector(target)
@@ -187,7 +188,7 @@ r.plot.roc <- function (
   y=as.numeric(unlist(perf@y.values))
   AUC = ROCR::performance(pred,"auc")@y.values[[1]]
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-  message(strAUC)
+  if(showMessage) message(strAUC)
   if (missing(sub)) sub = strAUC
   r.plot(x,y, 
          main=main,
@@ -211,12 +212,13 @@ r.plot.roc <- function (
 r.plot.gain <- function(
   score,
   target, 
-  npoints=20, 
-  perc=0.2, 
+  npoints = 20, 
+  perc = 0.2, 
   mode = "def", 
   main = "Gain Curve", 
   sub=NULL,
   icol = 1, col = NULL,
+  showMessage = TRUE,
   ...)
 {
   
@@ -228,7 +230,7 @@ r.plot.gain <- function(
     dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
     AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    message(strAUC)
+    if(showMessage) message(strAUC)
     if (missing(sub)) {
       sub = strAUC
 #       pos = 1+round(0.2*nrow(dataPos))
@@ -246,7 +248,7 @@ r.plot.gain <- function(
     data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
     AUC = rmodel::r.auc(data$perc, data$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    message(strAUC)
+    if(showMessage) message(strAUC)
     if (missing(sub)) {
       sub = strAUC
 #       pos = 1+round(0.2*nrow(data))
@@ -263,11 +265,12 @@ r.plot.gain <- function(
 r.plot.lift <- function(
   score,
   target, 
-  npoints=20, 
-  perc=0.2, 
+  npoints = 20, 
+  perc = 0.2, 
   icol = 1, col = NULL,
   main = "Lift Curve", 
-  sub=NULL,
+  sub = NULL,
+  showMessage = TRUE,
   ...)
 {
   if(missing(col) || is.null(col)) rcolor = r.color(icol)
@@ -280,7 +283,7 @@ r.plot.lift <- function(
   
   AUC = rmodel::r.auc(x,y)
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-  message(strAUC)
+  if(showMessage) message(strAUC)
   if (missing(sub)) {
     sub = strAUC
   }
