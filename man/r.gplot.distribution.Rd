@@ -4,8 +4,8 @@
 \alias{r.gplot.distribution}
 \title{r.gplot.distribution}
 \usage{
-r.gplot.distribution(var, color = rgb(0.3, 0.3, 0.6, 0.8), stroke = rgb(0,
-  0, 0, 0.2), title = NULL, xlab = NULL, ylab = NULL)
+r.gplot.distribution(var, color = r.color(1), stroke = rgb(0, 0, 0, 0.2),
+  title = NULL, xlab = NULL, ylab = NULL)
 }
 \description{
 r.gplot.distribution

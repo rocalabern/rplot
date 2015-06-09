@@ -279,4 +279,36 @@ r.iplot.smoothkmeans(iris[,-5])
 r.iplot2D.data(iris[,-5], clustReal = iris[,5])
 r.iplot2D.pca(iris[,-5], clustReal = iris[,5])
 
+# ggplot wrappers ----
+df = data.frame(id=rep(letters[1:2], 500), x=runif(1000), y=rnorm(1000))
+
+r.gplot(df$x, df$y)
+r.ggplot(df, "x", "y")
+
+df = data.frame(id=letters[10:1], value=runif(10))
+
+r.gplot.bar(df$id, df$value)
+r.gplot.bar(df$id, df$value, order=TRUE)
+r.gplot.bar(df$id, df$value, order=TRUE, orderRev=TRUE)
+
+df = data.frame(id=rep(letters[2:1], 1, each = 1000), x=c(runif(1000), rnorm(1000)))
+
+r.gplot.boxplot(df$x)
+r.gplot.boxplot(df$x, df$id)
+r.gplot.boxplot(df$x, df$id, order=TRUE)
+
+r.ggplot.boxplot(df, "x")
+r.ggplot.boxplot(df, "x", "id")
+r.ggplot.boxplot(df, "x", "id", order=TRUE)
+
+r.gplot.violin(df$x)
+r.gplot.violin(df$x, df$id)
+r.gplot.violin(df$x, df$id, order=TRUE)
+
+r.ggplot.violin(df, "x")
+r.ggplot.violin(df, "x", "id")
+r.ggplot.violin(df, "x", "id", order=TRUE)
+
+r.gplot.histogram(df$y)
+r.gplot.density(df$y)
 

@@ -13,9 +13,6 @@ r.plot.coord.axis(values = NULL, range = NULL, at = NULL, text = NULL,
 \description{
 Paints the new axis. Useful to create a 3rd axis.
 }
-\details{
-﻿
-}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

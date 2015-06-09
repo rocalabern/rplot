@@ -21,9 +21,6 @@ r.plot.new(x = NULL, y = NULL, xlim = c(0, 1), ylim = c(0, 1),
 \description{
 Creates a new plot with no data at all.
 }
-\details{
-﻿
-}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

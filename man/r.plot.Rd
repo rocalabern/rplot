@@ -18,9 +18,6 @@ r.plot(x = NULL, y = NULL, xlim = c(0, 1), ylim = c(0, 1),
 \description{
 Creates a new plot and plots some data.
 }
-\details{
-﻿
-}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

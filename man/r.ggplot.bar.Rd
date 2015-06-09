@@ -4,8 +4,8 @@
 \alias{r.ggplot.bar}
 \title{r.ggplot.bar}
 \usage{
-r.ggplot.bar(df, x, y, angle = 65, order = FALSE, orderType = "desc",
-  color = rgb(0.3, 0.3, 0.6, 0.8), stroke = rgb(0, 0, 0, 0.2),
+r.ggplot.bar(df, x, y, angle = 65, order = FALSE, orderRev = FALSE,
+  color = rplot:::param.color.bar, stroke = rgb(0, 0, 0, 0.2),
   title = NULL, xlab = NULL, ylab = NULL, stat = "identity")
 }
 \description{
