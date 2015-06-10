@@ -12,6 +12,9 @@ r.plot.add.expression(expression)
 \description{
 Add data to the current plot.
 }
+\details{
+﻿
+}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

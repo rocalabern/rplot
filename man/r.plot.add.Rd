@@ -15,6 +15,9 @@ r.plot.add(x = NULL, y = NULL, type = "p", lwd = 1, pch = 16,
 \description{
 Add data to the current plot.
 }
+\details{
+﻿
+}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

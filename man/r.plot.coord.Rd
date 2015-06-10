@@ -14,6 +14,9 @@ r.plot.coord(x = NULL, y = NULL, xlim = NULL, ylim = NULL)
 \description{
 Defines a complete new coord system to the current plot.
 }
+\details{
+﻿
+}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 

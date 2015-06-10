@@ -18,6 +18,9 @@ r.plot.legend(labels = NULL, legend.pos = "topright", legend.col = NULL,
 \description{
 Adds a legend.
 }
+\details{
+﻿
+}
 \seealso{
 Main: \code{\link{r.plot}} \code{\link{r.plot.add}} \code{\link{r.plot.new}}
 
