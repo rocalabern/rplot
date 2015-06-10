@@ -314,3 +314,69 @@ r.plot <- function (
   par(mar=par.default)
   invisible(NULL)
 }
+
+#' @title r.plot.add.expression
+#' @description Add data to the current plot.
+#' @param expression Expression to execute with last plot device.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @template seealso_colors
+#' @template seealso_default
+#' @template seealso_tools
+#' @export
+r.plot.add.expression <- function (expression)
+{
+  setVar("par.default", par()$mar)
+  par(mar=par.last)
+  eval(expression, globalenv())
+  par(mar=par.default)
+  invisible(NULL)
+}
+
+#' @title r.plot.legend
+#' @description Adds a legend.
+#' @param x Array of data for x axis.
+#' @param y Array of data for y axis.
+#' @template seealso_main
+#' @template seealso_3rdaxis
+#' @template seealso_colors
+#' @template seealso_default
+#' @template seealso_tools
+#' @export
+r.plot.legend <- function (
+  labels = NULL,
+  legend.pos = "topright",
+  legend.col = NULL,
+  legend.text.col = NULL,
+  legend.ncol = 2,
+  legend.pch = 16,
+  legend.cex = 0.6,
+  legend.lwd = 1,
+  legend.backgroundCol = rplot:::param.color.legend.background,
+  legend.rev = FALSE,
+  legend.bty = "o",  
+  boxCol = param.color.box,
+  ...)
+{
+  if (legend.rev) legend.labels = rev(legend.labels)
+  
+  if (is.null(legend.col)) legend.col = rplot:::r.colors
+  if (is.null(legend.text.col)) legend.text.col = rplot:::r.colors
+  
+  setVar("par.default", par()$mar)
+  par(mar=par.last)
+  legend(legend.pos, 
+         legend =labels, 
+         col = legend.col,
+         text.col = legend.text.col,
+         ncol = legend.ncol, 
+         pch = legend.pch,
+         cex = legend.cex, 
+         lwd = legend.lwd,
+         bg = legend.backgroundCol,
+         bty = legend.bty,
+         box.col = boxCol,
+         ...)
+  par(mar=par.default)
+  invisible(NULL)
+}

@@ -218,7 +218,8 @@ r.plot.bar <- function(
     legend(legend.pos, legend=rev(labelsY), col=rev(col), 
            pch=legend.pch, 
            cex=legend.cex,
-           bg = legend.backgroundCol)
+           bg = legend.backgroundCol,
+           box.col = boxCol)
   }
   if (!labelsXDefault && !is.null(labelsX) && !is.na(labelsX)) {
     if (length(dim(table))!=1 && beside) mp = matrix(apply(mp, 2, mean), ncol=1)

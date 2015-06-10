@@ -285,6 +285,9 @@ df = data.frame(id=rep(letters[1:2], 500), x=runif(1000), y=rnorm(1000))
 r.gplot(df$x, df$y)
 r.ggplot(df, "x", "y")
 
+r.gplot(df$x, df$y, type='l')
+r.ggplot(df, "x", "y", color=rgb(0.8,0,0,0.2), type='l')
+
 df = data.frame(id=letters[10:1], value=runif(10))
 
 r.gplot.bar(df$id, df$value)
@@ -309,6 +312,12 @@ r.ggplot.violin(df, "x")
 r.ggplot.violin(df, "x", "id")
 r.ggplot.violin(df, "x", "id", order=TRUE)
 
-r.gplot.histogram(df$y)
-r.gplot.density(df$y)
+r.gplot.histogram(df$x)
+r.gplot.density(df$x)
+
+# Execute expression with las plot decvice ----
+r.plot(matrixTimeSeries, main="A", xlab="A", ylab="A",sub="B")
+r.plot.legend(letters[1:10], legend.text.col = rgb(0,0,0))
+r.plot.add.expression({box(col=rgb(1,0,1))})
+box(col=rgb(1,0,0))
 
