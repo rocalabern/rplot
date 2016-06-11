@@ -10,7 +10,7 @@ r.plot.heatmap <- function (
   ybreaks = 20,
   levels = 12,
   smooth=0,
-  palette = heat.colors(levels),
+  palette = param.palette.heatmap,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
   xaxis = TRUE, yaxis = TRUE, box = TRUE,
   contour=TRUE, contourLevels=10, contourColor = rgb(0,0,0,0.4),

@@ -15,6 +15,8 @@ param.colors.default = r.colors
 param.color.alpha.default = param.color.alpha
 r.colors = adjustcolor(adjustcolor(r.colors, offset=c(0,0,0,-1)), offset=c(0,0,0,param.color.alpha))
 
+param.palette.heatmap = colorRampPalette(c(rgb(0.07,0.24,0.8), rgb(0.12,0.78,0.83), rgb(0.93,0.92,0.36), rgb(0.93,0.17,0.08), rgb(0.75,0.0,0.0)))(20)
+
 param.color.bar = rgb(0.85,0.72,0.2,0.5)
 param.margin = 1.0
 param.boxfigure.show = FALSE
@@ -60,6 +62,15 @@ setVar <- function (var, value) {
 #' @export
 r.setPalette <- function (palette) {
   setVar("r.colors", palette)
+}
+
+#' @title r.setPaletteHeatMap
+#' @seealso \code{\link{r.palette.set}}
+#' @template seealso_colors
+#' @template seealso_default
+#' @export
+r.setPaletteHeatMap <- function (palette) {
+  setVar("param.palette.heatmap", palette)
 }
 
 #' @title r.setColorBar

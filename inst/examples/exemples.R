@@ -152,7 +152,7 @@ r.plot.density(x)
 # Heatmap ----
 x = runif(5000)
 y = runif(5000)
-z = (x-0.7)^2+(y-0.6)^2
+z = -(x-0.7)^2-(y-0.6)^2
 r.plot.heatmap(x,y,z)
 r.plot.heatmap(x,y,z,mean)
 
