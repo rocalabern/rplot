@@ -4,7 +4,7 @@
 \alias{r.plot.gain}
 \title{r.plot.gain}
 \usage{
-r.plot.gain(score, target, npoints = 20, perc = 0.2, mode = "def",
+r.plot.gain(score, target, npoints = 20, mode = "def",
   main = "Gain Curve", sub = NULL, icol = 1, col = NULL,
   showMessage = TRUE, ...)
 }

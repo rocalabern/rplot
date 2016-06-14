@@ -4,7 +4,7 @@
 \alias{r.plot.lift}
 \title{r.plot.lift}
 \usage{
-r.plot.lift(score, target, npoints = 20, perc = 0.2, icol = 1,
-  col = NULL, main = "Lift Curve", sub = NULL, showMessage = TRUE, ...)
+r.plot.lift(score, target, npoints = 20, icol = 1, col = NULL,
+  main = "Lift Curve", sub = NULL, showMessage = TRUE, ...)
 }
 

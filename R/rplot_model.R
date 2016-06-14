@@ -163,110 +163,12 @@ r.plot.F1 <- function(
   }  
 }
 
-#' @title r.plot.roc
-#' @export
-r.plot.roc <- function (
-  score,
-  target, 
-  main = "ROC Curve", 
-  xlab = "1-specificity    tn/(tn+fp)", 
-  ylab = "sensitivity    tp/(tp+fn)",
-  sub = NULL,
-  fill = TRUE,
-  colorFill = r.color(1),
-  colorArea = r.color(1),
-  showMessage = TRUE, 
-  ...)
-{
-  target = as.vector(target)
-  score = as.vector(score)
-  if(length(target)!=length(score)) stop("[Error] Different length for score and target.")
-  
-  pred <- ROCR::prediction(score, target)
-  perf <- ROCR::performance(pred, measure = "tpr", x.measure = "fpr") 
-  x=as.numeric(unlist(perf@x.values))
-  y=as.numeric(unlist(perf@y.values))
-  AUC = ROCR::performance(pred,"auc")@y.values[[1]]
-  strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-  if(showMessage) message(strAUC)
-  if (missing(sub)) sub = strAUC
-  r.plot(x,y, 
-         main=main,
-         xlab=xlab,
-         ylab=ylab,
-         sub=strAUC, 
-         col=colorFill,
-         type='l')
-  if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
-}
-
-#' @title r.plot.gain
-#' @param mode 
-#' \cr "def" = As it is
-#' \cr "rnd" = Random
-#' \cr "pos" = Optimist/Positive (Maximum)
-#' \cr "neg" = Pessimist/Negative (Minimum)
-#' \cr "avg" = Average of Optimist and Pessimist
-#' \cr "area" = Area between Optimist and Pessimist
-#' @export
-r.plot.gain <- function(
-  score,
-  target, 
-  npoints = 20, 
-  perc = 0.2, 
-  mode = "def", 
-  main = "Gain Curve", 
-  sub=NULL,
-  icol = 1, col = NULL,
-  showMessage = TRUE,
-  ...)
-{
-  
-  if(missing(col) || is.null(col)) rcolor = r.color(icol)
-  else rcolor = col
-  
-  if (mode=="area") {
-    dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos")
-    dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
-    AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
-    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    if(showMessage) message(strAUC)
-    if (missing(sub)) {
-      sub = strAUC
-#       pos = 1+round(0.2*nrow(dataPos))
-#       sub = paste0("p_{", dataPos$perc[pos], "}=", formatC(100*(0.5*dataPos$gain[pos]+0.5*dataNeg$gain[pos]), format="f", width=4), "%")
-    }
-    
-    r.plot.new(x=dataPos$perc, y=dataPos$perc, main=main, sub=sub, ...)
-    r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8), type="l")      
-    r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor, type="l")
-    r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor, type="l")
-    polygon(c(dataNeg$perc, rev(dataPos$perc)),
-            c(dataNeg$gain, rev(dataPos$gain)),
-            col=rcolor,  border = NA)
-  } else {
-    data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
-    AUC = rmodel::r.auc(data$perc, data$gain)
-    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    if(showMessage) message(strAUC)
-    if (missing(sub)) {
-      sub = strAUC
-#       pos = 1+round(0.2*nrow(data))
-#       sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
-    }
-    r.plot.new(x=data$perc, y=data$perc, main=main, sub=sub, ...)
-    r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8), type="l") 
-    r.plot.add(x=data$perc, y=data$gain, col=rcolor, type="l")
-  }  
-}
-
 #' @title r.plot.lift
 #' @export
 r.plot.lift <- function(
   score,
   target, 
   npoints = 20, 
-  perc = 0.2, 
   icol = 1, col = NULL,
   main = "Lift Curve", 
   sub = NULL,
@@ -402,4 +304,185 @@ r.plot.burbujas <- function(datos, segmentacion, target,
     meanTarget = rmodel::r.mean(datos[, target])
     r.plot.add(y=c(meanTarget, meanTarget), x=c(-2*(100+max(abs(burbujaV))),2*(100+max(abs(burbujaV)))), type="l", col=rgb(1,0,0, 0.3))
   }
+}
+
+#' @title r.plot.roc
+#' @export
+r.plot.roc <- function (
+  score,
+  target, 
+  main = "ROC Curve", 
+  xlab = "1-specificity    tn/(tn+fp)", 
+  ylab = "sensitivity    tp/(tp+fn)",
+  sub = NULL,
+  fill = TRUE,
+  colorFill = r.color(1),
+  colorArea = r.color(1),
+  showMessage = TRUE, 
+  ...)
+{
+  target = as.vector(target)
+  score = as.vector(score)
+  if(length(target)!=length(score)) stop("[Error] Different length for score and target.")
+  
+  pred <- ROCR::prediction(score, target)
+  perf <- ROCR::performance(pred, measure = "tpr", x.measure = "fpr") 
+  x=as.numeric(unlist(perf@x.values))
+  y=as.numeric(unlist(perf@y.values))
+  AUC = ROCR::performance(pred,"auc")@y.values[[1]]
+  strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+  if(showMessage) message(strAUC)
+  if (missing(sub)) sub = strAUC
+  r.plot(x,y, 
+         main=main,
+         xlab=xlab,
+         ylab=ylab,
+         sub=strAUC, 
+         col=colorFill,
+         type='l')
+  if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
+}
+
+#' @title r.plot.gain
+#' @param mode 
+#' \cr "def" = As it is
+#' \cr "rnd" = Random
+#' \cr "pos" = Optimist/Positive (Maximum)
+#' \cr "neg" = Pessimist/Negative (Minimum)
+#' \cr "avg" = Average of Optimist and Pessimist
+#' \cr "area" = Area between Optimist and Pessimist
+#' @export
+r.plot.gain <- function(
+  score,
+  target, 
+  npoints = 20, 
+  mode = "def", 
+  main = "Gain Curve", 
+  sub=NULL,
+  icol = 1, col = NULL,
+  showMessage = TRUE,
+  ...)
+{
+  
+  if(missing(col) || is.null(col)) rcolor = r.color(icol)
+  else rcolor = col
+  
+  if (mode=="area") {
+    dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos")
+    dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
+    AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
+    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+    if(showMessage) message(strAUC)
+    if (missing(sub)) {
+      sub = strAUC
+      # perc = 0.2
+      # pos = 1+round(perc*nrow(dataPos))
+      # sub = paste0("p_{", dataPos$perc[pos], "}=", formatC(100*(0.5*dataPos$gain[pos]+0.5*dataNeg$gain[pos]), format="f", width=4), "%")
+    }
+    
+    r.plot.new(x=dataPos$perc, y=dataPos$perc, main=main, sub=sub, ...)
+    r.plot.add(x=dataPos$perc, y=dataPos$perc, col=rgb(0,0,0,0.8), type="l")      
+    r.plot.add(x=dataPos$perc, y=dataPos$gain, col=rcolor, type="l")
+    r.plot.add(x=dataPos$perc, y=dataNeg$gain, col=rcolor, type="l")
+    polygon(c(dataNeg$perc, rev(dataPos$perc)),
+            c(dataNeg$gain, rev(dataPos$gain)),
+            col=rcolor,  border = NA)
+  } else {
+    data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
+    AUC = rmodel::r.auc(data$perc, data$gain)
+    strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
+    if(showMessage) message(strAUC)
+    if (missing(sub)) {
+      sub = strAUC
+      # perc = 0.2
+      # pos = 1+round(perc*nrow(data))
+      # sub = paste0("p_{", data$perc[pos], "}=", formatC(100*data$gain[pos], format="f", width=4), "%")
+    }
+    r.plot.new(x=data$perc, y=data$perc, main=main, sub=sub, ...)
+    r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8), type="l") 
+    r.plot.add(x=data$perc, y=data$gain, col=rcolor, type="l")
+  }  
+}
+
+#' @title r.plot.rocs
+#' @export
+r.plot.rocs <- function (
+  score.train,
+  target.train,
+  score.test,
+  target.test,
+  main = "ROC Curve",
+  xlab = "1-specificity    tn/(tn+fp)",
+  ylab = "sensitivity    tp/(tp+fn)",
+  sub = NULL,
+  icol.train = 1,
+  icol.test = 2,
+  col.train = r.color(icol.train),
+  col.test = r.color(icol.test),
+  showMessage = TRUE,
+  ...)
+{
+  target.train = as.vector(target.train)
+  score.train = as.vector(score.train)
+  target.test = as.vector(target.test)
+  score.test = as.vector(score.test)
+  if(length(target.train)!=length(score.train)) stop("[Error] Different length for score and target. (train)")
+  if(length(target.test)!=length(score.test)) stop("[Error] Different length for score and target. (test)")
+  
+  pred.roc.train = ROCR::prediction(probTarget.Train, varTarget.Train)
+  perf.roc.train <- ROCR::performance(pred.roc.train, measure = "tpr", x.measure = "fpr")
+  x.roc.train=as.numeric(unlist(perf.roc.train@x.values))
+  y.roc.train=as.numeric(unlist(perf.roc.train@y.values))
+  AUC.roc.train = ROCR::performance(pred.roc.train,"auc")@y.values[[1]]
+  pred.roc.test = ROCR::prediction(probTarget.Test, varTarget.Test)
+  perf.roc.test <- ROCR::performance(pred.roc.test, measure = "tpr", x.measure = "fpr")
+  x.roc.test=as.numeric(unlist(perf.roc.test@x.values))
+  y.roc.test=as.numeric(unlist(perf.roc.test@y.values))
+  AUC.roc.test = ROCR::performance(pred.roc.test,"auc")@y.values[[1]]
+  strAUC = paste0("AUC = ", sprintf("%.05f", AUC.roc.train), " | AUC = ", sprintf("%.05f", AUC.roc.test))
+  if(showMessage) message(strAUC)
+  r.plot.new(c(0,1), c(0,1), main = main, xlab = xlab, ylab = ylab, sub=strAUC)
+  r.plot.add(x.roc.train, y.roc.train, col=col.train, type='l')
+  r.plot.add(x.roc.test, y.roc.test, sub=strAUC, col=col.test, type='l')
+}
+
+#' @title r.plot.gains
+#' @param mode
+#' \cr "def" = As it is
+#' \cr "rnd" = Random
+#' \cr "pos" = Optimist/Positive (Maximum)
+#' \cr "neg" = Pessimist/Negative (Minimum)
+#' \cr "avg" = Average of Optimist and Pessimist
+#' @export
+r.plot.gains <- function(
+  score.train,
+  target.train,
+  score.test,
+  target.test,
+  npoints = 20,
+  mode = "def",
+  main = "Gain Curve",
+  sub = NULL,
+  icol.train = 1,
+  icol.test = 2,
+  col.train = r.color(icol.train),
+  col.test = r.color(icol.test),
+  showMessage = TRUE,
+  ...)
+{
+  data.train = rmodel::r.gains(score.train, target.train, npoints=npoints, mode=mode)
+  AUC.train = rmodel::r.auc(data.train$perc, data.train$gain)
+  
+  data.test = rmodel::r.gains(score.test, target.test, npoints=npoints, mode=mode)
+  AUC.test = rmodel::r.auc(data.test$perc, data.test$gain)
+  
+  strAUC = paste0("AUC = ", sprintf("%.05f", AUC.train)," | AUC = ", sprintf("%.05f", AUC.test))
+  if(showMessage) message(strAUC)
+  if (missing(sub)) {
+    sub = strAUC
+  }
+  r.plot.new(c(0,1), c(0,1), main=main, sub=strAUC)
+  r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
+  r.plot.add(x=data.train$perc, y=data.train$gain, col=col.train, type="l")
+  r.plot.add(x=data.test$perc, y=data.test$gain, col=col.test, type="l")
 }
