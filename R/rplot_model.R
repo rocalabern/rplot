@@ -429,12 +429,12 @@ r.plot.rocs <- function (
   if(length(target.train)!=length(score.train)) stop("[Error] Different length for score and target. (train)")
   if(length(target.test)!=length(score.test)) stop("[Error] Different length for score and target. (test)")
   
-  pred.roc.train = ROCR::prediction(probTarget.Train, varTarget.Train)
+  pred.roc.train = ROCR::prediction(score.train, target.train)
   perf.roc.train <- ROCR::performance(pred.roc.train, measure = "tpr", x.measure = "fpr")
   x.roc.train=as.numeric(unlist(perf.roc.train@x.values))
   y.roc.train=as.numeric(unlist(perf.roc.train@y.values))
   AUC.roc.train = ROCR::performance(pred.roc.train,"auc")@y.values[[1]]
-  pred.roc.test = ROCR::prediction(probTarget.Test, varTarget.Test)
+  pred.roc.test = ROCR::prediction(score.test, target.test)
   perf.roc.test <- ROCR::performance(pred.roc.test, measure = "tpr", x.measure = "fpr")
   x.roc.test=as.numeric(unlist(perf.roc.test@x.values))
   y.roc.test=as.numeric(unlist(perf.roc.test@y.values))
@@ -442,6 +442,7 @@ r.plot.rocs <- function (
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC.roc.train), " | AUC = ", sprintf("%.05f", AUC.roc.test))
   if(showMessage) message(strAUC)
   r.plot.new(c(0,1), c(0,1), main = main, xlab = xlab, ylab = ylab, sub=strAUC)
+  r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
   r.plot.add(x.roc.train, y.roc.train, col=col.train, type='l')
   r.plot.add(x.roc.test, y.roc.test, sub=strAUC, col=col.test, type='l')
 }
