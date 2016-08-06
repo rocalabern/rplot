@@ -1,3 +1,5 @@
+# roxygen2::roxygenise()
+
 #' @title r.plot.close
 #' @template seealso_tools
 #' @export
@@ -110,6 +112,10 @@ r.plot.new <- function (
   axisCol = param.color.axis,
   boxCol = param.color.box,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL,
+  par.top.extra = 0,
+  par.bottom.extra = 0,
+  par.left.extra = 0,
+  par.right.extra = 0,
   xaxis = T, yaxis = T, box = T,
   xaxisAT = NULL, yaxisAT = NULL,
   log = "", asp = NA,
@@ -130,7 +136,7 @@ r.plot.new <- function (
     ifelse(is.null(xlab),0,1) + length(grep("\n", xlab))
   par.left = param.margin + 2 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
   par.right = param.margin + ifelse(thirdAxis,2,0)
-  par(mar=c(par.bottom, par.left, par.top, par.right))
+  par(mar=c(par.bottom+par.bottom.extra, par.left+par.left.extra, par.top+par.top.extra, par.right+par.right.extra))
   setVar("par.last", par()$mar)
   
   plot.new()

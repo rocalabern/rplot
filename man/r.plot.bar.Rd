@@ -14,8 +14,9 @@ r.plot.bar(data, labelsX = NULL, labelsY = NULL, labelsXDefault = FALSE,
   legend.backgroundCol = param.color.legend.background, background = T,
   grid = T, backgroundCol = param.color.background,
   foregroundCol = param.color.foreground, axisCol = param.color.axis,
-  axis = T, box = T, boxCol = param.color.box, useVector = FALSE,
-  autoTranspose = TRUE, ...)
+  axis = T, box = T, boxCol = param.color.box, par.top.extra = 0,
+  par.bottom.extra = 0, par.left.extra = 0, par.right.extra = 0,
+  useVector = FALSE, autoTranspose = TRUE, ...)
 }
 \seealso{
 \code{\link{barplot}}

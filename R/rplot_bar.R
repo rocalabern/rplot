@@ -1,3 +1,5 @@
+# roxygen2::roxygenise()
+
 #' @title r.plot.bar 
 #' @seealso \code{\link{barplot}}
 #' @template seealso_wrappers
@@ -32,6 +34,10 @@ r.plot.bar <- function(
   axisCol = param.color.axis,
   axis = T, box = T,
   boxCol = param.color.box,
+  par.top.extra = 0,
+  par.bottom.extra = 0,
+  par.left.extra = 0,
+  par.right.extra = 0,
   useVector = FALSE,
   autoTranspose = TRUE,
   ...)
@@ -122,7 +128,7 @@ r.plot.bar <- function(
     ifelse(is.null(xlab),0,1) + length(grep("\n", xlab))
   par.left = param.margin + 2 + ifelse(is.null(ylab),0,1) + length(grep("\n", ylab))
   par.right = param.margin + ifelse(thirdAxis,2,0)
-  par(mar=c(par.bottom, par.left, par.top, par.right))
+  par(mar=c(par.bottom+par.bottom.extra, par.left+par.left.extra, par.top+par.top.extra, par.right+par.right.extra))
   setVar("par.last", par()$mar)
   
   if (!is.null(ylim)) {
@@ -181,7 +187,8 @@ r.plot.bar <- function(
                  col=col,
                  add=TRUE,
                  axes=FALSE,
-                 main=main, sub=sub, xlab=xlab, ylab=ylab,
+                 # main=main, sub=sub, xlab=xlab, ylab=ylab,
+                 main=main, xlab=xlab, ylab=ylab,
                  ...)  
   } else {
     if (horizontal) {
@@ -192,7 +199,8 @@ r.plot.bar <- function(
                    col=col, 
                    add=FALSE,
                    axes=FALSE,
-                   main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   # main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   # main=main, xlab=xlab, ylab=ylab,
                    xlim=vallim,
                    ...)
     } else {
@@ -203,7 +211,8 @@ r.plot.bar <- function(
                    col=col, 
                    add=FALSE,
                    axes=FALSE,
-                   main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   # main=main, sub=sub, xlab=xlab, ylab=ylab,
+                   main=main, xlab=xlab, ylab=ylab,
                    ylim=vallim,
                    ...)      
     }
@@ -237,5 +246,8 @@ r.plot.bar <- function(
   }
   if(box) box(col=boxCol)
   par(mar=par.default)
+  if (!is.null(sub)) {
+    title(sub=sub)
+  }
   invisible(NULL)
 }
