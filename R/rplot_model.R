@@ -1,3 +1,5 @@
+# roxygen2::roxygenise()
+
 #' @title formatInt
 #' @export
 formatInt <- function (
@@ -341,6 +343,7 @@ r.plot.roc <- function (
          col=colorFill,
          type='l')
   if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
+  invisible(AUC)
 }
 
 #' @title r.plot.gain
@@ -401,7 +404,8 @@ r.plot.gain <- function(
     r.plot.new(x=data$perc, y=data$perc, main=main, sub=sub, ...)
     r.plot.add(x=data$perc, y=data$perc, col=rgb(0,0,0,0.8), type="l") 
     r.plot.add(x=data$perc, y=data$gain, col=rcolor, type="l")
-  }  
+  }
+  invisible(AUC)
 }
 
 #' @title r.plot.rocs
@@ -445,6 +449,7 @@ r.plot.rocs <- function (
   r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
   r.plot.add(x.roc.train, y.roc.train, col=col.train, type='l')
   r.plot.add(x.roc.test, y.roc.test, sub=strAUC, col=col.test, type='l')
+  invisible(list(AUC.roc.train=AUC.roc.train, AUC.roc.test=AUC.roc.test))
 }
 
 #' @title r.plot.gains
@@ -486,4 +491,5 @@ r.plot.gains <- function(
   r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
   r.plot.add(x=data.train$perc, y=data.train$gain, col=col.train, type="l")
   r.plot.add(x=data.test$perc, y=data.test$gain, col=col.test, type="l")
+  invisible(list(AUC.train=AUC.train, AUC.test=AUC.test))
 }
