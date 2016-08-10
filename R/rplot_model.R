@@ -175,12 +175,13 @@ r.plot.lift <- function(
   main = "Lift Curve", 
   sub = NULL,
   showMessage = TRUE,
+  target_value = NULL,
   ...)
 {
   if(missing(col) || is.null(col)) rcolor = r.color(icol)
   else rcolor = col
 
-  data = rmodel::r.gains(score, target, npoints=npoints, mode="rnd")
+  data = rmodel::r.gains(score, target, npoints=npoints, mode="rnd", target_value=target_value)
   ind = data$perc>0
   x = data$perc[ind]
   y = data$gain[ind]/data$perc[ind]
@@ -364,6 +365,7 @@ r.plot.gain <- function(
   sub=NULL,
   icol = 1, col = NULL,
   showMessage = TRUE,
+  target_value = NULL,
   ...)
 {
   
@@ -371,8 +373,8 @@ r.plot.gain <- function(
   else rcolor = col
   
   if (mode=="area") {
-    dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos")
-    dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg")
+    dataPos = rmodel::r.gains(score, target, npoints=npoints, mode="pos", target_value=target_value)
+    dataNeg = rmodel::r.gains(score, target, npoints=npoints, mode="neg", target_value=target_value)
     AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
     if(showMessage) message(strAUC)
@@ -391,7 +393,7 @@ r.plot.gain <- function(
             c(dataNeg$gain, rev(dataPos$gain)),
             col=rcolor,  border = NA)
   } else {
-    data = rmodel::r.gains(score, target, npoints=npoints, mode=mode)
+    data = rmodel::r.gains(score, target, npoints=npoints, mode=mode, target_value=target_value)
     AUC = rmodel::r.auc(data$perc, data$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
     if(showMessage) message(strAUC)
@@ -474,12 +476,13 @@ r.plot.gains <- function(
   col.train = r.color(icol.train),
   col.test = r.color(icol.test),
   showMessage = TRUE,
+  target_value = NULL,
   ...)
 {
-  data.train = rmodel::r.gains(score.train, target.train, npoints=npoints, mode=mode)
+  data.train = rmodel::r.gains(score.train, target.train, npoints=npoints, mode=mode, target_value=target_value)
   AUC.train = rmodel::r.auc(data.train$perc, data.train$gain)
   
-  data.test = rmodel::r.gains(score.test, target.test, npoints=npoints, mode=mode)
+  data.test = rmodel::r.gains(score.test, target.test, npoints=npoints, mode=mode, target_value=target_value)
   AUC.test = rmodel::r.auc(data.test$perc, data.test$gain)
   
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC.train)," | AUC = ", sprintf("%.05f", AUC.test))

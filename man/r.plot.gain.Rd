@@ -6,7 +6,7 @@
 \usage{
 r.plot.gain(score, target, npoints = 20, mode = "def",
   main = "Gain Curve", sub = NULL, icol = 1, col = NULL,
-  showMessage = TRUE, ...)
+  showMessage = TRUE, target_value = NULL, ...)
 }
 \arguments{
 \item{mode}{\cr "def" = As it is
