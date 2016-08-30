@@ -5,8 +5,8 @@
 \title{r.plot.rocs}
 \usage{
 r.plot.rocs(score.train, target.train, score.test, target.test,
-  main = "ROC Curve", xlab = "1-specificity    tn/(tn+fp)",
-  ylab = "sensitivity    tp/(tp+fn)", sub = NULL, icol.train = 1,
+  main = "ROC Curve", xlab = "1-specificity | FPR | fp/(tn+fp)",
+  ylab = "sensitivity | TPR | tp/(tp+fn)", sub = NULL, icol.train = 1,
   icol.test = 2, col.train = r.color(icol.train),
   col.test = r.color(icol.test), showMessage = TRUE, ...)
 }
