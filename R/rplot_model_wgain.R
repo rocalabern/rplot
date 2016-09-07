@@ -32,7 +32,7 @@ r.plot.wgain <- function(
     dataNeg = rmodel::r.gains(score, target_w, npoints=npoints, mode="neg", target_value=NULL)
     AUC = rmodel::r.auc(dataPos$perc, 0.5*dataPos$gain+0.5*dataNeg$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    if(showMessage) message(strAUC)
+    if (showMessage) message(strAUC)
     if (missing(sub)) {
       sub = strAUC
       # perc = 0.2
@@ -51,7 +51,7 @@ r.plot.wgain <- function(
     data = rmodel::r.gains(score, target_w, npoints=npoints, mode=mode, target_value=NULL)
     AUC = rmodel::r.auc(data$perc, data$gain)
     strAUC = paste0("AUC = ", sprintf("%.05f", AUC))
-    if(showMessage) message(strAUC)
+    if (showMessage) message(strAUC)
     if (missing(sub)) {
       sub = strAUC
       # perc = 0.2
@@ -106,13 +106,13 @@ r.plot.wgains <- function(
   AUC.test = rmodel::r.auc(data.test$perc, data.test$gain)
   
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC.train)," | AUC = ", sprintf("%.05f", AUC.test))
-  if(showMessage) message(strAUC)
+  if (showMessage) message(strAUC)
   if (missing(sub)) {
     sub = strAUC
   }
   r.plot.new(c(0,1), c(0,1), main=main, sub=strAUC)
   r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
-  if(showMax) r.plot.add(c(0,length(which(c(target.train,target.test)==target_value))/(length(target.train)+length(target.test)),1),c(0,1,1), col=col.max, type="l")
+  if (showMax) r.plot.add(c(0,length(which(c(target.train,target.test)==target_value))/(length(target.train)+length(target.test)),1),c(0,1,1), col=col.max, type="l")
   # if(showMax) {
     # r.plot.add(c(0,sum(target_w.train)/sum(weight.train),1),c(0,1,1), col=col.max, type="l")
     # r.plot.add(c(0,sum(target_w.test)/sum(weight.test),1),c(0,1,1), col=col.max, type="l")
