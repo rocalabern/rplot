@@ -5,7 +5,8 @@
 \title{r.plot.lifts}
 \usage{
 r.plot.lifts(score.train, target.train, score.test, target.test, npoints = 20,
-  icol = 1, col = r.color(icol), main = "Lift Curve", sub = NULL,
+  icol.train = 1, icol.test = 2, col.train = r.color(icol.train),
+  col.test = r.color(icol.test), main = "Lift Curve", sub = NULL,
   showMessage = TRUE, target_value = NULL, ...)
 }
 
