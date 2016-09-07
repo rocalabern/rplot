@@ -7,7 +7,7 @@
 r.plot.roc(score, target, main = "ROC Curve",
   xlab = "1-specificity    |    FPR    |    fp/(tn+fp)",
   ylab = "sensitivity    |    TPR    |    tp/(tp+fn)", sub = NULL,
-  fill = TRUE, colorFill = r.color(1), colorArea = r.color(1),
+  fill = FALSE, colorFill = r.color(1), colorArea = r.color(1),
   showMessage = TRUE, ...)
 }
 

@@ -316,7 +316,7 @@ r.plot.roc <- function (
   xlab = "1-specificity    |    FPR    |    fp/(tn+fp)", 
   ylab = "sensitivity    |    TPR    |    tp/(tp+fn)",
   sub = NULL,
-  fill = TRUE,
+  fill = FALSE,
   colorFill = r.color(1),
   colorArea = r.color(1),
   showMessage = TRUE, 
@@ -338,7 +338,7 @@ r.plot.roc <- function (
          main=main,
          xlab=xlab,
          ylab=ylab,
-         sub=strAUC, 
+         sub=sub, 
          col=colorFill,
          type='l')
   if (fill) polygon(c(x,rev(x)), c(y,numeric(length(y))), border=rgb(0,0,0,0), col=colorArea)
@@ -360,7 +360,7 @@ r.plot.gain <- function(
   npoints = 20, 
   mode = "def", 
   main = "Gain Curve", 
-  sub=NULL,
+  sub = NULL,
   icol = 1, 
   icol.max = 11,
   col = r.color(icol),
@@ -449,10 +449,11 @@ r.plot.rocs <- function (
   AUC.roc.test = ROCR::performance(pred.roc.test,"auc")@y.values[[1]]
   strAUC = paste0("AUC = ", sprintf("%.05f", AUC.roc.train), " | AUC = ", sprintf("%.05f", AUC.roc.test))
   if(showMessage) message(strAUC)
-  r.plot.new(c(0,1), c(0,1), main = main, xlab = xlab, ylab = ylab, sub=strAUC)
+  if (missing(sub)) sub = strAUC
+  r.plot.new(c(0,1), c(0,1), main = main, xlab = xlab, ylab = ylab, sub = sub)
   r.plot.add(x=c(0,1), y=c(0,1), col=rgb(0,0,0,0.8), type="l")
   r.plot.add(x.roc.train, y.roc.train, col=col.train, type='l')
-  r.plot.add(x.roc.test, y.roc.test, sub=strAUC, col=col.test, type='l')
+  r.plot.add(x.roc.test, y.roc.test, col=col.test, type='l')
   invisible(list(AUC.roc.train=AUC.roc.train, AUC.roc.test=AUC.roc.test))
 }
 
