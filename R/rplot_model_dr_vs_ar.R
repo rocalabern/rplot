@@ -225,15 +225,15 @@ r.gplot.dr_vs_ar <- function(
   for(i in score_seq) {
     cond_score <- score < i
     iDf <- data.frame(cutoff = i, 
-                      acceptance = sum(cond_score)/length(score),
+                      AR = sum(cond_score)/length(score),
                       DR = sum(target[cond_score])/length(target[cond_score]),
                       DR_amount = sum(weight[cond_score & target == 1])/sum(weight[cond_score]))
     scoreDf <- rbind(scoreDf, iDf)
   }
-  data$DR[data$AR == 0] = 0
-  data$DR_amount[data$AR == 0] = 0
+  scoreDf$DR[scoreDf$AR == 0] = 0
+  scoreDf$DR_amount[scoreDf$AR == 0] = 0
   
-  g1 <- ggplot(scoreDf, aes(cutoff, acceptance)) + 
+  g1 <- ggplot(scoreDf, aes(cutoff, AR)) + 
     geom_line() + 
     geom_vline(xintercept = threshold, col = "red", alpha = 0.8) +
     xlab("cutoff") + ylab("% Acceptance") + 
@@ -245,7 +245,7 @@ r.gplot.dr_vs_ar <- function(
     xlab("cutoff") + ylab("% Default (weighted)") + 
     ggtitle(title)
   
-  g3 <- ggplot(scoreDf, aes(acceptance, DR)) + 
+  g3 <- ggplot(scoreDf, aes(AR, DR)) + 
     geom_line(data=data.frame(x=c(0,1), y=c(total_DR, total_DR)), aes(x,y), col="#000000CC") +
     geom_line(data=data.frame(x=c(0,1-total_DR,1), y=c(0,0,total_DR)), aes(x,y), col="#666666A6") +
     geom_line() + 
@@ -253,7 +253,7 @@ r.gplot.dr_vs_ar <- function(
     xlab("% Acceptance") + ylab("% Default") +
     ggtitle(title)
   
-  g4 <- ggplot(scoreDf, aes(acceptance, DR_amount)) + 
+  g4 <- ggplot(scoreDf, aes(AR, DR_amount)) + 
     geom_line(data=data.frame(x=c(0,1), y=c(total_DR_amount, total_DR_amount)), aes(x,y), col="#000000CC") +
     geom_line(data=data.frame(x=c(0,1-total_DR_amount,1), y=c(0,0,total_DR_amount)), aes(x,y), col="#666666A6") +
     geom_line() + 
