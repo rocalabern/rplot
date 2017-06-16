@@ -31,6 +31,8 @@ r.plot.ar <- function(
       )
     data <- rbind(data, iDf)
   }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
   
   r.plot.new(x=data$cutoff, y=data$AR, main=main, sub=sub, xlab=xlab, ylab=xlab, ...)
   r.plot.add(x=data$cutoff, y=data$AR, col=col, type="l")
@@ -69,6 +71,8 @@ r.plot.dr <- function(
       )
     data <- rbind(data, iDf)
   }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
   
   if (length(unique(range(weight)))>1) ylab = paste0(ylab, " (weighted)")
   
@@ -112,6 +116,8 @@ r.plot.dr_vs_ar <- function(
       )
     data <- rbind(data, iDf)
   }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
   
   if (length(unique(range(weight)))>1) ylab = paste0(ylab, " (weighted)")
   
@@ -157,6 +163,8 @@ r.plot.dr_vs_ar_all <- function(
       )
     data <- rbind(data, iDf)
   }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
   
   r.plot.new(x=data$cutoff, y=data$AR, main=main, sub=sub, xlab="cutoff", ylab=xlab, ...)
   r.plot.add(x=data$cutoff, y=data$AR, col=col, type="l")
@@ -222,6 +230,8 @@ r.gplot.dr_vs_ar <- function(
                       DR_amount = sum(weight[cond_score & target == 1])/sum(weight[cond_score]))
     scoreDf <- rbind(scoreDf, iDf)
   }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
   
   g1 <- ggplot(scoreDf, aes(cutoff, acceptance)) + 
     geom_line() + 
