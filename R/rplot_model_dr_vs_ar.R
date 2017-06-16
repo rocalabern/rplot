@@ -236,16 +236,16 @@ r.gplot.dr_vs_ar <- function(
     ggtitle(title)
   
   g3 <- ggplot(scoreDf, aes(acceptance, DR)) + 
-    geom_line(data.frame(x=c(0,1), y=c(total_DR, total_DR)), aes(x,y), col="#000000CC") +
-    geom_line(data.frame(x=c(0,1-total_DR,1), y=c(0,0,total_DR)), aes(x,y), col="#666666A6") +
+    geom_line(data=data.frame(x=c(0,1), y=c(total_DR, total_DR)), aes(x,y), col="#000000CC") +
+    geom_line(data=data.frame(x=c(0,1-total_DR,1), y=c(0,0,total_DR)), aes(x,y), col="#666666A6") +
     geom_line() + 
     ggplot2::annotate("point", acceptance, threshold_DR, colour = "red", alpha = 0.8) + 
     xlab("% Acceptance") + ylab("% Default") +
     ggtitle(title)
   
   g4 <- ggplot(scoreDf, aes(acceptance, DR_amount)) + 
-    geom_line(data.frame(x=c(0,1), y=c(total_DR_amount, total_DR_amount)), aes(x,y), col="#000000CC") +
-    geom_line(data.frame(x=c(0,1-total_DR_amount,1), y=c(0,0,total_DR_amount)), aes(x,y), col="#666666A6") +
+    geom_line(data=data.frame(x=c(0,1), y=c(total_DR_amount, total_DR_amount)), aes(x,y), col="#000000CC") +
+    geom_line(data=data.frame(x=c(0,1-total_DR_amount,1), y=c(0,0,total_DR_amount)), aes(x,y), col="#666666A6") +
     geom_line() + 
     ggplot2::annotate("point", acceptance, threshold_DR_amount, colour = "red", alpha = 0.8) + 
     xlab("% Acceptance") + ylab("% Default (weighted)") +
