@@ -19,4 +19,3 @@ Add data to the current plot.
 \seealso{
 \code{\link{cor}}
 }
-

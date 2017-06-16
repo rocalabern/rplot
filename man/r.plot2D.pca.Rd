@@ -12,4 +12,3 @@ r.plot2D.pca(x = NULL, pca = NULL, clustReal = NULL, clustModel = NULL,
 \description{
 r.plot2D.pca
 }
-

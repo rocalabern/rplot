@@ -7,4 +7,3 @@
 formatDec(x, round = 4, big.mark = ".", decimal.mark = ",",
   scientific = FALSE)
 }
-

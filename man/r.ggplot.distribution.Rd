@@ -7,4 +7,3 @@
 r.ggplot.distribution(df, var, color = r.color(1), stroke = rgb(0, 0, 0,
   0.2), title = NULL, xlab = NULL, ylab = NULL)
 }
-

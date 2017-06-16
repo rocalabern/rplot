@@ -11,4 +11,3 @@ r.plot.matrix(mat, zlim = c(min(mat), max(mat)), palette = NULL,
   marginY = margin, ticksX = NULL, ticksY = NULL, numTicks = 12,
   numTicksX = numTicks, numTicksY = numTicks, ...)
 }
-

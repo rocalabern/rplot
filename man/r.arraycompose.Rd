@@ -9,4 +9,3 @@ r.arraycompose(outer, inner, n = lenth(inner))
 \description{
 r.arraycompose
 }
-

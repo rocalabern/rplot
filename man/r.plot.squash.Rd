@@ -9,4 +9,3 @@ r.plot.squash(x, y, z, logScale = FALSE, logScoreScale = FALSE,
   nz = 30, FUN = mean, colFn = jet, shrink = 10, xlim = NULL,
   ylim = NULL)
 }
-

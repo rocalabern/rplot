@@ -10,4 +10,3 @@ r.plot.rocs(score.train, target.train, score.test, target.test,
   icol.train = 1, icol.test = 2, col.train = r.color(icol.train),
   col.test = r.color(icol.test), showMessage = TRUE, ...)
 }
-

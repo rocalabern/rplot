@@ -20,4 +20,3 @@ r.plot.wgains(score.train, target.train, weight.train, score.test, target.test,
 \cr "neg" = Pessimist/Negative (Minimum)
 \cr "avg" = Average of Optimist and Pessimist}
 }
-

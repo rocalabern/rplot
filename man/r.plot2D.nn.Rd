@@ -12,4 +12,3 @@ r.plot2D.nn(x, plotNN = TRUE, stepmax = 10^8, threshold = 0.1,
 \description{
 r.plot2D.nn
 }
-

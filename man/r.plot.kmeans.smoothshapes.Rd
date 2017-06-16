@@ -10,4 +10,3 @@ r.plot.kmeans.smoothshapes(x, km = NULL, nclusters = 2, main = NULL,
 \description{
 r.plot.kmeans.smoothshapes
 }
-

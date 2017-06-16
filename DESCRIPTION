@@ -15,4 +15,4 @@ Imports:
     reshape2,
     data.table,
     ROCR
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -17,4 +17,3 @@ Defines a complete new coord system to the current plot.
 \seealso{
 3rd axis: \code{\link{r.plot.coord}} \code{\link{r.plot.coord.axis}}
 }
-

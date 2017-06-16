@@ -11,4 +11,3 @@ r.plot.burbujas(datos, segmentacion, target, relativeToMean = FALSE,
   showTargetAbsMean = FALSE, sizeMin = 1, sizeMax = 3, xlab = "Vol.",
   ylab = "Freq.Rel.Target", ...)
 }
-

@@ -7,4 +7,3 @@
 r.plot.table(t, big.mark = ".", decimal.mark = ",", scientific = FALSE,
   paging = FALSE, searching = FALSE, bInfo = FALSE, bSortable = FALSE)
 }
-

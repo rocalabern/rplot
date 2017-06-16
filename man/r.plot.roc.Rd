@@ -10,4 +10,3 @@ r.plot.roc(score, target, main = "ROC Curve",
   fill = FALSE, colorFill = r.color(1), colorArea = r.color(1),
   showMessage = TRUE, ...)
 }
-

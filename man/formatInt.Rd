@@ -6,4 +6,3 @@
 \usage{
 formatInt(x, big.mark = ".", decimal.mark = ",", scientific = FALSE)
 }
-

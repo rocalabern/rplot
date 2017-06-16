@@ -6,4 +6,3 @@
 \usage{
 r.setColorBar(col)
 }
-

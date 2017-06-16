@@ -17,4 +17,3 @@ r.plot.gain(score, target, npoints = 20, mode = "avg",
 \cr "avg" = Average of Optimist and Pessimist
 \cr "area" = Area between Optimist and Pessimist}
 }
-

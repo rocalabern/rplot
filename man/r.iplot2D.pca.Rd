@@ -8,4 +8,3 @@ r.iplot2D.pca(x = NULL, pca = NULL, clustReal = NULL, clustModel = NULL,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL, xaxis = T,
   yaxis = T, box = T, ...)
 }
-

@@ -33,4 +33,3 @@ Wrappers: \code{\link{r.plot.bar}} \code{\link{r.plot.histogram}} \code{\link{r.
 
 \code{\link{r.binning}} \code{\link{r.segment}} \code{\link{r.segment.target}} \code{\link{r.segment.target.table}}
 }
-

@@ -13,4 +13,3 @@ r.export.dataoverview(dades, col = NULL, horizontal = FALSE,
 \description{
 r.export.dataoverview
 }
-

@@ -14,4 +14,3 @@ r.plot.heatmap(x = NULL, y = NULL, z = NULL, agregateFunc = NULL,
 \description{
 r.plot.heatmap
 }
-

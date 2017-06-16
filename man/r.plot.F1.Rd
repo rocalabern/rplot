@@ -7,4 +7,3 @@
 r.plot.F1(score, target, threshold = 0.5, round = 5, big.mark = ".",
   decimal.mark = ",", scientific = FALSE)
 }
-

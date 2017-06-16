@@ -16,4 +16,3 @@ Colors: \code{\link{r.color}} \code{\link{r.color.gradient}} \code{\link{r.color
 
 Defaults: \code{\link{r.setAlpha}} \code{\link{r.setPalette}}
 }
-

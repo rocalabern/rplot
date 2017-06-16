@@ -7,4 +7,3 @@
 r.iplot.kmeans.shapes(x, fmin = 0.05, fmax = 1, fstep = 0.05,
   main = NULL, sub = NULL, xlab = NULL, ylab = NULL)
 }
-

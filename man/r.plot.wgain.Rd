@@ -18,4 +18,3 @@ r.plot.wgain(score, target, weight, target_value = 1,
 \cr "avg" = Average of Optimist and Pessimist
 \cr "area" = Area between Optimist and Pessimist}
 }
-

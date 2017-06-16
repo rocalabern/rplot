@@ -16,4 +16,3 @@ Paints the new axis. Useful to create a 3rd axis.
 \seealso{
 3rd axis: \code{\link{r.plot.coord}} \code{\link{r.plot.coord.axis}}
 }
-

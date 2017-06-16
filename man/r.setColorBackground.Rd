@@ -6,4 +6,3 @@
 \usage{
 r.setColorBackground(col)
 }
-

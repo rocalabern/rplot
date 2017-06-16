@@ -17,4 +17,3 @@ r.plot.gains(score.train, target.train, score.test, target.test, npoints = 20,
 \cr "neg" = Pessimist/Negative (Minimum)
 \cr "avg" = Average of Optimist and Pessimist}
 }
-

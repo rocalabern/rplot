@@ -21,4 +21,3 @@ r.plot.treemap
 \cr Colors: \code{\link{r.palette.set}} \code{\link{r.palette.restore}} \code{\link{r.palette.get}} \code{\link{r.color}} \code{\link{r.color.gradient}}
 \cr Tools: \code{\link{r.plot.window}} \code{\link{r.plot.reset}} \code{\link{r.plot.close}}
 }
-

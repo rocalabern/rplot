@@ -8,4 +8,3 @@ r.gplot(x, y, logScale = FALSE, logScaleX = logScale,
   logScaleY = logScale, color = rgb(0.3, 0.3, 0.6, 0.2), title = NULL,
   xlab = NULL, ylab = NULL, size = 1.5, type = "p")
 }
-

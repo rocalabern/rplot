@@ -6,4 +6,3 @@
 \usage{
 r.iplot(y, x = NULL, xlim = c(0, 1), ylim = c(0, 1), ...)
 }
-

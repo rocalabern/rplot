@@ -8,4 +8,3 @@ r.plot.lift(score, target, npoints = 20, icol = 1, col = r.color(icol),
   main = "Lift Curve", sub = NULL, showMessage = TRUE,
   target_value = NULL, ...)
 }
-

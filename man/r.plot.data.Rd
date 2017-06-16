@@ -9,4 +9,3 @@ r.plot.data(dades, legendBar = FALSE)
 \description{
 r.plot.data
 }
-

@@ -7,4 +7,3 @@
 r.iplot.smoothkmeans(x, main = NULL, sub = NULL, xlab = NULL,
   ylab = NULL)
 }
-

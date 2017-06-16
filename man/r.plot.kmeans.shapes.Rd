@@ -11,4 +11,3 @@ r.plot.kmeans.shapes(x, km = NULL, nclusters = 2, paintCentroids = F,
 \description{
 r.plot.kmeans.shapes
 }
-

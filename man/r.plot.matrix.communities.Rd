@@ -11,4 +11,3 @@ r.plot.matrix.communities(mat, quantileCutOff = 0.6, zlim = c(min(mat),
   marginY = margin, ticksX = NULL, ticksY = NULL, numTicks = 12,
   numTicksX = numTicks, numTicksY = numTicks, ...)
 }
-

@@ -13,4 +13,3 @@ r.plot.graph.text(mat, textLabels = NULL, quantileCutOff = 0.6,
   "Dark2", n = 8), vertexLabelFont = 2, vertexLabelCex = 0.4,
   vertexShape = "none", vertexSize = 0, ...)
 }
-

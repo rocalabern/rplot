@@ -11,4 +11,3 @@ r.plot2D.data(x, clustReal = NULL, clustModel = NULL, comp1 = 1,
 \description{
 r.plot2D.data
 }
-

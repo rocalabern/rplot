@@ -6,4 +6,3 @@
 \usage{
 r.setBoxFigureColor(col)
 }
-

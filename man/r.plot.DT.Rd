@@ -7,4 +7,3 @@
 r.plot.DT(df, paging = FALSE, searching = FALSE, bInfo = FALSE,
   bSortable = FALSE)
 }
-
