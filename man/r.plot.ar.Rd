@@ -6,6 +6,6 @@
 \usage{
 r.plot.ar(score, target, weight = rep(1, length(target)), npoints = 200,
   main = "Acceptance", sub = NULL, xlab = "cutoff",
-  ylab = "\% Acceptance", icol = 1, icol.max = 11, col = r.color(icol),
-  col.max = r.color(icol.max), showMax = TRUE, target_value = 1, ...)
+  ylab = "\% Acceptance", icol = 1, col = r.color(icol),
+  target_value = 1, ...)
 }

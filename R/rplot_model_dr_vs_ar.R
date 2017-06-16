@@ -12,10 +12,7 @@ r.plot.ar <- function(
   xlab = "cutoff", 
   ylab = "% Acceptance", 
   icol = 1, 
-  icol.max = 11,
   col = r.color(icol),
-  col.max = r.color(icol.max),
-  showMax = TRUE,
   target_value = 1,
   ...
 ) {
@@ -53,10 +50,7 @@ r.plot.dr <- function(
   xlab = "cutoff", 
   ylab = "% Default", 
   icol = 1, 
-  icol.max = 11,
   col = r.color(icol),
-  col.max = r.color(icol.max),
-  showMax = TRUE,
   target_value = 1,
   ...
 ) {
@@ -190,14 +184,18 @@ r.plot.dr_vs_ar_all <- function(
 r.gplot.dr_vs_ar <- function(
   score, 
   target, 
-  weight=rep(1, length(target)), 
+  weight = rep(1, length(target)), 
   npoints = 200, 
   threshold = quantile(score, probs = 0.9), 
-  title = "DR vs AR"
+  title = "DR vs AR",
+  show_plots = TRUE
 ) {
+  total_DR = prop.table(table(target))[2]
+  total_DR_amount = prop.table(tapply(weight, target, "sum"))[2]
+  
   num_loans <- length(weight)
-  global_DR <- prop.table(table(target))[2] %>% round(3)
-  global_DR_amount <- prop.table(tapply(weight, target, "sum"))[2] %>% round(3)
+  global_DR <- total_DR %>% round(3)
+  global_DR_amount <- total_DR_amount %>% round(3)
   
   cond_threshold <- score < threshold
   
@@ -206,7 +204,7 @@ r.gplot.dr_vs_ar <- function(
   threshold_DR_amount <- prop.table(tapply(weight[cond_threshold], target[cond_threshold], "sum"))[2] %>% round(3)
   
   message("\t", "Num loans: ", num_loans)
-  message("\t", "Global DR :", global_DR)
+  message("\t", "Global DR :", global_DR )
   message("\t", "Global DR (weighted): ", global_DR_amount)
   
   message("\n\t", "Threshold: ", threshold)
@@ -237,15 +235,28 @@ r.gplot.dr_vs_ar <- function(
     xlab("cutoff") + ylab("% Default (weighted)") + 
     ggtitle(title)
   
-  g3 <- ggplot(scoreDf, aes(acceptance, DR_amount)) + 
+  g3 <- ggplot(scoreDf, aes(acceptance, DR)) + 
+    geom_line(data.frame(x=c(0,1), y=c(total_DR, total_DR)), aes(x,y), col="#000000CC") +
+    geom_line(data.frame(x=c(0,1-total_DR,1), y=c(0,0,total_DR)), aes(x,y), col="#666666A6") +
+    geom_line() + 
+    ggplot2::annotate("point", acceptance, threshold_DR, colour = "red", alpha = 0.8) + 
+    xlab("% Acceptance") + ylab("% Default") +
+    ggtitle(title)
+  
+  g4 <- ggplot(scoreDf, aes(acceptance, DR_amount)) + 
+    geom_line(data.frame(x=c(0,1), y=c(total_DR_amount, total_DR_amount)), aes(x,y), col="#000000CC") +
+    geom_line(data.frame(x=c(0,1-total_DR_amount,1), y=c(0,0,total_DR_amount)), aes(x,y), col="#666666A6") +
     geom_line() + 
     ggplot2::annotate("point", acceptance, threshold_DR_amount, colour = "red", alpha = 0.8) + 
     xlab("% Acceptance") + ylab("% Default (weighted)") +
     ggtitle(title)
   
-  print(g1)
-  print(g2)
-  print(g3)
+  if (show_plots) {
+    print(g1)
+    print(g2)
+    print(g3)
+    print(g4)
+  }
   
-  invisible(list(data=scoreDf, plot_ar = g1, plot_dr = g2, plot_dr_vs_ar = g3))
+  invisible(list(data=scoreDf, plot_ar = g1, plot_dr = g2, plot_dr_vs_ar = g3, plot_dr_vs_ar_amount = g4))
 }
