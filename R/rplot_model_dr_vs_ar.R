@@ -98,6 +98,8 @@ r.plot.dr_vs_ar <- function(
   col = r.color(icol),
   col.max = r.color(icol.max),
   showMax = TRUE,
+  showRandom = TRUE,
+  xfactor = 1,
   target_value = 1,
   ...
 ) {
@@ -122,10 +124,52 @@ r.plot.dr_vs_ar <- function(
   if (length(unique(range(weight)))>1) ylab = paste0(ylab, " (weighted)")
   
   r.plot.new(x=data$AR, y=data$DR_amount, main=main, sub=sub, xlab=xlab, ylab=ylab, ...)
-  r.plot.add(x=c(0,1), y=c(total_DR_amount, total_DR_amount), col=rgb(0,0,0,0.8), type="l") 
-  if(showMax) r.plot.add(c(0,1-total_DR_amount,1),c(0,0,total_DR_amount), col=col.max, type="l")
-  r.plot.add(x=data$AR, y=data$DR_amount, col=col, type="l")  
+  if (showRandom) r.plot.add(x=c(0,xfactor*1), y=c(total_DR_amount, total_DR_amount), col=rgb(0,0,0,0.8), type="l") 
+  if(showMax) r.plot.add(c(0,xfactor*(1-total_DR_amount),xfactor*1),c(0,0,total_DR_amount), col=col.max, type="l")
+  r.plot.add(x=xfactor*data$AR, y=data$DR_amount, col=col, type="l")  
   
+  invisible(data)
+}
+
+#' @title r.plot.dr_vs_ar.add
+#' @export
+r.plot.dr_vs_ar.add <- function(
+  score, 
+  target, 
+  weight = rep(1, length(target)), 
+  npoints = 200, 
+  icol = 1, 
+  icol.max = 11,
+  col = r.color(icol),
+  col.max = r.color(icol.max),
+  showMax = TRUE,
+  showRandom = TRUE,
+  xfactor = 1,
+  target_value = 1,
+  ...
+) {
+  total_DR = length(which(target == target_value))/length(target)
+  total_DR_amount = sum(weight[target == target_value])/sum(weight)
+  score_seq = quantile(score, probs = seq(0, 1, by = 1/npoints))
+  data = data.frame()
+  for (threshold in score_seq) {
+    accepted = score < threshold
+    iDf = data.frame(cutoff = threshold, AR = length(which(accepted))/length(score), 
+      DR = length(which(target[accepted] == target_value))/length(which(accepted)), 
+      DR_amount = sum(weight[accepted & target == target_value])/sum(weight[accepted]))
+    data <- rbind(data, iDf)
+  }
+  data$DR[data$AR == 0] = 0
+  data$DR_amount[data$AR == 0] = 0
+  if (length(unique(range(weight))) > 1) 
+    ylab = paste0(ylab, " (weighted)")
+  if (showRandom) 
+    r.plot.add(x = c(0, xfactor*1), y = c(total_DR_amount, total_DR_amount), 
+      col = rgb(0, 0, 0, 0.8), type = "l")
+  if (showMax) 
+    r.plot.add(c(0, xfactor*(1 - total_DR_amount), xfactor*1), c(0, 0, total_DR_amount), 
+      col = col.max, type = "l")
+  r.plot.add(x = xfactor*data$AR, y = data$DR_amount, col = col, type = "l")
   invisible(data)
 }
 
