@@ -1,3 +1,5 @@
+# Script to check how package works
+
 # library ----
 library(rplot)
 
